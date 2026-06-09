@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularios &amp; Validaci&oacute;n — WebForge</title>
+    <meta name="description" content="Aprende a crear formularios HTML completos: tipos de input, labels, fieldsets, validacion nativa, patrones, accesibilidad y buenas practicas.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>HTML</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Formularios</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Formularios &amp; Validaci&oacute;n</h1>
+                <p>Los formularios son el puente entre el usuario y tu aplicaci&oacute;n: son c&oacute;mo recolectas datos, registras usuarios, procesas b&uacute;squedas y permites interacci&oacute;n. Un buen formulario no solo funciona correctamente, sino que es f&aacute;cil de usar, accesible y est&aacute; bien validado. HTML5 trae herramientas poderosas de validaci&oacute;n nativa que te ahorran escribir JavaScript para los casos m&aacute;s comunes.</p>
+            </div>
+
+            <!-- Sub-section: Estructura de un formulario -->
+            <section class="sub-section animate-on-scroll" id="estructura">
+                <h2>
+                    Estructura de un formulario
+                    <a href="#estructura" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Todo formulario empieza con la etiqueta <code>&lt;form&gt;</code>, que define el contenedor y los atributos de comportamiento: <code>action</code> indica a d&oacute;nde se env&iacute;an los datos, y <code>method</code> define c&oacute;mo se env&iacute;an. Dentro del form van los controles (inputs, selects, textareas) y sus etiquetas asociadas. El bot&oacute;n de env&iacute;o (<code>&lt;button type="submit"&gt;</code>) dispara el formulario.
+                </p>
+
+                <p>
+                    El atributo <code>method</code> tiene dos valores principales: <code>GET</code> env&iacute;a los datos en la URL (visible en la barra de direcciones, ideal para b&uacute;squedas y filtros) y <code>POST</code> los env&iacute;a en el cuerpo del request (invisible, ideal para datos sensibles, formularios de login, cargas de archivos). Si omitis <code>method</code>, el default es <code>GET</code>, lo que es peligroso para datos privados.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Estructura basica de un formulario --&gt;
+&lt;form action="/procesar" method="POST"&gt;
+    &lt;!-- Controles del formulario aqui --&gt;
+    &lt;button type="submit"&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;!-- Formulario de busqueda (usa GET) --&gt;
+&lt;form action="/buscar" method="GET"&gt;
+    &lt;input type="search" name="q" placeholder="Buscar..."&gt;
+    &lt;button type="submit"&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">No uses GET para datos sensibles</p>
+                        <p>Con <code>method="GET"</code>, los datos del formulario aparecen en la URL como par&aacute;metros de query. Esto significa que quedan visibles en la barra de direcciones, en el historial del navegador, en los logs del servidor y se pueden compartir accidentalmente al copiar el enlace. Para passwords, datos personales o cualquier informaci&oacute;n sensible, usa <strong>siempre</strong> <code>method="POST"</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Labels y accesibilidad -->
+            <section class="sub-section animate-on-scroll" id="labels">
+                <h2>
+                    &lt;label&gt;, &lt;fieldset&gt; y accesibilidad
+                    <a href="#labels" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La etiqueta <code>&lt;label&gt;</code> es probablemente la m&aacute;s importante para la accesibilidad de formularios. Asocia un texto descriptivo con un control espec&iacute;fico mediante el atributo <code>for</code> (que debe coincidir con el <code>id</code> del input). Cuando un usuario hace click en el label, el foco se mueve autom&aacute;ticamente al input asociado. Esto no solo es &uacute;til para usuarios de mouse, sino que es cr&iacute;tico para lectores de pantalla que leen el texto del label como la descripci&oacute;n del campo.
+                </p>
+
+                <p>
+                    <code>&lt;fieldset&gt;</code> agrupa controles relacionados y <code>&lt;legend&gt;</code> le da un t&iacute;tulo al grupo. Es especialmente &uacute;til para formularios largos con m&uacute;ltiples secciones (datos personales, direcci&oacute;n, preferencias), para grupos de radio buttons, y para checkbox groups. Los lectores de pantalla anuncian el legend como el t&iacute;tulo del grupo, lo que da contexto a cada opci&oacute;n.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Label con for/id (forma correcta) --&gt;
+&lt;label for="nombre"&gt;Nombre completo&lt;/label&gt;
+&lt;input type="text" id="nombre" name="nombre"&gt;
+
+&lt;!-- Label envolviendo el input (alternativa valida) --&gt;
+&lt;label&gt;
+    Email
+    &lt;input type="email" name="email"&gt;
+&lt;/label&gt;
+
+&lt;!-- Fieldset con legend para agrupar --&gt;
+&lt;fieldset&gt;
+    &lt;legend&gt;Datos personales&lt;/legend&gt;
+
+    &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
+    &lt;input type="text" id="nombre" name="nombre" required&gt;
+
+    &lt;label for="apellido"&gt;Apellido&lt;/label&gt;
+    &lt;input type="text" id="apellido" name="apellido" required&gt;
+&lt;/fieldset&gt;
+
+&lt;!-- Radio buttons con fieldset --&gt;
+&lt;fieldset&gt;
+    &lt;legend&gt;Nivel de experiencia&lt;/legend&gt;
+    &lt;label&gt;&lt;input type="radio" name="nivel" value="principiante"&gt; Principiante&lt;/label&gt;
+    &lt;label&gt;&lt;input type="radio" name="nivel" value="intermedio"&gt; Intermedio&lt;/label&gt;
+    &lt;label&gt;&lt;input type="radio" name="nivel" value="avanzado"&gt; Avanzado&lt;/label&gt;
+&lt;/fieldset&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Nunca uses placeholder como label</p>
+                        <p>El atributo <code>placeholder</code> desaparece cuando el usuario empieza a escribir, dejando al usuario sin referencia de qu&eacute; se esperaba en ese campo. Los lectores de pantalla no lo anuncian de forma confiable. <strong>Siempre</strong> usa <code>&lt;label&gt;</code> con <code>for</code>. El placeholder es un complemento opcional para dar un ejemplo del formato esperado, nunca un reemplazo del label.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Tipos de input -->
+            <section class="sub-section animate-on-scroll" id="tipos-input">
+                <h2>
+                    Tipos de input
+                    <a href="#tipos-input" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    HTML5 introdujo una gran variedad de tipos de input que van mucho m&aacute;s all&aacute; de <code>text</code> y <code>password</code>. Cada tipo activa controles nativos del navegador adaptados al tipo de dato: un teclado num&eacute;rico en m&oacute;vil para <code>tel</code> y <code>number</code>, un selector de fecha para <code>date</code>, un color picker para <code>color</code>, y validaci&oacute;n autom&aacute;tica para <code>email</code> y <code>url</code>. Usar el tipo correcto mejora la experiencia del usuario, especialmente en dispositivos m&oacute;viles donde el teclado cambiado puede hacer una gran diferencia.
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Uso</th>
+                            <th>Validaci&oacute;n autom&aacute;tica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>text</code></td>
+                            <td>Texto gen&eacute;rico (default)</td>
+                            <td>Ninguna</td>
+                        </tr>
+                        <tr>
+                            <td><code>email</code></td>
+                            <td>Direcciones de email</td>
+                            <td>Requiere formato de email</td>
+                        </tr>
+                        <tr>
+                            <td><code>password</code></td>
+                            <td>Contrase&ntilde;as (oculto)</td>
+                            <td>Ninguna</td>
+                        </tr>
+                        <tr>
+                            <td><code>number</code></td>
+                            <td>N&uacute;meros (spinner)</td>
+                            <td>Solo n&uacute;meros</td>
+                        </tr>
+                        <tr>
+                            <td><code>tel</code></td>
+                            <td>Tel&eacute;fonos</td>
+                            <td>Ninguna (teclado num&eacute;rico en m&oacute;vil)</td>
+                        </tr>
+                        <tr>
+                            <td><code>url</code></td>
+                            <td>URLs / enlaces</td>
+                            <td>Requiere formato de URL</td>
+                        </tr>
+                        <tr>
+                            <td><code>date</code></td>
+                            <td>Fecha (selector nativo)</td>
+                            <td>Formato de fecha v&aacute;lido</td>
+                        </tr>
+                        <tr>
+                            <td><code>time</code></td>
+                            <td>Hora (selector nativo)</td>
+                            <td>Formato de hora v&aacute;lido</td>
+                        </tr>
+                        <tr>
+                            <td><code>datetime-local</code></td>
+                            <td>Fecha y hora juntos</td>
+                            <td>Formato combinado v&aacute;lido</td>
+                        </tr>
+                        <tr>
+                            <td><code>month</code></td>
+                            <td>Selector de mes y a&ntilde;o</td>
+                            <td>Formato de mes v&aacute;lido</td>
+                        </tr>
+                        <tr>
+                            <td><code>week</code></td>
+                            <td>Selector de semana</td>
+                            <td>Formato de semana v&aacute;lido</td>
+                        </tr>
+                        <tr>
+                            <td><code>range</code></td>
+                            <td>Slider (valor entre min y max)</td>
+                            <td>N&uacute;mero dentro del rango</td>
+                        </tr>
+                        <tr>
+                            <td><code>color</code></td>
+                            <td>Selector de color</td>
+                            <td>Formato hexadecimal (#RRGGBB)</td>
+                        </tr>
+                        <tr>
+                            <td><code>search</code></td>
+                            <td>Campos de b&uacute;squeda (con X para limpiar)</td>
+                            <td>Ninguna</td>
+                        </tr>
+                        <tr>
+                            <td><code>file</code></td>
+                            <td>Subida de archivos</td>
+                            <td>Ninguna</td>
+                        </tr>
+                        <tr>
+                            <td><code>checkbox</code></td>
+                            <td>Selecci&oacute;n m&uacute;ltiple (toggle)</td>
+                            <td>Ninguna</td>
+                        </tr>
+                        <tr>
+                            <td><code>radio</code></td>
+                            <td>Selecci&oacute;n &uacute;nica (grupo)</td>
+                            <td>Ninguna</td>
+                        </tr>
+                        <tr>
+                            <td><code>hidden</code></td>
+                            <td>Datos invisibles para el usuario</td>
+                            <td>Ninguna</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Ejemplos de tipos de input --&gt;
+
+&lt;!-- Email con validacion nativa --&gt;
+&lt;label for="email"&gt;Email&lt;/label&gt;
+&lt;input type="email" id="email" name="email"
+       placeholder="tu@email.com" required&gt;
+
+&lt;!-- Telefono (teclado numerico en mobile) --&gt;
+&lt;label for="telefono"&gt;Tel&eacute;fono&lt;/label&gt;
+&lt;input type="tel" id="telefono" name="telefono"
+       placeholder="+54 11 1234-5678"&gt;
+
+&lt;!-- Fecha de nacimiento --&gt;
+&lt;label for="nacimiento"&gt;Fecha de nacimiento&lt;/label&gt;
+&lt;input type="date" id="nacimiento" name="nacimiento"
+       min="1900-01-01" max="2026-06-10"&gt;
+
+&lt;!-- Slider de volumen --&gt;
+&lt;label for="volumen"&gt;Volumen: &lt;output id="vol-output"&gt;50&lt;/output&gt;&lt;/label&gt;
+&lt;input type="range" id="volumen" name="volumen"
+       min="0" max="100" value="50"&gt;
+
+&lt;!-- Selector de color --&gt;
+&lt;label for="color-fav"&gt;Color favorito&lt;/label&gt;
+&lt;input type="color" id="color-fav" name="color" value="#58a6ff"&gt;
+
+&lt;!-- Subir archivo --&gt;
+&lt;label for="avatar"&gt;Avatar&lt;/label&gt;
+&lt;input type="file" id="avatar" name="avatar"
+       accept="image/png, image/jpeg, image/webp"&gt;
+
+&lt;!-- Checkbox --&gt;
+&lt;label&gt;
+    &lt;input type="checkbox" name="newsletter" value="si"&gt;
+    Quiero recibir el newsletter
+&lt;/label&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">El atributo accept en file inputs</p>
+                        <p>El atributo <code>accept</code> en <code>&lt;input type="file"&gt;</code> filtra qu&eacute; tipos de archivos puede seleccionar el usuario. Acepta MIME types (<code>image/png</code>), extensiones (<code>.pdf</code>), o comodines (<code>image/*</code>). Es un filtro del lado del cliente (se puede saltar), as&iacute; que siempre valida tambi&eacute;n en el servidor.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: textarea y select -->
+            <section class="sub-section animate-on-scroll" id="textarea-select">
+                <h2>
+                    &lt;textarea&gt; y &lt;select&gt;
+                    <a href="#textarea-select" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>&lt;textarea&gt;</code> es para textos largos de varias l&iacute;neas (mensajes, comentarios, descripciones). A diferencia de <code>&lt;input&gt;</code>, tiene una etiqueta de apertura y cierre, y el contenido entre ambas es el valor inicial. Los atributos <code>rows</code> y <code>cols</code> definen el tama&ntilde;o inicial, pero lo m&aacute;s com&uacute;n es usar CSS para controlarlo. Con <code>maxlength</code> limitas la cantidad de caracteres, y con <code>minlength</code> estableces un m&iacute;nimo (validaci&oacute;n al enviar).
+                </p>
+
+                <p>
+                    <code>&lt;select&gt;</code> crea un men&uacute; desplegable con opciones predefinidas. Cada opci&oacute;n va dentro de <code>&lt;option&gt;</code>, y puedes agruparlas con <code>&lt;optgroup&gt;</code>. El atributo <code>multiple</code> permite selecci&oacute;n m&uacute;ltiple (con Ctrl/Cmd). El <code>&lt;datalist&gt;</code> es una alternativa interesante: en lugar de un dropdown cerrado, ofrece sugerencias mientras el usuario escribe, como un autocompletado nativo.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Textarea para comentarios --&gt;
+&lt;label for="mensaje"&gt;Mensaje&lt;/label&gt;
+&lt;textarea id="mensaje" name="mensaje" rows="5"
+          maxlength="500" placeholder="Escribi tu mensaje..."&gt;
+&lt;/textarea&gt;
+&lt;small&gt;M&aacute;ximo 500 caracteres&lt;/small&gt;
+
+&lt;!-- Select basico --&gt;
+&lt;label for="pais"&gt;Pa&iacute;s&lt;/label&gt;
+&lt;select id="pais" name="pais" required&gt;
+    &lt;option value=""&gt;Seleccion&aacute; un pa&iacute;s&lt;/option&gt;
+    &lt;optgroup label="Am&eacute;rica"&gt;
+        &lt;option value="ar"&gt;Argentina&lt;/option&gt;
+        &lt;option value="mx"&gt;M&eacute;xico&lt;/option&gt;
+        &lt;option value="co"&gt;Colombia&lt;/option&gt;
+        &lt;option value="cl"&gt;Chile&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="Europa"&gt;
+        &lt;option value="es"&gt;Espa&ntilde;a&lt;/option&gt;
+        &lt;option value="it"&gt;Italia&lt;/option&gt;
+    &lt;/optgroup&gt;
+&lt;/select&gt;
+
+&lt;!-- Select multiple --&gt;
+&lt;label for="skills"&gt;Habilidades (Ctrl + click para varias)&lt;/label&gt;
+&lt;select id="skills" name="skills" multiple size="5"&gt;
+    &lt;option value="html"&gt;HTML&lt;/option&gt;
+    &lt;option value="css"&gt;CSS&lt;/option&gt;
+    &lt;option value="js"&gt;JavaScript&lt;/option&gt;
+    &lt;option value="react"&gt;React&lt;/option&gt;
+    &lt;option value="node"&gt;Node.js&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Datalist: autocompletado nativo --&gt;
+&lt;label for="framework"&gt;Framework favorito&lt;/label&gt;
+&lt;input type="text" id="framework" name="framework"
+       list="frameworks-list"&gt;
+&lt;datalist id="frameworks-list"&gt;
+    &lt;option value="React"&gt;
+    &lt;option value="Vue"&gt;
+    &lt;option value="Angular"&gt;
+    &lt;option value="Svelte"&gt;
+    &lt;option value="Astro"&gt;
+&lt;/datalist&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">datalist vs select</p>
+                        <p>La diferencia clave es la flexibilidad: <code>&lt;select&gt;</code> obliga al usuario a elegir una de las opciones predefinidas. <code>&lt;datalist&gt;</code> muestra sugerencias pero permite escribir un valor custom. Es ideal para campos donde quieres guiar al usuario sin restringirlo, como "ciudad" o "cargo". La combinaci&oacute;n input + datalist crea un campo con autocompletado nativo sin JavaScript.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Validacion nativa -->
+            <section class="sub-section animate-on-scroll" id="validacion">
+                <h2>
+                    Validaci&oacute;n nativa de HTML5
+                    <a href="#validacion" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    HTML5 trae validaci&oacute;n incorporada que funciona sin JavaScript. El navegador verifica los campos antes de enviar el formulario y muestra mensajes de error contextuales. Esto cubre los casos m&aacute;s comunes y es perfectamente suficiente para muchos formularios. La validaci&oacute;n se activa al hacer click en el bot&oacute;n submit (o al llamar a <code>form.reportValidity()</code>), no mientras el usuario escribe (a menos que uses CSS <code>:invalid</code> para feedback en tiempo real).
+                </p>
+
+                <h3>Atributos de validaci&oacute;n</h3>
+
+                <p>
+                    Los atributos de validaci&oacute;n son booleanos (se activan con solo estar presentes) o toman un valor espec&iacute;fico. Combinarlos te permite crear reglas bastante sofisticadas sin una l&iacute;nea de JavaScript. <code>required</code> es el m&aacute;s b&aacute;sico: el campo no puede estar vac&iacute;o. <code>minlength</code> y <code>maxlength</code> controlan la longitud del texto. <code>min</code>, <code>max</code> y <code>step</code> funcionan con n&uacute;meros y fechas. <code>pattern</code> acepta una regex para validaci&oacute;n personalizada de texto.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- required: campo obligatorio --&gt;
+&lt;label for="nombre"&gt;Nombre *&lt;/label&gt;
+&lt;input type="text" id="nombre" name="nombre" required&gt;
+
+&lt;!-- minlength / maxlength --&gt;
+&lt;label for="usuario"&gt;Usuario&lt;/label&gt;
+&lt;input type="text" id="usuario" name="usuario"
+       minlength="3" maxlength="20"
+       placeholder="3 a 20 caracteres"&gt;
+
+&lt;!-- min / max / step (numeros) --&gt;
+&lt;label for="edad"&gt;Edad&lt;/label&gt;
+&lt;input type="number" id="edad" name="edad"
+       min="18" max="120" step="1"&gt;
+
+&lt;!-- min / max (fechas) --&gt;
+&lt;label for="evento"&gt;Fecha del evento&lt;/label&gt;
+&lt;input type="date" id="evento" name="evento"
+       min="2026-06-10"&gt;
+
+&lt;!-- pattern: regex personalizada --&gt;
+&lt;label for="codigo-postal"&gt;C&oacute;digo Postal&lt;/label&gt;
+&lt;input type="text" id="codigo-postal" name="codigo-postal"
+       pattern="[0-9]{4,5}"
+       placeholder="Ej: 1234 o B7400"&gt;
+
+&lt;!-- pattern para password fuerte --&gt;
+&lt;label for="clave"&gt;Contrase&ntilde;a&lt;/label&gt;
+&lt;input type="password" id="clave" name="clave"
+       minlength="8"
+       pattern="(?=.*[A-Z])(?=.*\d).{8,}"
+       title="M&iacute;nimo 8 caracteres, una may&uacute;scula y un n&uacute;mero"&gt;</code></pre>
+                </div>
+
+                <h3>Pseudo-clases CSS para validaci&oacute;n</h3>
+
+                <p>
+                    CSS tiene pseudo-clases que se activan seg&uacute;n el estado de validaci&oacute;n del input, lo que te permite dar feedback visual en tiempo real sin JavaScript. <code>:valid</code> y <code>:invalid</code> se aplican seg&uacute;n si el campo cumple las reglas HTML. <code>:required</code> y <code>:optional</code> identifican campos obligatorios. <code>:focus-visible</code> muestra el foco solo con teclado. <code>:placeholder-shown</code> detecta si el placeholder est&aacute; visible (campo vac&iacute;o). Combinar estas pseudo-clases te da control total sobre el aspecto visual de cada estado del input.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Feedback visual con pseudo-clases */
+
+/* Solo mostrar invalid DESPUES de que el usuario interactuo */
+input:not(:placeholder-shown):invalid {
+    border-color: var(--accent-red);
+}
+
+input:not(:placeholder-shown):valid {
+    border-color: var(--accent-green);
+}
+
+/* Campos requeridos */
+input:required {
+    border-left: 3px solid var(--accent-blue);
+}
+
+/* Foco con teclado */
+input:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 2px;
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">novalidate y validaci&oacute;n custom</p>
+                        <p>Si necesitas validaci&oacute;n 100% custom con JavaScript, agreg&aacute; <code>novalidate</code> al <code>&lt;form&gt;</code> para desactivar la validaci&oacute;n nativa. Luego us&aacute;s los m&eacute;todos del API: <code>element.checkValidity()</code>, <code>element.validity.valid</code>, <code>element.validity.valueMissing</code>, y <code>element.setCustomValidity("mensaje")</code> para mensajes personalizados. As&iacute; controlas todo el proceso sin que el navegador intervenga con sus mensajes por defecto.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Atributos de accesibilidad -->
+            <section class="sub-section animate-on-scroll" id="a11y">
+                <h2>
+                    Atributos de accesibilidad en formularios
+                    <a href="#a11y" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Un formulario accesible no solo esusable por personas con discapacidades, sino que mejora la experiencia para todos. Los lectores de pantalla dependen de la estructura sem&aacute;ntica del formulario para anunciar correctamente cada campo, y la navegaci&oacute;n por teclado permite a cualquier usuario moverse eficientemente entre campos. Estos atributos y pr&aacute;cticas no agregan complejidad al c&oacute;digo pero marcan una diferencia enorme.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- aria-describedby: vincula con mensaje de ayuda --&gt;
+&lt;label for="password"&gt;Contrase&ntilde;a&lt;/label&gt;
+&lt;input type="password" id="password" name="password"
+       aria-describedby="password-help"&gt;
+&lt;small id="password-help"&gt;
+    M&iacute;nimo 8 caracteres con al menos una may&uacute;scula.
+&lt;/small&gt;
+
+&lt;!-- aria-required vs required (uso ambos) --&gt;
+&lt;label for="email"&gt;Email *&lt;/label&gt;
+&lt;input type="email" id="email" name="email"
+       required aria-required="true"&gt;
+
+&lt;!-- tabindex: orden de navegacion con teclado --&gt;
+&lt;input type="text" name="nombre" tabindex="1"&gt;
+&lt;input type="email" name="email" tabindex="2"&gt;
+&lt;input type="password" name="password" tabindex="3"&gt;
+
+&lt;!-- autocomplete: ayuda al usuario y al navegador --&gt;
+&lt;input type="text" name="nombre" autocomplete="name"&gt;
+&lt;input type="email" name="email" autocomplete="email"&gt;
+&lt;input type="tel" name="telefono" autocomplete="tel"&gt;
+&lt;input type="text" name="direccion" autocomplete="street-address"&gt;
+&lt;input type="password" name="clave-nueva"
+       autocomplete="new-password"&gt;
+
+&lt;!-- disabled vs readonly --&gt;
+&lt;input type="text" value="No se puede editar" disabled&gt;
+&lt;input type="text" value="Se puede leer pero no editar" readonly&gt;</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Prop&oacute;sito</th>
+                            <th>Cu&aacute;ndo usarlo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>aria-describedby</code></td>
+                            <td>Vincula con texto de ayuda</td>
+                            <td>Siempre que un campo tenga instrucciones adicionales</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-required</code></td>
+                            <td>Indica campo obligatorio</td>
+                            <td>Para lectores de pantalla (complementa <code>required</code>)</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-invalid</code></td>
+                            <td>Indica error activo</td>
+                            <td>Validaci&oacute;n custom JS (no con validaci&oacute;n nativa)</td>
+                        </tr>
+                        <tr>
+                            <td><code>autocomplete</code></td>
+                            <td>Ayuda al autocompletado del browser</td>
+                            <td>En todos los campos de datos personales</td>
+                        </tr>
+                        <tr>
+                            <td><code>autofocus</code></td>
+                            <td>Foco autom&aacute;tico al cargar</td>
+                            <td>Solo en el primer campo de un form (uno solo por p&aacute;gina)</td>
+                        </tr>
+                        <tr>
+                            <td><code>disabled</code></td>
+                            <td>Deshabilita totalmente el campo</td>
+                            <td>Campo no editable y no se env&iacute;a con el form</td>
+                        </tr>
+                        <tr>
+                            <td><code>readonly</code></td>
+                            <td>Solo lectura (se env&iacute;a)</td>
+                            <td>Datos que se muestran pero no se pueden editar</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Un solo autofocus por p&aacute;gina</p>
+                        <p>Usa <code>autofocus</code> en <strong>un solo campo</strong> por p&aacute;gina, idealmente el primer input del formulario principal. M&uacute;ltiples <code>autofocus</code> confunden al usuario (y al lector de pantalla) porque compiten por el foco. En m&oacute;vil, el <code>autofocus</code> puede abrir el teclado autom&aacute;ticamente, lo que molesta si no es lo que el usuario espera. Consider&aacute; omitirlo en m&oacute;vil con CSS o media queries.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Ejemplo completo -->
+            <section class="sub-section animate-on-scroll" id="ejemplo">
+                <h2>
+                    Ejemplo: formulario de registro
+                    <a href="#ejemplo" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Para cerrar, ac&aacute; ten&eacute;s un formulario de registro completo que usa todo lo que vimos: labels con <code>for</code>, fieldsets con legend, validaci&oacute;n nativa, atributos de accesibilidad, tipos de input correctos, y una estructura sem&aacute;ntica limpia. Es un ejemplo que pod&eacute;s usar como plantilla para tus propios formularios, adaptando los campos y validaciones a tus necesidades.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;form action="/registro" method="POST" novalidate&gt;
+
+    &lt;!-- Datos personales --&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Datos personales&lt;/legend&gt;
+
+        &lt;div&gt;
+            &lt;label for="nombre"&gt;Nombre completo *&lt;/label&gt;
+            &lt;input type="text" id="nombre" name="nombre"
+                   required minlength="2" maxlength="100"
+                   autocomplete="name"
+                   aria-required="true"&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+            &lt;label for="email"&gt;Email *&lt;/label&gt;
+            &lt;input type="email" id="email" name="email"
+                   required
+                   autocomplete="email"
+                   aria-required="true"
+                   aria-describedby="email-help"&gt;
+            &lt;small id="email-help"&gt;
+                No compartiremos tu email con nadie.
+            &lt;/small&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+            &lt;label for="password"&gt;Contrase&ntilde;a *&lt;/label&gt;
+            &lt;input type="password" id="password" name="password"
+                   required minlength="8"
+                   pattern="(?=.*[A-Z])(?=.*\d).{8,}"
+                   title="M&iacute;nimo 8 caracteres, una may&uacute;scula y un n&uacute;mero"
+                   autocomplete="new-password"
+                   aria-required="true"
+                   aria-describedby="pass-help"&gt;
+            &lt;small id="pass-help"&gt;
+                M&iacute;nimo 8 caracteres, al menos una may&uacute;scula y un n&uacute;mero.
+            &lt;/small&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+
+    &lt;!-- Preferencias --&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Preferencias&lt;/legend&gt;
+
+        &lt;div&gt;
+            &lt;label for="pais"&gt;Pa&iacute;s&lt;/label&gt;
+            &lt;select id="pais" name="pais"&gt;
+                &lt;option value=""&gt;Seleccion&aacute; un pa&iacute;s&lt;/option&gt;
+                &lt;option value="ar"&gt;Argentina&lt;/option&gt;
+                &lt;option value="mx"&gt;M&eacute;xico&lt;/option&gt;
+                &lt;option value="es"&gt;Espa&ntilde;a&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+            &lt;label for="fecha-nac"&gt;Fecha de nacimiento&lt;/label&gt;
+            &lt;input type="date" id="fecha-nac" name="fecha_nac"
+                   min="1920-01-01" max="2010-12-31"&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+            &lt;label&gt;
+                &lt;input type="checkbox" name="newsletter" value="si"&gt;
+                Quiero recibir el newsletter semanal
+            &lt;/label&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+
+    &lt;!-- Bio --&gt;
+    &lt;div&gt;
+        &lt;label for="bio"&gt;Sobre vos&lt;/label&gt;
+        &lt;textarea id="bio" name="bio" rows="4"
+                  maxlength="500"
+                  placeholder="Cont&aacute;nos algo sobre vos..."&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Botones --&gt;
+    &lt;div&gt;
+        &lt;button type="submit"&gt;Crear cuenta&lt;/button&gt;
+        &lt;button type="reset"&gt;Limpiar&lt;/button&gt;
+    &lt;/div&gt;
+
+&lt;/form&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Tipos de bot&oacute;n en formularios</p>
+                        <p>El atributo <code>type</code> del <code>&lt;button&gt;</code> define su comportamiento: <code>submit</code> env&iacute;a el formulario (es el default), <code>reset</code> limpia todos los campos a sus valores iniciales, y <code>button</code> no hace nada por s&iacute; solo (ideal para botones que activan JavaScript). Siempre especific&aacute; el <code>type</code> expl&iacute;citamente para evitar sorpresas, especialmente si el bot&oacute;n est&aacute; dentro de un <code>&lt;form&gt;</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation between sections -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/html-semantico.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    HTML Sem&aacute;ntico
+                </a>
+                <a href="../sections/html-multimedia.html" class="btn btn-secondary">
+                    Multimedia &amp; Gr&aacute;ficos
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>

@@ -254,8 +254,8 @@
     font-size: var(--font-size-xs);
     padding: 0.1em 0.5em;
     border-radius: var(--radius-full);
-    background-color: var(--accent-purple);
-    color: var(--text-inverse);
+    background-color: rgba(88, 166, 255, 0.12);
+    color: var(--accent-blue);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.05em;
