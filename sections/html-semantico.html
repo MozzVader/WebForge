@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Sem&aacute;ntico — WebForge</title>
+    <meta name="description" content="Aprende HTML semantico: header, nav, main, footer, article, section, aside, figure, details, time, mark y mas. Mejora el SEO, accesibilidad y legibilidad de tus paginas.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>HTML</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Sem&aacute;ntico</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>HTML Sem&aacute;ntico</h1>
+                <p>HTML no es solo poner texto entre etiquetas. Las etiquetas semanticas le dan <strong>significado</strong> a tu contenido: le dicen al navegador, a los motores de busqueda y a los lectores de pantalla que es cada cosa. Dejar de usar <code>&lt;div&gt;</code> para todo y empezar a usar las etiquetas correctas es el paso que te separa de un principiante de un desarrollador que sabe lo que hace.</p>
+            </div>
+
+            <!-- Sub-section: Que es HTML semantico -->
+            <section class="sub-section animate-on-scroll" id="que-es">
+                <h2>
+                    &iquest;Qu&eacute; es HTML sem&aacute;ntico?
+                    <a href="#que-es" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    HTML sem&aacute;ntico es la pr&aacute;ctica de usar las etiquetas HTML seg&uacute;n su <strong>prop&oacute;sito y significado</strong>, no solo por c&oacute;mo se ven. La diferencia clave est&aacute; entre describir qu&eacute; es un elemento (<code>&lt;nav&gt;</code> es una barra de navegaci&oacute;n) versus describir c&oacute;mo se ve (<code>&lt;div class="nav"&gt;</code> es un contenedor con una clase inventada). Ambos pueden verse igual en pantalla, pero el primero le dice a la m&aacute;quina exactamente qu&eacute; es, mientras que el segundo es opaco y requiere interpretaci&oacute;n humana.
+                </p>
+
+                <p>
+                    Piensa en las etiquetas sem&aacute;nticas como las secciones de un peri&oacute;dico: un editor sabe d&oacute;nde est&aacute; el titular, d&oacute;nde empieza el art&iacute;culo principal, d&oacute;nde van los anuncios laterales y d&oacute;nde est&aacute; el &iacute;ndice. No necesita leer todo para entender la estructura porque las convenciones visuales se lo comunican al instante. HTML sem&aacute;ntico hace exactamente lo mismo para el c&oacute;digo fuente de tu p&aacute;gina.
+                </p>
+
+                <p>
+                    Los beneficios son concretos y medibles: mejora tu <strong>SEO</strong> porque Google entiende mejor tu contenido y puede rankearlo con mayor precisi&oacute;n, mejora la <strong>accesibilidad</strong> porque los lectores de pantalla pueden saltar entre secciones, y mejora la <strong>mantenibilidad</strong> porque cualquier desarrollador que lea tu c&oacute;digo entiende la estructura sin adivinar qu&eacute; hace cada <code>&lt;div&gt;</code>.
+                </p>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Regla de oro</p>
+                        <p>Si puedes reemplazar un <code>&lt;div&gt;</code> o un <code>&lt;span&gt;</code> por una etiqueta con significado, hazlo. Preg&uacute;ntate: "&iquest;Qu&eacute; es este contenido?" Si la respuesta es "una navegaci&oacute;n", usa <code>&lt;nav&gt;</code>. Si es "el contenido principal", usa <code>&lt;main&gt;</code>. Si es "un art&iacute;culo independiente", usa <code>&lt;article&gt;</code>. Solo usa <code>&lt;div&gt;</code> cuando el elemento no tiene un significado espec&iacute;fico (un wrapper para estilos, por ejemplo).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Estructura del documento -->
+            <section class="sub-section animate-on-scroll" id="estructura">
+                <h2>
+                    Estructura de un documento sem&aacute;ntico
+                    <a href="#estructura" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las etiquetas <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code> y <code>&lt;footer&gt;</code> son los pilares de la estructura sem&aacute;ntica. Juntas forman el "esqueleto" de cualquier p&aacute;gina web bien construida. Cada una tiene un rol espec&iacute;fico que va m&aacute;s all&aacute; del CSS: los navegadores y las tecnolog&iacute;as asistivas las reconocen autom&aacute;ticamente y las tratan de manera especial.
+                </p>
+
+                <p>
+                    Un punto importante: <code>&lt;header&gt;</code> y <code>&lt;footer&gt;</code> pueden usarse <strong>m&aacute;s de una vez</strong> en una p&aacute;gina. No son exclusivos del nivel superior del documento. Un <code>&lt;article&gt;</code> puede tener su propio <code>&lt;header&gt;</code> y <code>&lt;footer&gt;</code>, igual que un <code>&lt;section&gt;</code>. Lo que s&iacute; es &uacute;nico es <code>&lt;main&gt;</code>: solo puede haber uno por p&aacute;gina, y contiene el contenido que es &uacute;nico e irrepetible de esa p&aacute;gina (no debe incluir header global, footer global ni sidebar).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Estructura semantica de una pagina --&gt;
+&lt;body&gt;
+
+    &lt;!-- Header global (logo, nav, buscador) --&gt;
+    &lt;header&gt;
+        &lt;nav aria-label="Navegacion principal"&gt;
+            &lt;!-- Links de navegacion --&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;!-- Contenido PRINCIPAL (solo uno por pagina) --&gt;
+    &lt;main&gt;
+        &lt;!-- Secciones, articulos, etc. --&gt;
+    &lt;/main&gt;
+
+    &lt;!-- Footer global (creditos, links, copyright) --&gt;
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2026 Mi Sitio Web&lt;/p&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;</code></pre>
+                </div>
+
+                <h3>&lt;header&gt;</h3>
+
+                <p>
+                    La etiqueta <code>&lt;header&gt;</code> representa la cabecera introductoria de una secci&oacute;n o de la p&aacute;gina completa. Generalmente contiene un grupo de elementos introductorios o de navegaci&oacute;n: logotipos, t&iacute;tulos (<code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code>), men&uacute;s de navegaci&oacute;n, formularios de b&uacute;squeda, o cualquier contenido que prepare al usuario para lo que viene. Es uno de los elementos sem&aacute;nticos m&aacute;s f&aacute;ciles de adoptar porque pr&aacute;cticamente todo sitio web tiene alg&uacute;n tipo de cabecera.
+                </p>
+
+                <h3>&lt;nav&gt;</h3>
+
+                <p>
+                    <code>&lt;nav&gt;</code> envuelve bloques de enlaces de navegaci&oacute;n. No todos los grupos de links deben estar dentro de un <code>&lt;nav&gt;</code>; solo los bloques de navegaci&oacute;n <strong>mayores</strong>. Por ejemplo: el men&uacute; principal del sitio, un mapa del sitio, o la navegaci&oacute;n entre p&aacute;ginas. Los links del footer o links contextuales dentro de un p&aacute;rrafo no necesitan estar en un <code>&lt;nav&gt;</code>. Usar <code>aria-label</code> en cada <code>&lt;nav&gt;</code> ayuda a los lectores de pantalla a distinguir entre m&uacute;ltiples bloques de navegaci&oacute;n.
+                </p>
+
+                <h3>&lt;main&gt;</h3>
+
+                <p>
+                    <code>&lt;main&gt;</code> contiene el contenido central y &uacute;nico de la p&aacute;gina. Es la etiqueta m&aacute;s importante para SEO porque le dice a Google: "esto es lo que el usuario viene a buscar". Debe ser &uacute;nico: solo <strong>un <code>&lt;main&gt;</code> por p&aacute;gina</strong>. No debe incluir contenido que se repite en todas las p&aacute;ginas como el header global, sidebar, footer, ni cuadros de b&uacute;squeda. Los lectores de pantalla pueden saltar directamente al <code>&lt;main&gt;</code> con un atajo de teclado, ahorr&aacute;ndole al usuario tener que navegar todo el header y men&uacute;es cada vez que carga una p&aacute;gina.
+                </p>
+
+                <h3>&lt;footer&gt;</h3>
+
+                <p>
+                    <code>&lt;footer&gt;</code> representa el pie de su secci&oacute;n m&aacute;s cercana o del cuerpo del documento. T&iacute;picamente contiene informaci&oacute;n sobre el autor, copyright, enlaces a pol&iacute;ticas de privacidad, t&eacute;rminos, contacto, o enlaces relacionados. Al igual que <code>&lt;header&gt;</code>, puede aparecer m&uacute;ltiples veces: el footer global de la p&aacute;gina y los footers individuales dentro de art&iacute;culos o secciones, donde suelen contener metadatos como fecha de publicaci&oacute;n, tags, o nombre del autor.
+                </p>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">&iquest;D&oacute;nde NO usar &lt;main&gt;?</p>
+                        <p>El <code>&lt;main&gt;</code> no debe estar dentro de un <code>&lt;article&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;header&gt;</code> ni <code>&lt;footer&gt;</code>. Es un elemento de nivel superior del documento. Si necesitas contener un art&iacute;culo, pon el <code>&lt;article&gt;</code> <strong>dentro</strong> del <code>&lt;main&gt;</code>, no al rev&eacute;s.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: article, section, aside -->
+            <section class="sub-section animate-on-scroll" id="contenedores">
+                <h2>
+                    &lt;article&gt;, &lt;section&gt; y &lt;aside&gt;
+                    <a href="#contenedores" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Estas tres etiquetas son las que m&aacute;s confusi&oacute;n generan, especialmente la diferencia entre <code>&lt;article&gt;</code> y <code>&lt;section&gt;</code>. La clave est&aacute; en hacerse la pregunta correcta: "&iquest;Este contenido tendr&iacute;a sentido por s&iacute; solo si lo copio y lo pego en otro contexto?". Si la respuesta es s&iacute;, es un <code>&lt;article&gt;</code>. Si la respuesta es no, probablemente es una <code>&lt;section&gt;</code>.
+                </p>
+
+                <h3>&lt;article&gt; &mdash; Contenido independiente</h3>
+
+                <p>
+                    <code>&lt;article&gt;</code> representa una unidad de contenido que es <strong>independiente y aut&oacute;noma</strong>. Esto significa que si sacas el article de la p&aacute;gina y lo pones en otra, a&uacute;n tendr&iacute;a sentido completo. Ejemplos cl&aacute;sicos: una publicaci&oacute;n de blog, un comentario de usuario, una noticia, una tarjeta de producto, un widget de clima, un post de foro. La prueba del "sindicado" es &uacute;til: si puedes tomar este contenido y publicarlo en un feed RSS o en otra p&aacute;gina sin que pierda contexto, es un article.
+                </p>
+
+                <h3>&lt;section&gt; &mdash; Agrupaci&oacute;n tem&aacute;tica</h3>
+
+                <p>
+                    <code>&lt;section&gt;</code> es una agrupaci&oacute;n gen&eacute;rica de contenido <strong>por tema o prop&oacute;sito</strong>. A diferencia de <code>&lt;article&gt;</code>, su contenido no necesariamente tiene sentido fuera de su contexto. Es m&aacute;s like un "cap&iacute;tulo" dentro de la p&aacute;gina. Cada <code>&lt;section&gt;</code> deber&iacute;a tener t&iacute;picamente un heading (<code>&lt;h2&gt;</code>-<code>&lt;h6&gt;</code>) que identifique su tema. Si no necesitas un heading, probablemente no necesitas un <code>&lt;section&gt;</code> y un <code>&lt;div&gt;</code> ser&iacute;a m&aacute;s apropiado.
+                </p>
+
+                <h3>&lt;aside&gt; &mdash; Contenido complementario</h3>
+
+                <p>
+                    <code>&lt;aside&gt;</code> contiene contenido que est&aacute; <strong>relacionado tangencialmente</strong> con el contenido principal, pero que no es esencial para entenderlo. Ejemplos: barras laterales con links relacionados, publicidad, callouts de tips, biograf&iacute;as del autor, widgets de "art&iacute;culos populares", o cualquier contenido que complementa pero cuya ausencia no romper&iacute;a la p&aacute;gina. En un layout de blog cl&aacute;sico, el <code>&lt;aside&gt;</code> es la columna lateral con contenido adicional.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;main&gt;
+    &lt;!-- Cada post es un article independiente --&gt;
+    &lt;article&gt;
+        &lt;header&gt;
+            &lt;h2&gt;Aprende Flexbox en 10 minutos&lt;/h2&gt;
+            &lt;time datetime="2026-06-10"&gt;10 de junio, 2026&lt;/time&gt;
+        &lt;/header&gt;
+        &lt;p&gt;Flexbox es el sistema de layout moderno...&lt;/p&gt;
+        &lt;footer&gt;
+            &lt;p&gt;Por &lt;a href="#"&gt;Juan P&eacute;rez&lt;/a&gt;&lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/article&gt;
+
+    &lt;!-- Una seccion tematica dentro de la pagina --&gt;
+    &lt;section&gt;
+        &lt;h2&gt;Recursos recomendados&lt;/h2&gt;
+        &lt;p&gt;Lista de sitios y herramientas...&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;!-- Contenido complementario --&gt;
+    &lt;aside&gt;
+        &lt;h3&gt;Art&iacute;culos populares&lt;/h3&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="#"&gt;CSS Grid vs Flexbox&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;JavaScript moderno&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/aside&gt;
+&lt;/main&gt;</code></pre>
+                </div>
+
+                <div class="content-grid animate-on-scroll">
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+                            <h3>&lt;article&gt;</h3>
+                        </div>
+                        <p>Contenido <strong>independiente</strong> y aut&oacute;nomo. Tiene sentido por s&iacute; solo fuera de la p&aacute;gina. Ej: post de blog, noticia, comentario, tarjeta de producto.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+                            <h3>&lt;section&gt;</h3>
+                        </div>
+                        <p>Agrupaci&oacute;n <strong>tem&aacute;tica</strong> de contenido. Necesita contexto para tener sentido. Siempre deber&iacute;a tener un heading. Ej: secci&oacute;n de caracter&iacute;sticas, about.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                            <h3>&lt;aside&gt;</h3>
+                        </div>
+                        <p>Contenido <strong>complementario</strong> relacionado tangencialmente. Su ausencia no rompe la p&aacute;gina. Ej: sidebar, ads, biograf&iacute;a del autor.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">No anides article dentro de section innecesariamente</p>
+                        <p>Un error com&uacute;n es envolver cada <code>&lt;article&gt;</code> en un <code>&lt;section&gt;</code>. Si la secci&oacute;n solo contiene un art&iacute;culo, el <code>&lt;section&gt;</code> es redundante. Usa <code>&lt;section&gt;</code> cuando agrupas <strong>m&uacute;ltiples</strong> elementos relacionados (varios art&iacute;culos, varios p&aacute;rrafos con un heading), no como wrapper gen&eacute;rico.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: figure y figcaption -->
+            <section class="sub-section animate-on-scroll" id="figure">
+                <h2>
+                    &lt;figure&gt; y &lt;figcaption&gt;
+                    <a href="#figure" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>&lt;figure&gt;</code> representa contenido autocontenido (im&aacute;genes, diagramas, c&oacute;digo, citas) que se referencia desde el flujo principal del documento, junto con su leyenda opcional <code>&lt;figcaption&gt;</code>. La ventaja sem&aacute;ntica es que el navegador entiende que el contenido de la figure y su caption est&aacute;n relacionados y los trata como una unidad. Esto mejora la accesibilidad porque los lectores de pantalla anuncian la figure como un objeto con su descripci&oacute;n.
+                </p>
+
+                <p>
+                    Un detalle importante: <code>&lt;figure&gt;</code> no es solo para im&aacute;genes. Puedes envolver bloques de c&oacute;digo, citas textuales, tablas, audio o cualquier contenido que necesite una leyenda descriptiva. La <code>&lt;figcaption&gt;</code> puede ir al inicio o al final de la <code>&lt;figure&gt;</code>, aunque por convenci&oacute;n se suele poner al final.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Imagen con caption --&gt;
+&lt;figure&gt;
+    &lt;img src="layout-responsive.png"
+         alt="Diagrama de un layout responsive con sidebar colapsable"&gt;
+    &lt;figcaption&gt;
+        Figura 1: Layout responsive con breakpoints en 768px y 1024px
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- Bloque de codigo como figure --&gt;
+&lt;figure&gt;
+    &lt;pre&gt;&lt;code&gt;const saludar = nombre =&gt; `Hola ${nombre}!`;&lt;/code&gt;&lt;/pre&gt;
+    &lt;figcaption&gt;Ejemplo de arrow function con template literal&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- Cita con fuente --&gt;
+&lt;figure&gt;
+    &lt;blockquote&gt;
+        &lt;p&gt;"La simplicidad es la sofisticaci&oacute;n."&lt;/p&gt;
+    &lt;/blockquote&gt;
+    &lt;figcaption&gt;&mdash; Leonardo da Vinci&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">No necesitas CSS para figure</p>
+                        <p>Por defecto, <code>&lt;figure&gt;</code> no aplica ning&uacute;n estilo especial. La mayor&iacute;a de navegadores la muestran como un <code>&lt;div&gt;</code> normal. Tu tarea con CSS es darle el espaciado y estilo que necesite, pero la etiqueta ya est&aacute; haciendo su trabajo sem&aacute;ntico internamente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: details y summary -->
+            <section class="sub-section animate-on-scroll" id="details">
+                <h2>
+                    &lt;details&gt; y &lt;summary&gt;
+                    <a href="#details" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>&lt;details&gt;</code> crea un widget de "acorde&oacute;n" nativo del navegador sin necesidad de JavaScript. Contiene un <code>&lt;summary&gt;</code> visible que act&uacute;a como bot&oacute;n para mostrar u ocultar el contenido restante. Es la soluci&oacute;n m&aacute;s simple y accesible para contenido colapsable: no necesita JS, funciona sin CSS, es accesible por defecto (los lectores de pantalla lo anuncian como un elemento expandible), y el navegador le da estilos base que puedes personalizar.
+                </p>
+
+                <p>
+                    Soporte de navegadores: <code>&lt;details&gt;</code> tiene soporte completo en todos los navegadores modernos desde 2018. No necesitas polyfills. Algunos usos t&iacute;picos: FAQ (preguntas frecuentes), glosarios, contenido adicional opcional, configuraciones avanzadas, o cualquier informaci&oacute;n que el usuario puede querer ver pero que no necesita estar siempre visible. El atributo <code>open</code> permite que empiece expandido.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- FAQ basico --&gt;
+&lt;details&gt;
+    &lt;summary&gt;&iquest;Qu&eacute; es HTML sem&aacute;ntico?&lt;/summary&gt;
+    &lt;p&gt;HTML sem&aacute;ntico es usar etiquetas que describen
+       el significado del contenido, no solo su apariencia.&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;!-- Empieza abierto --&gt;
+&lt;details open&gt;
+    &lt;summary&gt;Requisitos previos&lt;/summary&gt;
+    &lt;p&gt;Necesitas saber HTML b&aacute;sico y tener un editor de
+       c&oacute;digo como VS Code.&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;!-- Con contenido rico dentro --&gt;
+&lt;details&gt;
+    &lt;summary&gt;Ejemplo de c&oacute;digo&lt;/summary&gt;
+    &lt;pre&gt;&lt;code&gt;&lt;nav aria-label="Principal"&gt;...&lt;/nav&gt;&lt;/code&gt;&lt;/pre&gt;
+    &lt;p&gt;Siempre agrega un aria-label cuando tienes
+       m&uacute;ltiples nav en una p&aacute;gina.&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">details no reemplaza al modal</p>
+                        <p><code>&lt;details&gt;</code> es excelente para acordeones y FAQs, pero <strong>no</strong> es un reemplazo para modales o di&aacute;logos. Para ventanas modales usa <code>&lt;dialog&gt;</code> con el m&eacute;todo <code>.showModal()</code>, que provee behaviours como trapping de focus, cierre con Escape y backdrop. Cada elemento tiene su prop&oacute;sito.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Texto semantico -->
+            <section class="sub-section animate-on-scroll" id="texto-semantico">
+                <h2>
+                    Etiquetas de texto sem&aacute;ntico
+                    <a href="#texto-semantico" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Adem&aacute;s de las etiquetas estructurales, HTML ofrece etiquetas de <strong>texto sem&aacute;ntico</strong> que agregan significado espec&iacute;fico a porciones de contenido inline. Estas parecen simples, pero marcan la diferencia en la calidad de tu HTML. Cada una le dice a la m&aacute;quina algo distinto sobre el texto que contiene.
+                </p>
+
+                <h3>&lt;time&gt; &mdash; Fechas y horas</h3>
+
+                <p>
+                    <code>&lt;time&gt;</code> representa un punto espec&iacute;fico en el tiempo o un rango de tiempo. El atributo <code>datetime</code> contiene la fecha/hora en formato legible por m&aacute;quinas (ISO 8601), mientras que el contenido visible puede ser cualquier formato amigable. Los motores de busqueda, lectores de pantalla y calendarios pueden extraer la fecha del <code>datetime</code> para ofrecer funcionalidades como "agregar al calendario" o "hace cu&aacute;nto tiempo".
+                </p>
+
+                <h3>&lt;mark&gt; &mdash; Texto destacado</h3>
+
+                <p>
+                    <code>&lt;mark&gt;</code> resalta texto que es <strong>relevante en el contexto actual</strong>. Visualmente se renderiza con un fondo amarillo (como un marcador fluorescente). Se usa para resultados de b&uacute;squeda (resaltar el t&eacute;rmino buscado), texto reci&eacute;n agregado, o cualquier porci&oacute;n que quieras destacar. No lo confundas con <code>&lt;strong&gt;</code>: <code>&lt;strong&gt;</code> indica importancia, <code>&lt;mark&gt;</code> indica relevancia contextual.
+                </p>
+
+                <h3>&lt;abbr&gt; &mdash; Abreviaturas</h3>
+
+                <p>
+                    <code>&lt;abbr&gt;</code> envuelve una abreviatura o acr&oacute;nimo y usa el atributo <code>title</code> para proporcionar su significado completo. Cuando el usuario pasa el mouse sobre la abreviatura, el navegador muestra un tooltip con el texto del title. Los lectores de pantalla pueden anunciar el texto completo en lugar de deletrear la abreviatura. Es una etiqueta subestimada pero muy &uacute;til para la accesibilidad.
+                </p>
+
+                <h3>&lt;blockquote&gt;, &lt;cite&gt;, &lt;q&gt; &mdash; Citas</h3>
+
+                <p>
+                    <code>&lt;blockquote&gt;</code> es para citas largas (a nivel de bloque, con su propio p&aacute;rrafo). <code>&lt;q&gt;</code> es para citas cortas inline (dentro de un p&aacute;rrafo). <code>&lt;cite&gt;</code> identifica la fuente de una cita, no solo con blockquotes sino t&aacute;mbi&eacute;n para t&iacute;tulos de obras, art&iacute;culos, pel&iacute;culas o cualquier referencia creativa. El navegador suele renderizar <code>&lt;cite&gt;</code> en cursiva por defecto.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- time: formato legible + machine-readable --&gt;
+&lt;p&gt;Publicado el
+    &lt;time datetime="2026-06-10"&gt;10 de junio de 2026&lt;/time&gt;.
+&lt;/p&gt;
+
+&lt;!-- time con hora exacta --&gt;
+&lt;time datetime="2026-06-10T19:30"&gt;Hoy a las 19:30&lt;/time&gt;
+
+&lt;!-- mark: resaltar texto relevante --&gt;
+&lt;p&gt;Los resultados muestran que
+    &lt;mark&gt;CSS Grid&lt;/mark&gt; tiene mejor soporte que
+    las tablas para layouts.&lt;/p&gt;
+
+&lt;!-- abbr: abreviatura con significado --&gt;
+&lt;p&gt;Usamos &lt;abbr title="Cascading Style Sheets"&gt;CSS&lt;/abbr&gt;
+   para los estilos de la p&aacute;gina.&lt;/p&gt;
+
+&lt;!-- blockquote con cite --&gt;
+&lt;blockquote cite="https://www.w3.org/TR/html5/"&gt;
+    &lt;p&gt;"HTML5 define una serie de elementos que
+       proveen significado sem&aacute;ntico."&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&mdash; &lt;cite&gt;W3C, HTML5 Specification&lt;/cite&gt;&lt;/p&gt;
+
+&lt;!-- q: cita inline corta --&gt;
+&lt;p&gt;Como dijo &lt;cite&gt;Tim Berners-Lee&lt;/cite&gt;,
+    &lt;q&gt;El poder de la web est&aacute; en su
+    universalidad.&lt;/q&gt;&lt;/p&gt;</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Etiqueta</th>
+                            <th>Significado</th>
+                            <th>Diferencia clave</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;mark&gt;</code></td>
+                            <td>Relevancia contextual</td>
+                            <td>Resalta por contexto (ej: resultado de b&uacute;squeda)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;strong&gt;</code></td>
+                            <td>Importancia</td>
+                            <td>Indica que el contenido es importante, serio o urgente</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;em&gt;</code></td>
+                            <td>&Eacute;nfasis</td>
+                            <td>Cambia el tono (pronunciaci&oacute;n en lectores de pantalla)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;b&gt;</code></td>
+                            <td>Atenci&oacute;n visual</td>
+                            <td>Solo est&eacute;tico (sin significado sem&aacute;ntico, evitar)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;i&gt;</code></td>
+                            <td>Voz alternativa</td>
+                            <td>T&eacute;rminos t&eacute;cnicos, thoughts, texto en otro idioma</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: Por que importa -->
+            <section class="sub-section animate-on-scroll" id="por-que-importa">
+                <h2>
+                    &iquest;Por qu&eacute; importa?
+                    <a href="#por-que-importa" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Usar HTML sem&aacute;ntico no es solo una "buena pr&aacute;ctica" abstracta. Tiene un impacto real y medible en tres &aacute;reas fundamentales de cualquier proyecto web: c&oacute;mo te encuentran los motores de b&uacute;squeda, c&oacute;mo usan tu p&aacute;gina personas con discapacidades, y c&oacute;mo f&aacute;cil es para otros desarrolladores (o tu yo del futuro) entender tu c&oacute;digo.
+                </p>
+
+                <h3>Impacto en SEO</h3>
+
+                <p>
+                    Google usa la estructura sem&aacute;ntica de tu HTML para entender la jerarqu&iacute;a y relevancia de tu contenido. Cuando usas <code>&lt;main&gt;</code>, Google sabe exactamente cu&aacute;l es el contenido principal de la p&aacute;gina (y le da m&aacute;s peso). Cuando usas <code>&lt;article&gt;</code>, puede identificar publicaciones independientes. Cuando usas <code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code> correctamente sin saltar niveles, entiende la estructura de t&iacute;tulos y sub-t&iacute;tulos. Google ha confirmado que la estructura del HTML es un factor de ranking, especialmente con la aparici&oacute;n de <strong>featured snippets</strong> y <strong>passage ranking</strong>.
+                </p>
+
+                <h3>Impacto en accesibilidad</h3>
+
+                <p>
+                    Los lectores de pantalla (NVDA, JAWS, VoiceOver) usan las etiquetas sem&aacute;nticas para navegar. Con <code>&lt;nav&gt;</code> pueden saltar directamente a la navegaci&oacute;n. Con <code>&lt;main&gt;</code> pueden saltar al contenido. Con <code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code> pueden generar una tabla de contenidos virtual que permite al usuario saltar a cualquier secci&oacute;n. Las <strong>landmarks</strong> que crean las etiquetas sem&aacute;nticas (header, nav, main, footer, aside) son la forma principal de navegaci&oacute;n para personas que usan tecnolog&iacute;as asistivas. Sin ellas, el usuario tiene que escuchar todo el contenido de arriba a abajo.
+                </p>
+
+                <h3>Impacto en mantenibilidad</h3>
+
+                <p>
+                    Un c&oacute;digo sem&aacute;ntico se <strong>auto-documenta</strong>. Cuando otro desarrollador (o t&uacute; en 6 meses) lee un <code>&lt;nav&gt;</code>, sabe inmediatamente qu&eacute; es sin tener que buscar la clase CSS y adivinar. Cuando ve <code>&lt;article&gt;</code>, sabe que ese bloque es independiente. Cuando ve <code>&lt;time datetime="..."&gt;</code>, sabe que ah&iacute; hay una fecha estructurada. Esto reduce el tiempo de onboarding, disminuye errores de interpretaci&oacute;n y hace que el c&oacute;digo sea m&aacute;s f&aacute;cil de refactorizar.
+                </p>
+
+                <div class="content-grid animate-on-scroll">
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <h3>SEO</h3>
+                        </div>
+                        <p>Google entiende mejor tu contenido, mejora el ranking, habilita featured snippets y passage ranking. <code>&lt;main&gt;</code> recibe mayor peso que el resto.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                            <h3>Accesibilidad</h3>
+                        </div>
+                        <p>Landmarks para navegaci&oacute;n con lector de pantalla, tabla de contenidos autom&aacute;tica con headings, sem&aacute;ntica para cada elemento interactivo.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                            <h3>Mantenibilidad</h3>
+                        </div>
+                        <p>C&oacute;digo auto-documentado. Menos tiempo entendiendo, m&aacute;s tiempo construyendo. F&aacute;cil de refactorizar sin romper la estructura.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">El "div-soup" antipatr&oacute;n</p>
+                        <p>El patr&oacute;n de <code>&lt;div class="nav"&gt;</code>, <code>&lt;div class="header"&gt;</code>, <code>&lt;div class="footer"&gt;</code> es el error m&aacute;s com&uacute;n en HTML. Le quitas todo el significado al documento y fuerzas a la m&aacute;quina a adivinar tu intenci&oacute;n. Es como escribir un libro donde todos los cap&iacute;tulos se llaman "Cap&iacute;tulo" sin ning&uacute;n t&iacute;tulo. Usa las etiquetas sem&aacute;nticas. Son gratuitas, no agregan peso, y mejoran todo lo que importa.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Ejemplo completo -->
+            <section class="sub-section animate-on-scroll" id="ejemplo">
+                <h2>
+                    Ejemplo: p&aacute;gina de blog sem&aacute;ntica
+                    <a href="#ejemplo" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Para cerrar, ac&aacute; ten&eacute;s un ejemplo completo de c&oacute;mo se ve una p&aacute;gina de blog usando todas las etiquetas sem&aacute;nticas que vimos. Compar&aacute; esto con una versi&oacute;n de solo <code>&lt;div&gt;</code>s y notar&aacute;s la diferencia en claridad. Cada etiqueta le dice exactamente qu&eacute; es su contenido, sin necesidad de leer el CSS ni el JavaScript.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Blog de Desarrollo Web&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;!-- Header global --&gt;
+    &lt;header&gt;
+        &lt;nav aria-label="Principal"&gt;
+            &lt;a href="/"&gt;Mi Blog&lt;/a&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="/html"&gt;HTML&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="/css"&gt;CSS&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="/js"&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;!-- Contenido principal (UNO solo por pagina) --&gt;
+    &lt;main&gt;
+
+        &lt;!-- Articulo independiente --&gt;
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h1&gt;Por qu&eacute; deber&iacute;as usar HTML sem&aacute;ntico&lt;/h1&gt;
+                &lt;p&gt;Publicado el
+                    &lt;time datetime="2026-06-10"&gt;10 de junio, 2026&lt;/time&gt;
+                    por &lt;address&gt;&lt;a href="#"&gt;Mar&iacute;a Gonz&aacute;lez&lt;/a&gt;&lt;/address&gt;
+                &lt;/p&gt;
+            &lt;/header&gt;
+
+            &lt;section&gt;
+                &lt;h2&gt;El problema del "div-soup"&lt;/h2&gt;
+                &lt;p&gt;Muchos desarrolladores construyen toda su p&aacute;gina
+                   usando solo &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt;...
+                   &lt;mark&gt;Este es el error m&aacute;s com&uacute;n.&lt;/mark&gt;&lt;/p&gt;
+            &lt;/section&gt;
+
+            &lt;section&gt;
+                &lt;h2&gt;Las etiquetas que debes conocer&lt;/h2&gt;
+                &lt;p&gt;Las etiquetas como
+                   &lt;abbr title="HyperText Markup Language"&gt;HTML&lt;/abbr&gt;
+                   proveen significado real.&lt;/p&gt;
+
+                &lt;figure&gt;
+                    &lt;img src="semantico.png"
+                         alt="Comparaci&oacute;n visual de HTML con divs vs sem&aacute;ntico"&gt;
+                    &lt;figcaption&gt;Figura 1: Div-soup vs HTML sem&aacute;ntico&lt;/figcaption&gt;
+                &lt;/figure&gt;
+            &lt;/section&gt;
+
+            &lt;section&gt;
+                &lt;h2&gt;FAQ&lt;/h2&gt;
+                &lt;details&gt;
+                    &lt;summary&gt;&iquest;HTML sem&aacute;ntico afecta el SEO?&lt;/summary&gt;
+                    &lt;p&gt;S&iacute;, Google usa las etiquetas sem&aacute;nticas para
+                       entender mejor la estructura y relevancia de tu contenido.&lt;/p&gt;
+                &lt;/details&gt;
+                &lt;details&gt;
+                    &lt;summary&gt;&iquest;Necesito aprender todas las etiquetas?&lt;/summary&gt;
+                    &lt;p&gt;No, con 8-10 etiquetas cubres el 90% de los casos:
+                       header, nav, main, footer, article, section, aside,
+                       figure y time.&lt;/p&gt;
+                &lt;/details&gt;
+            &lt;/section&gt;
+
+            &lt;footer&gt;
+                &lt;p&gt;Tags: HTML, Sem&aacute;ntico, SEO, Accesibilidad&lt;/p&gt;
+            &lt;/footer&gt;
+        &lt;/article&gt;
+
+        &lt;!-- Sidebar complementario --&gt;
+        &lt;aside&gt;
+            &lt;h2&gt;Art&iacute;culos relacionados&lt;/h2&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#"&gt;CSS Grid: gu&iacute;a completa&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;JavaScript Moderno: ES6+&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/aside&gt;
+
+    &lt;/main&gt;
+
+    &lt;!-- Footer global --&gt;
+    &lt;footer&gt;
+        &lt;nav aria-label="Legal"&gt;
+            &lt;a href="/privacidad"&gt;Privacidad&lt;/a&gt;
+            &lt;a href="/terminos"&gt;T&eacute;rminos&lt;/a&gt;
+        &lt;/nav&gt;
+        &lt;p&gt;&amp;copy; 2026 Blog de Desarrollo Web&lt;/p&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Las 10 etiquetas que debes usar siempre</p>
+                        <p>No necesitas memorizar todas las etiquetas HTML. Con estas 10 cubres el 90% de los casos sem&aacute;nticos: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;figure&gt;</code>/<code>&lt;figcaption&gt;</code>, <code>&lt;time&gt;</code>, y <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>. Empieza con estas y vas a estar por encima del 80% de los desarrolladores web.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation between sections -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/html-basico.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    HTML B&aacute;sico
+                </a>
+                <a href="../sections/html-formularios.html" class="btn btn-secondary">
+                    Formularios &amp; Validaci&oacute;n
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
