@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia &amp; Gr&aacute;ficos — WebForge</title>
+    <meta name="description" content="Aprende a incorporar multimedia en HTML: video, audio, picture con art direction, formatos modernos (WebP, AVIF), canvas, SVG inline e iframes.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>HTML</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Multimedia</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Multimedia &amp; Gr&aacute;ficos</h1>
+                <p>La web moderna es mucho m&aacute;s que texto y links. Video, audio, im&aacute;genes adaptativas, gr&aacute;ficos generados din&aacute;micamente y gr&aacute;ficos vectoriales son parte fundamental de la experiencia web. HTML5 trajo etiquetas nativas para todo esto, eliminando la dependencia de plugins como Flash que dominaban la web a principios de los 2000. Hoy, multimedia es nativo, accesible y perform&aacute;ntico.</p>
+            </div>
+
+            <!-- Sub-section: Video -->
+            <section class="sub-section animate-on-scroll" id="video">
+                <h2>
+                    &lt;video&gt; &mdash; Video nativo
+                    <a href="#video" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La etiqueta <code>&lt;video&gt;</code> permite incrustar video directamente en tu p&aacute;gina sin plugins. Antes de HTML5, la &uacute;nica forma de reproducir video era con Flash (&lt;embed&gt;), lo que significaba que los usuarios de iPhone y iPad (que no soportaban Flash) simplemente no pod&iacute;an ver el video. Hoy, <code>&lt;video&gt;</code> funciona en todos los dispositivos y navegadores de forma nativa. Soporta m&uacute;ltiples formatos a trav&eacute;s de <code>&lt;source&gt;</code> y tiene atributos de control granular sobre la reproducci&oacute;n.
+                </p>
+
+                <p>
+                    Los atributos clave son: <code>controls</code> muestra los controles de reproducci&oacute;n nativos (play, pause, volumen, barra de progreso, fullscreen), <code>autoplay</code> reproduce autom&aacute;ticamente (con restricciones: la mayor&iacute;a de navegadores bloquean autoplay con audio, as&iacute; que necesitas agregar <code>muted</code> para que funcione), <code>loop</code> repite el video indefinidamente, <code>poster</code> muestra una imagen de portada antes de reproducir, y <code>preload</code> controla cu&aacute;nto del video se descarga antes de que el usuario d&eacute; play.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Video basico con controles --&gt;
+&lt;video src="presentacion.mp4"
+       controls
+       poster="portada-video.jpg"
+       width="1280" height="720"&gt;
+    Tu navegador no soporta video HTML5.
+&lt;/video&gt;
+
+&lt;!-- Video con multiples formatos (mejor compatibilidad) --&gt;
+&lt;video controls preload="metadata" width="1280" height="720"&gt;
+    &lt;source src="video.mp4" type="video/mp4"&gt;
+    &lt;source src="video.webm" type="video/webm"&gt;
+    &lt;source src="video.ogg" type="video/ogg"&gt;
+    &lt;p&gt;Tu navegador no soporta video HTML5.
+       &lt;a href="video.mp4"&gt;Descargar el video&lt;/a&gt;.&lt;/p&gt;
+&lt;/video&gt;
+
+&lt;!-- Video de fondo (autoplay, muted, loop, sin controles) --&gt;
+&lt;video autoplay muted loop playsinline
+       poster="bg-poster.jpg"&gt;
+    &lt;source src="fondo.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+
+&lt;!-- Video con subt&iacute;tulos --&gt;
+&lt;video controls&gt;
+    &lt;source src="tutorial.mp4" type="video/mp4"&gt;
+    &lt;track kind="subtitles" src="subs/es.vtt" srclang="es"
+           label="Espa&ntilde;ol" default&gt;
+    &lt;track kind="subtitles" src="subs/en.vtt" srclang="en"
+           label="English"&gt;
+&lt;/video&gt;</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo</th>
+                            <th>Funci&oacute;n</th>
+                            <th>Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>controls</code></td>
+                            <td>Muestra controles de reproducci&oacute;n</td>
+                            <td>Siempre agregar para contenido que el usuario controla</td>
+                        </tr>
+                        <tr>
+                            <td><code>autoplay</code></td>
+                            <td>Reproducci&oacute;n autom&aacute;tica</td>
+                            <td>Mayor&iacute;a de navegadores lo bloquean sin <code>muted</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>muted</code></td>
+                            <td>Silencia el video</td>
+                            <td>Permite autoplay + crea backgrounds visuales</td>
+                        </tr>
+                        <tr>
+                            <td><code>loop</code></td>
+                            <td>Repetir indefinidamente</td>
+                            <td>Ideal para fondos o animaciones cortas</td>
+                        </tr>
+                        <tr>
+                            <td><code>playsinline</code></td>
+                            <td>Reproduce dentro del layout (no fullscreen en iOS)</td>
+                            <td>Casi obligatorio para autoplay en m&oacute;vil</td>
+                        </tr>
+                        <tr>
+                            <td><code>poster</code></td>
+                            <td>Imagen de portada antes de reproducir</td>
+                            <td>Mejora UX: el usuario ve qu&eacute; hay antes de darle play</td>
+                        </tr>
+                        <tr>
+                            <td><code>preload</code></td>
+                            <td>none | metadata | auto</td>
+                            <td><code>metadata</code> es el balance ideal entre velocidad y UX</td>
+                        </tr>
+                        <tr>
+                            <td><code>width</code> / <code>height</code></td>
+                            <td>Tama&ntilde;o del reproductor</td>
+                            <td>Siempre especificar para evitar reflow al cargar</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Autoplay est&aacute; fuertemente restringido</p>
+                        <p>Los navegadores modernos (Chrome, Firefox, Safari) <strong>bloquean</strong> autoplay con audio. La combinaci&oacute;n <code>autoplay muted playsinline</code> es la &uacute;nica que funciona confiablemente. Para video que el usuario elige ver, usa <code>controls</code> sin <code>autoplay</code>. Para fondos visuales (hero sections), usa autoplay muted. Nunca fuerces autoplay con sonido porque genera una experiencia negativa y los navegadores lo bloquean de todas formas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Audio -->
+            <section class="sub-section animate-on-scroll" id="audio">
+                <h2>
+                    &lt;audio&gt; &mdash; Audio nativo
+                    <a href="#audio" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>&lt;audio&gt;</code> funciona igual que <code>&lt;video&gt;</code> pero sin la visualizaci&oacute;n de imagen. Es la forma nativa de incrustar sonido: podcasts, m&uacute;sica, efectos de sonido, o cualquier contenido de audio. Comparte los mismos atributos de <code>&lt;video&gt;</code> (<code>controls</code>, <code>autoplay</code>, <code>loop</code>, <code>preload</code>, <code>muted</code>) y tambi&eacute;n usa <code>&lt;source&gt;</code> para m&uacute;ltiples formatos. La diferencia principal es que <code>&lt;audio&gt;</code> no tiene atributos de dimensiones visuales ni <code>poster</code>.
+                </p>
+
+                <p>
+                    Los formatos de audio m&aacute;s comunes son <strong>MP3</strong> (compatibilidad universal, menor calidad a igual bitrate), <strong>Ogg Vorbis</strong> (open source, buena calidad) y <strong>AAC</strong> (mejor calidad que MP3 a igual bitrate, est&aacute;ndar en MPEG-4). Para la mayor&iacute;a de los casos, ofrecer MP3 y Ogg es suficiente para cubrir todos los navegadores. En producci&oacute;n, es a&uacute;n m&aacute;s com&uacute;n alojar audio en plataformas como Spotify, SoundCloud o YouTube y embeber con un <code>&lt;iframe&gt;</code> en lugar de autoalojar los archivos.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Audio basico --&gt;
+&lt;audio controls&gt;
+    &lt;source src="podcast.mp3" type="audio/mpeg"&gt;
+    &lt;source src="podcast.ogg" type="audio/ogg"&gt;
+    Tu navegador no soporta audio HTML5.
+&lt;/audio&gt;
+
+&lt;!-- Audio con autoplay (muted para que funcione) --&gt;
+&lt;audio autoplay muted loop&gt;
+    &lt;source src="ambiental.mp3" type="audio/mpeg"&gt;
+&lt;/audio&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Audio streaming vs autoalojado</p>
+                        <p>Autoalojar audio (&lt;audio&gt; directo) es &uacute;til para clips cortos o efectos de sonido. Para contenido largo (podcasts, m&uacute;sica), es mejor usar plataformas de streaming (Spotify Embeds, SoundCloud, YouTube) y embeberlas con un <code>&lt;iframe&gt;</code>. As&iacute; evitas consumir ancho de banda de tu servidor y obtienes controles m&aacute;s ricos (playlists, compartibilidad, m&eacute;tricas).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Imagenes adaptativas -->
+            <section class="sub-section animate-on-scroll" id="picture">
+                <h2>
+                    &lt;picture&gt; &mdash; Im&aacute;genes adaptativas
+                    <a href="#picture" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>&lt;picture&gt;</code> es la etiqueta que resuelve uno de los problemas m&aacute;s importantes del desarrollo web: servir la imagen correcta seg&uacute;n el contexto del usuario. No es solo resoluciones diferentes (una foto m&aacute;s grande para una pantalla m&aacute;s grande), sino tambi&eacute;n <strong>art direction</strong>: im&aacute;genes distintas en recorte y composici&oacute;n para distintos breakpoints. Piensa en un hero de una p&aacute;gina: en desktop quer&eacute;s una foto panor&aacute;mica horizontal, en mobile quer&eacute;s un recorte vertical que enfoque en el sujeto. <code>&lt;picture&gt;</code> te permite hacer exactamente eso.
+                </p>
+
+                <p>
+                    Dentro de <code>&lt;picture&gt;</code> usas <code>&lt;source&gt;</code> con el atributo <code>media</code> para definir qu&eacute; imagen mostrar en qu&eacute; condici&oacute;n (igual que media queries en CSS), y una <code>&lt;img&gt;</code> al final como fallback y como la imagen que se muestra si ninguna condici&oacute;n coincide. El <code>&lt;img&gt;</code> es obligatorio: es lo que ven los navegadores que no soportan <code>&lt;picture&gt;</code> (pr&aacute;cticamente ninguno hoy, pero sigue siendo la especificaci&oacute;n).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Art direction: imagen distinta por breakpoint --&gt;
+&lt;picture&gt;
+    &lt;!-- Pantallas grandes: panoramica horizontal --&gt;
+    &lt;source media="(min-width: 1024px)"
+            srcset="hero-wide.webp" type="image/webp"&gt;
+
+    &lt;!-- Pantallas medianas: recorte cuadrado --&gt;
+    &lt;source media="(min-width: 768px)"
+            srcset="hero-medium.webp" type="image/webp"&gt;
+
+    &lt;!-- Mobile: recorte vertical del sujeto --&gt;
+    &lt;source media="(min-width: 320px)"
+            srcset="hero-mobile.webp" type="image/webp"&gt;
+
+    &lt;!-- Fallback: imagen default --&gt;
+    &lt;img src="hero-default.webp"
+         alt="Persona trabajando en un proyecto web"&gt;
+&lt;/picture&gt;
+
+&lt;!-- srcset + sizes: diferentes resoluciones del mismo recorte --&gt;
+&lt;img src="foto-400.webp"
+     srcset="foto-400.webp 400w,
+             foto-800.webp 800w,
+             foto-1200.webp 1200w,
+             foto-1600.webp 1600w"
+     sizes="(max-width: 767px) 100vw,
+            (max-width: 1024px) 50vw,
+            33vw"
+     alt="Captura de pantalla del proyecto"&gt;</code></pre>
+                </div>
+
+                <h3>Formatos modernos de imagen</h3>
+
+                <p>
+                    Los formatos WebP y AVIF son el est&aacute;ndar moderno que reemplaza a JPEG y PNG. <strong>WebP</strong> ofrece entre un 25-35% menos de peso que JPEG con calidad equivalente, y tambi&eacute;n soporta transparencia (alpha) como PNG. <strong>AVIF</strong> va un paso m&aacute;s all&aacute;: puede ser hasta un 50% m&aacute;s peque&ntilde;o que JPEG con calidad superior, y soporta animaciones, transparencia y profundidad de color HDR. La estrategia recomendada es servir AVIF cuando es posible, con WebP como fallback, y JPEG/PNG como fallback final.
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Formato</th>
+                            <th>Ventaja</th>
+                            <th>Soporte</th>
+                            <th>Cu&aacute;ndo usarlo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>AVIF</strong></td>
+                            <td>Menor tama&ntilde;o, mejor calidad, HDR</td>
+                            <td>Chrome, Firefox, Edge, Safari 16.4+</td>
+                            <td>Fotos de alta calidad, HDR</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WebP</strong></td>
+                            <td>Menor tama&ntilde;o que JPEG, soporta alpha</td>
+                            <td>Todos los navegadores modernos</td>
+                            <td>Uso general, reemplaza JPEG y PNG</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JPEG</strong></td>
+                            <td>Compatibilidad universal</td>
+                            <td>100%</td>
+                            <td>Fallback m&aacute;ximo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PNG</strong></td>
+                            <td>Transparencia (alpha), sin p&eacute;rdida</td>
+                            <td>100%</td>
+                            <td>Iconos, screenshots, logos con alpha</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SVG</strong></td>
+                            <td>Vectorial, escalable, liviano</td>
+                            <td>100%</td>
+                            <td>Logos, iconos, ilustraciones simples</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">srcset + sizes: el navegador elige</p>
+                        <p>Con <code>srcset</code> le das al navegador una lista de im&aacute;genes con sus anchos (<code>400w</code>, <code>800w</code>) y con <code>sizes</code> le dices cu&aacute;nto espacio va a ocupar la imagen en cada breakpoint (<code>100vw</code>, <code>50vw</code>). El navegador calcula autom&aacute;ticamente cu&aacute;l descargar bas&aacute;ndose en el ancho de la pantalla y la densidad de pixeles del dispositivo. Es m&aacute;s eficiente que media queries porque el navegador sabe cosas que CSS no: conexi&oacute;n del usuario, memoria disponible y densidad del display.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Canvas -->
+            <section class="sub-section animate-on-scroll" id="canvas">
+                <h2>
+                    &lt;canvas&gt; &mdash; Gr&aacute;ficos din&aacute;micos
+                    <a href="#canvas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>&lt;canvas&gt;</code> es un lienzo en blanco donde dibujas gr&aacute;ficos mediante JavaScript usando la <strong>Canvas 2D API</strong> (o WebGL para gr&aacute;ficos 3D). A diferencia de SVG, el contenido del canvas es pixel-based (rasterizado), no vectorial. Una vez que dibujas algo, se convierte en p&iacute;xeles y no puedes manipular elementos individuales como en SVG. Canvas es ideal para gr&aacute;ficos de alta frecuencia (animaciones de videojuegos, visualizaciones de datos en tiempo real, procesamiento de im&aacute;genes) donde el rendimiento es prioritario.
+                </p>
+
+                <p>
+                    Los pasos b&aacute;sicos son: obtener el contexto 2D con <code>canvas.getContext('2d')</code>, definir coordenadas (0,0 es la esquina superior izquierda), y usar los m&eacute;todos de dibujo como <code>fillRect()</code>, <code>arc()</code>, <code>fillText()</code>, <code>drawImage()</code>, y <code>beginPath()</code> para formas personalizadas. Los atributos <code>width</code> y <code>height</code> del <code>&lt;canvas&gt;</code> definen la resoluci&oacute;n del lienzo en p&iacute;xeles (no confundir con el tama&ntilde;o CSS, que solo escala visualmente).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Obtener el canvas y su contexto
+const canvas = document.getElementById('mi-canvas');
+const ctx = canvas.getContext('2d');
+
+// Rectangulo relleno: fillRect(x, y, ancho, alto)
+ctx.fillStyle = '#58a6ff';
+ctx.fillRect(20, 20, 150, 100);
+
+// Rectangulo con borde: strokeRect(x, y, ancho, alto)
+ctx.strokeStyle = '#39d2c0';
+ctx.lineWidth = 3;
+ctx.strokeRect(50, 50, 150, 100);
+
+// Circulo: arc(x, y, radio, startAngle, endAngle)
+ctx.beginPath();
+ctx.arc(300, 100, 50, 0, Math.PI * 2);
+ctx.fillStyle = '#ff6b6b';
+ctx.fill();
+
+// Texto
+ctx.font = '24px Space Grotesk';
+ctx.fillStyle = '#e6edf3';
+ctx.fillText('WebForge', 20, 200);
+
+// Limpiar el canvas
+ctx.clearRect(0, 0, canvas.width, canvas.height);</code></pre>
+                </div>
+
+                <div class="content-grid animate-on-scroll">
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m19.07 4.93-14.14 14.14"/></svg>
+                            <h3>Canvas</h3>
+                        </div>
+                        <p>Pixel-based, renderizado r&aacute;pido. Ideal para animaciones de alta frecuencia, juegos, procesamiento de im&aacute;genes. No accesible para lectores de pantalla (no hay elementos DOM dentro del canvas).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                            <h3>SVG</h3>
+                        </div>
+                        <p>Vector-based, escalable infinitamente. Ideal para logos, iconos, ilustraciones, gr&aacute;ficos interactivos. Accesible (cada forma es un elemento DOM que los lectores pueden navegar).</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">width/height del canvas NO es lo mismo que CSS</p>
+                        <p>Los atributos <code>width</code> y <code>height</code> del <code>&lt;canvas&gt;</code> definen la <strong>resoluci&oacute;n</strong> del lienzo (cu&aacute;ntos p&iacute;xeles tiene para dibujar). Si CSS escala el canvas a un tama&ntilde;o diferente, el contenido se estira o se comprime. Para pantallas de alta densidad (Retina), es com&uacute;n duplicar la resoluci&oacute;n del canvas y escalarlo con CSS a la mitad para mantener nitidez: <code>canvas.width = 800</code> + CSS <code>width: 400px</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: SVG inline -->
+            <section class="sub-section animate-on-scroll" id="svg">
+                <h2>
+                    &lt;svg&gt; &mdash; Gr&aacute;ficos vectoriales
+                    <a href="#svg" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    SVG (Scalable Vector Graphics) es un formato de imagen vectorial basado en XML. A diferencia de PNG o JPEG que est&aacute;n compuestos por p&iacute;xeles, los gr&aacute;ficos SVG est&aacute;n compuestos por formas matem&aacute;ticas (puntos, l&iacute;neas, curvas, rect&aacute;ngulos). Esto significa que escalan a cualquier tama&ntilde;o sin perder calidad, pesan much&iacute;simo menos que un PNG equivalente (especialmente para iconos), se pueden manipular con CSS y JavaScript, y son <strong>accesibles</strong> porque cada forma es un elemento del DOM.
+                </p>
+
+                <p>
+                    La forma m&aacute;s com&uacute;n de usar SVG en la web es como <code>&lt;img src="icono.svg"&gt;</code>, pero esto no permite manipular los estilos internos del SVG. La alternativa m&aacute;s poderosa es <strong>SVG inline</strong>: pegar el c&oacute;digo SVG directamente en el HTML. Esto te permite cambiar colores con CSS, animar partes del SVG con JavaScript, agregar clases a elementos internos, y es lo que hacemos en WebForge con los iconos Lucide. El atributo <code>viewBox</code> es fundamental: define el sistema de coordenadas interno del SVG y permite que escale sin deformarse.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- SVG inline: icono editable con CSS --&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg"
+     width="24" height="24"
+     viewBox="0 0 24 24"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round"&gt;
+    &lt;circle cx="12" cy="12" r="10"/&gt;
+    &lt;path d="M12 16v-4"/&gt;
+    &lt;path d="M12 8h.01"/&gt;
+&lt;/svg&gt;
+
+&lt;!-- SVG como imagen (no editable con CSS) --&gt;
+&lt;img src="logo.svg" alt="Logo del sitio" width="120"&gt;
+
+&lt;!-- SVG con formas b&aacute;sicas --&gt;
+&lt;svg width="200" height="200" viewBox="0 0 200 200"&gt;
+    &lt;!-- Rectangulo --&gt;
+    &lt;rect x="10" y="10" width="80" height="60"
+          rx="8" fill="#58a6ff"/&gt;
+
+    &lt;!-- Circulo --&gt;
+    &lt;circle cx="150" cy="40" r="30" fill="#39d2c0"/&gt;
+
+    &lt;!-- Linea --&gt;
+    &lt;line x1="10" y1="120" x2="190" y2="120"
+          stroke="#ff6b6b" stroke-width="3"/&gt;
+
+    &lt;!-- Path personalizado --&gt;
+    &lt;path d="M100 150 L130 190 L70 190 Z"
+          fill="#bc8cff"/&gt;
+
+    &lt;!-- Texto dentro del SVG --&gt;
+    &lt;text x="100" y="195"
+          text-anchor="middle" fill="#e6edf3"
+          font-size="12"&gt;WebForge&lt;/text&gt;
+&lt;/svg&gt;</code></pre>
+                </div>
+
+                <h3>Formas b&aacute;sicas de SVG</h3>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Elemento</th>
+                            <th>Qu&eacute; dibuja</th>
+                            <th>Atributos clave</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;rect&gt;</code></td>
+                            <td>Rect&aacute;ngulo</td>
+                            <td><code>x, y, width, height, rx, ry</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;circle&gt;</code></td>
+                            <td>C&iacute;rculo</td>
+                            <td><code>cx, cy, r</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;ellipse&gt;</code></td>
+                            <td>Elipse</td>
+                            <td><code>cx, cy, rx, ry</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;line&gt;</code></td>
+                            <td>L&iacute;nea recta</td>
+                            <td><code>x1, y1, x2, y2</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;polyline&gt;</code></td>
+                            <td>L&iacute;nea con m&uacute;ltiples puntos</td>
+                            <td><code>points="x1,y1 x2,y2 ..."</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;polygon&gt;</code></td>
+                            <td>Pol&iacute;gono cerrado</td>
+                            <td><code>points="x1,y1 x2,y2 ..."</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;path&gt;</code></td>
+                            <td>Forma libre</td>
+                            <td><code>d="M L C Z ..."</code> (comandos de dibujo)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">viewBox: el secreto de SVG</p>
+                        <p>El atributo <code>viewBox="0 0 24 24"</code> define el sistema de coordenadas interno del SVG (origen en 0,0, ancho 24, alto 24). Permite que el SVG escale a cualquier tama&ntute;o manteniendo las proporciones, sin importar el <code>width</code> y <code>height</code> que le des en CSS o en los atributos. Es an&aacute;logo a decirle al SVG: "todo lo que dibujes, ajustalo autom&aacute;ticamente al tama&ntilde;o del contenedor". Siempre incl&uacute;yelo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: iframe -->
+            <section class="sub-section animate-on-scroll" id="iframe">
+                <h2>
+                    &lt;iframe&gt; &mdash; Contenido embebido
+                    <a href="#iframe" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>&lt;iframe&gt;</code> (inline frame) embebe otra p&aacute;gina HTML dentro de la tuya. Es la forma est&aacute;ndar de integrar contenido externo: videos de YouTube, mapas de Google Maps, widgets de Twitter, codepens interactivos, o cualquier contenido que venga de otro dominio. El iframe crea un contexto de navegaci&oacute;n independiente: su propio documento HTML, sus propios estilos, su propio JavaScript. Es como una "ventana" dentro de tu p&aacute;gina que muestra otra p&aacute;gina completa.
+                </p>
+
+                <p>
+                    Sin embargo, los iframes tienen implicaciones importantes. Consumen recursos (cada iframe es como una pesta&ntilde;a adicional del navegador), pueden afectar la performance de tu p&aacute;gina, y tienen restricciones de seguridad (Same-Origin Policy) que impiden que tu p&aacute;gina interact&uacute;e con el contenido del iframe si viene de otro dominio. El atributo <code>loading="lazy"</code> es fundamental: retrasa la carga del iframe hasta que est&eacute; cerca del viewport, ahorrando ancho de banda. El atributo <code>sandbox</code> restringe lo que el iframe puede hacer (ejecutar scripts, enviar formularios, navegar), mejorando la seguridad.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- YouTube embebido con aspect-ratio responsivo --&gt;
+&lt;div style="position: relative; padding-bottom: 56.25%;
+            height: 0; overflow: hidden;"&gt;
+    &lt;iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Video tutorial de HTML"
+            style="position: absolute; top: 0; left: 0;
+                   width: 100%; height: 100%;"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write;
+                   encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"&gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;!-- Google Maps embebido --&gt;
+&lt;iframe src="https://www.google.com/maps/embed?pb=..."
+        title="Ubicaci&oacute;n de la oficina"
+        width="600" height="450"
+        style="border:0;"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"&gt;
+&lt;/iframe&gt;
+
+&lt;!-- CodePen embebido --&gt;
+&lt;iframe src="https://codepen.io/usuario/embed/penId?default-tab=html"
+        title="Ejemplo de CSS Grid"
+        loading="lazy"
+        sandbox="allow-scripts"
+        style="width:100%; height:300px;"&gt;
+&lt;/iframe&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Siempre usa title en iframes</p>
+                        <p>El atributo <code>title</code> en <code>&lt;iframe&gt;</code> es <strong>obligatorio</strong> para la accesibilidad. Los lectores de pantalla lo anuncian para que el usuario sepa qu&eacute; contiene el iframe antes de entrar en &eacute;l. Sin un title descriptivo, el lector solo dice "frame" o "iframe" sin contexto, dejando al usuario a ciegas sobre el contenido embebido. Tambi&eacute;n evita usar iframes para contenido principal de tu p&aacute;gina: los usuarios no pueden buscar dentro de un iframe con Ctrl+F del navegador, ni bookmark el contenido interno.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation between sections -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/html-formularios.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Formularios &amp; Validaci&oacute;n
+                </a>
+                <a href="../sections/html-accesibilidad.html" class="btn btn-secondary">
+                    Accesibilidad (a11y)
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
