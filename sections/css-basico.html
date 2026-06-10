@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS B&aacute;sico — WebForge</title>
+    <meta name="description" content="Aprende los fundamentos de CSS: selectores, box model, especificidad, display, position, overflow y float. La base sobre la que se construye todo el estilo web.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS B&aacute;sico</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>CSS B&aacute;sico</h1>
+                <p>CSS (Cascading Style Sheets) es el lenguaje que define la apariencia visual de cada elemento HTML en la web. Si HTML es la estructura&mdash;los huesos&mdash;, CSS es la piel, la ropa, el maquillaje. Sin CSS, todos los sitios web se ver&iacute;an como documentos de texto planos con fondo blanco y fuente por defecto. Dominar los fundamentos de CSS es absolutamente esencial antes de pasar a layout avanzado, animaciones o frameworks, porque todo lo dem&aacute;s se construye sobre estos cimientos.</p>
+            </div>
+
+            <!-- Sub-section: Selectores -->
+            <section class="sub-section animate-on-scroll" id="selectores">
+                <h2>
+                    Selectores
+                    <a href="#selectores" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Los selectores son el mecanismo que usa CSS para apuntar a elementos HTML espec&iacute;ficos y aplicarles estilos. Un selector define <em>qu&eacute;</em> elementos se ven afectados por una regla. Hay muchos tipos de selectores, desde los m&aacute;s simples (por etiqueta) hasta los m&aacute;s complejos (combinadores, pseudo-clases, pseudo-elementos). Entender bien los selectores te permite escribir CSS m&aacute;s limpio, espec&iacute;fico y mantenible, evitando recurrir a clases innecesarias o al sobreuso de <code>!important</code>.
+                </p>
+
+                <h3>Selectores b&aacute;sicos</h3>
+
+                <p>
+                    Los selectores b&aacute;sicos son los que vas a usar con m&aacute;s frecuencia en cualquier proyecto. El selector de tipo (o elemento) apunta a todas las instancias de una etiqueta HTML. El selector de clase (precedido por un punto) apunta a elementos con ese atributo <code>class</code> espec&iacute;fico. El selector de ID (precedido por <code>#</code>) apunta a un &uacute;nico elemento con ese atributo <code>id</code>. El selector universal (<code>*</code>) aplica estilos a absolutamente todos los elementos del DOM.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Selector de tipo (elemento) */
+p {
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Selector de clase */
+.card {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+/* Selector de ID */
+#site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Selector universal */
+* {
+    box-sizing: border-box;
+}
+
+/* Selectores de atributo */
+input[type="email"] {
+    border-color: var(--accent-blue);
+}
+
+a[href^="https"]::after {
+    content: " \2197";
+}</code></pre>
+                </div>
+
+                <h3>Selectores compuestos y combinadores</h3>
+
+                <p>
+                    Los selectores compuestos combinan m&uacute;ltiples selectores simples para ser m&aacute;s espec&iacute;ficos. Puedes encadenar clases (<code>.card.active</code>), usar el combinador descendiente (espacio: <code>.nav a</code>), el combinador hijo directo (<code>&gt;</code>), el combinador de hermano adyacente (<code>+</code>) y el general (<code>~</code>). Estos combinadores te permiten apuntar a elementos seg&uacute;n su relaci&oacute;n estructural en el DOM, lo cual es clave para estilar componentes complejos sin agregar clases extra.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Combinador descendiente: todos los 'a' dentro de .nav */
+.nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+/* Combinador hijo directo: solo 'li' directos de 'ul' */
+.menu > li {
+    display: inline-block;
+}
+
+/* Selector compuesto: elemento que tiene ambas clases */
+.card.active {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 0 2px var(--accent-cyan);
+}
+
+/* Hermano adyacente: p inmediatamente despues de h2 */
+h2 + p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+}
+
+/* Hermano general: todos los p despues de h2 */
+h2 ~ p {
+    margin-top: 0.5rem;
+}
+
+/* Selector :not() - negacion */
+input:not([disabled]) {
+    cursor: pointer;
+}
+
+/* :is() - simplifica selectores largos */
+:is(h2, h3, h4):hover {
+    color: var(--accent-blue);
+}
+
+/* :has() - seleccionar segun descendientes */
+.card:has(img) {
+    grid-row: span 2;
+}</code></pre>
+                </div>
+
+                <h3>Pseudo-clases y pseudo-elementos</h3>
+
+                <p>
+                    Las pseudo-clases (<code>:</code>) seleccionan elementos seg&uacute;n un estado o condici&oacute;n din&aacute;mica, como <code>:hover</code>, <code>:focus</code>, <code>:first-child</code>, <code>:nth-child()</code>, o <code>:checked</code>. Los pseudo-elementos (<code>::</code>) crean elementos virtuales que no existen en el HTML, como <code>::before</code>, <code>::after</code>, <code>::first-line</code>, o <code>::placeholder</code>. Juntos te permiten estilar estados interactivos, contenido generado y partes espec&iacute;ficas de un elemento sin modificar el HTML.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Pseudo-clases de interaccion */
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 2px;
+}
+
+/* Pseudo-clases estructurales */
+li:first-child {
+    border-top: none;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+/* nth-child: patrones repetitivos */
+tr:nth-child(even) {
+    background: var(--bg-tertiary);
+}
+
+tr:nth-child(odd) {
+    background: transparent;
+}
+
+/* nth-child con formula: cada 3er elemento */
+.grid-item:nth-child(3n) {
+    break-after: column;
+}
+
+/* Pseudo-elementos */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+}
+
+.card::after {
+    content: attr(data-label);
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--accent-green);
+    color: #000;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* ::placeholder para inputs */
+input::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ::selection para texto seleccionado */
+::selection {
+    background: var(--accent-blue);
+    color: #fff;
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Cu&aacute;ndo usar cada selector</p>
+                        <p>El selector de tipo es &uacute;til para resets y estilos base (ej: <code>body</code>, <code>a</code>, <code>img</code>). Las clases son tu herramienta principal&mdash;reutilizables, composables y predecibles. Los IDs deber&iacute;an evitarse en CSS (son para JavaScript y enlaces internos) porque tienen especificidad m&aacute;xima y no se pueden reutilizar. El universal <code>*</code> se usa para box-sizing y margenes/paddings a cero en resets, pero evit&aacute;lo en reglas espec&iacute;ficas porque afecta a todo el DOM.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Box Model -->
+            <section class="sub-section animate-on-scroll" id="box-model">
+                <h2>
+                    Box Model
+                    <a href="#box-model" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El Box Model es el concepto fundamental que define c&oacute;mo el navegador calcula el tama&ntilde;o total de cada elemento. Cada elemento HTML es tratado como una caja rectangular con cuatro capas conc&eacute;ntricas: <strong>content</strong> (el contenido real), <strong>padding</strong> (espacio entre el contenido y el borde), <strong>border</strong> (la l&iacute;nea del borde) y <strong>margin</strong> (espacio entre el borde y otros elementos). Entender c&oacute;mo interact&uacute;an estas capas es esencial para controlar el layout sin sorpresas.
+                </p>
+
+                <p>
+                    El detalle cr&iacute;tico es la diferencia entre <code>content-box</code> (el modelo cl&aacute;sico de CSS2) y <code>border-box</code> (el modelo moderno). Con <code>content-box</code>, el ancho que defin&iacute;s es solo el del contenido&mdash;el padding y el border se suman por fuera, haciendo el elemento m&aacute;s grande de lo que esper&aacute;s. Con <code>border-box</code>, el ancho incluye padding y border, lo que es mucho m&aacute;s intuitivo. La pr&aacute;ctica est&aacute;ndar es aplicar <code>box-sizing: border-box</code> a todos los elementos con el selector universal.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Regla de oro: aplicar a todo el proyecto */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* El ancho total del elemento ES el ancho que definis */
+.card {
+    width: 300px;
+    padding: 1.5rem;
+    border: 2px solid var(--border-color);
+    /* Ancho total = 300px (content + padding + border) */
+}
+
+/* Con content-box (default viejo), width es solo el contenido */
+.legacy-box {
+    box-sizing: content-box;
+    width: 300px;
+    padding: 1.5rem;  /* 24px cada lado = 48px extra */
+    border: 2px solid; /* 4px extra */
+    /* Ancho total = 300 + 48 + 4 = 352px (!) */
+}
+
+/* Margin: espacio exterior entre elementos */
+.card + .card {
+    margin-top: 1.5rem;
+}
+
+/* Padding: espacio interior del elemento */
+.card {
+    padding: 1rem;       /* todos los lados */
+    padding: 1rem 2rem;   /* arriba/abajo | izq/der */
+    padding: 1rem 2rem 3rem; /* arriba | izq/der | abajo */
+    padding: 1rem 2rem 3rem 4rem; /* arriba | der | abajo | izq */
+}
+
+/* Shorthand de margin (misma logica) */
+.spacing-demo {
+    margin: 0 auto;       /* 0 arriba/abajo, centrado horizontal */
+}
+
+/* Colapso de margenes: solo verticales */
+p {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    /* Entre dos parrafos, el gap NO es 2rem sino 1rem (colapsan) */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">El colapso de m&aacute;rgenes verticales</p>
+                        <p>Los m&aacute;rgenes verticales (<code>margin-top</code> y <code>margin-bottom</code>) entre elementos hermanos se <strong>colapsan</strong>: en lugar de sumarse, el navegador usa el mayor de los dos. Si un <code>&lt;p&gt;</code> tiene <code>margin-bottom: 2rem</code> y el siguiente tiene <code>margin-top: 1rem</code>, el espacio entre ellos ser&aacute; <code>2rem</code>, no <code>3rem</code>. Esto no aplica a m&aacute;rgenes horizontales ni a <code>flex</code>/<code>grid</code>. Es la raz&oacute;n principal por la que muchos devs prefieren <code>gap</code> en layouts modernos.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Especificidad -->
+            <section class="sub-section animate-on-scroll" id="especificidad">
+                <h2>
+                    Especificidad
+                    <a href="#especificidad" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La especificidad es el algoritmo que el navegador usa para decidir qu&eacute; regla CSS gana cuando hay conflictos (m&uacute;ltiples reglas apuntando al mismo elemento con propiedades diferentes). No es simplemente "el &uacute;ltimo gana"&mdash;eso solo aplica si la especificidad es igual. Cada tipo de selector tiene un peso distinto, y el navegador calcula un "score" para cada regla. El selector con el score m&aacute;s alto se impone, sin importar el orden de declaraci&oacute;n.
+                </p>
+
+                <p>
+                    El sistema de puntuaci&oacute;n se puede pensar como tres columnas: <code>(inline, ID, clase | elemento)</code>. Los estilos inline (<code>style=""</code>) valen m&aacute;s que cualquier selector CSS. Los IDs (&code>#</code>) valen m&aacute;s que las clases (<code>.</code>). Las clases valen m&aacute;s que los elementos (<code>p</code>, <code>div</code>). Y <code>!important</code> rompe toda la cascada (pero no deber&iacute;as usarlo).
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Selector</th>
+                            <th>Especificidad</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Universal</td>
+                            <td><code>0, 0, 0</code></td>
+                            <td><code>*</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tipo / Elemento</td>
+                            <td><code>0, 0, 1</code></td>
+                            <td><code>p</code>, <code>div</code>, <code>a</code></td>
+                        </tr>
+                        <tr>
+                            <td>Pseudo-elemento</td>
+                            <td><code>0, 0, 1</code></td>
+                            <td><code>::before</code>, <code>::after</code></td>
+                        </tr>
+                        <tr>
+                            <td>Clase / Atributo / Pseudo-clase</td>
+                            <td><code>0, 1, 0</code></td>
+                            <td><code>.card</code>, <code>[type="email"]</code>, <code>:hover</code></td>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td><code>1, 0, 0</code></td>
+                            <td><code>#header</code></td>
+                        </tr>
+                        <tr>
+                            <td>Inline style</td>
+                            <td><code>1, 0, 0, 0</code></td>
+                            <td><code>style="color: red"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>!important</code></td>
+                            <td>Gana a todo (anti-patr&oacute;n)</td>
+                            <td><code>color: red !important</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Ejemplo de conflicto de especificidad */
+
+/* Especificidad: 0, 0, 1 */
+p {
+    color: blue;
+}
+
+/* Especificidad: 0, 1, 0 (gana!) */
+.text-error {
+    color: red;
+}
+
+/* Especificidad: 0, 1, 1 (gana a la clase sola!) */
+p.text-error {
+    color: darkred;
+}
+
+/* Especificidad: 1, 0, 0 (gana a todo lo anterior!) */
+#unique-paragraph {
+    color: green;
+}
+
+/* Malas practicas con especificidad */
+.card .card .card .card .card .item {
+    /* 0, 6, 1 - muy alta sin necesitarlo */
+    /* Si necesitas !important para sobreescribir algo,
+       tu especificidad esta mal diseñada */
+}
+
+/* Buena practica: manteni especificidad baja y plana */
+.card-item {
+    /* 0, 1, 0 - facil de sobreescribir cuando haga falta */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Evit&aacute; !important</p>
+                        <p>El uso de <code>!important</code> rompe la cascada natural de CSS y genera una "guerra de especificidades" donde cada nueva regla necesita otro <code>!important</code> para ganar. Si te ves forzado a usarlo, es una se&ntilde;al de que tu arquitectura CSS necesita refactorizarse. Las &uacute;nicas excepciones aceptables son en resets y utility classes que deliberadamente necesitan ganar siempre. La mejor estrategia: mantener la especificidad plana y baja, y si necesitas sobreescribir, agrega una clase extra o usa la cascada (orden de declaraci&oacute;n).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Display -->
+            <section class="sub-section animate-on-scroll" id="display">
+                <h2>
+                    Display
+                    <a href="#display" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La propiedad <code>display</code> determina c&oacute;mo se comporta un elemento en el flujo del documento: si ocupa toda la l&iacute;nea, si fluye con el texto, si se oculta, o si se convierte en un contenedor flex o grid. Es una de las propiedades m&aacute;s importantes de CSS porque define el comportamiento fundamental de cada elemento antes de que cualquier otra propiedad de layout tenga efecto.
+                </p>
+
+                <p>
+                    Los valores principales son <code>block</code> (ocupa toda la l&iacute;nea, respeta width/height), <code>inline</code> (fluye con el texto, ignora width/height), <code>inline-block</code> (fluye con texto pero respeta dimensiones) y <code>none</code> (oculta el elemento completamente, lo saca del DOM visual). Adem&aacute;s est&aacute;n <code>flex</code> y <code>grid</code>, que tienen sus propias secciones detalladas en este sitio. Cada elemento HTML tiene un display por defecto (<code>&lt;div&gt;</code> es block, <code>&lt;span&gt;</code> es inline, <code>&lt;img&gt;</code> es inline-block).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* block: ocupa toda la linea, acepta width/height */
+/* Default: div, p, h1-h6, ul, ol, li, section, article */
+.sidebar {
+    display: block;
+    width: 280px;
+}
+
+/* inline: fluye con el texto, NO acepta width/height */
+/* Default: span, a, strong, em, code */
+.tag {
+    display: inline;
+    /* width y height son ignorados */
+}
+
+/* inline-block: fluye con texto PERO acepta dimensiones */
+/* Default: img, input, button */
+.avatar {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    /* Se comporta como inline (no ocupa toda la linea)
+       pero respeta width/height como block */
+}
+
+/* none: oculta completamente el elemento */
+.mobile-only {
+    display: none;
+}
+
+/* Mostrar en mobile, ocultar en desktop */
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+    .desktop-only {
+        display: none;
+    }
+}
+
+/* flex y grid: secciones dedicadas */
+.container {
+    display: flex;
+}
+
+.layout {
+    display: grid;
+}
+
+/* Valores modernos menos comunes */
+.flow-root {
+    /* Crea un nuevo BFC (Block Formatting Context)
+       Contiene floats sin necesidad de clearfix */
+    display: flow-root;
+}
+
+/* display: contents - el elemento "desaparece"
+   y sus hijos se comportan como hijos del padre */
+.grid-item-contents {
+    display: contents;
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Valor</th>
+                            <th>Comportamiento</th>
+                            <th>Acepta width/height?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>block</code></td>
+                            <td>Ocupa toda la l&iacute;nea, empieza nueva l&iacute;nea</td>
+                            <td>Si</td>
+                        </tr>
+                        <tr>
+                            <td><code>inline</code></td>
+                            <td>Fluye con el texto, comparte l&iacute;nea</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><code>inline-block</code></td>
+                            <td>Fluye con texto, pero respeta dimensiones</td>
+                            <td>Si</td>
+                        </tr>
+                        <tr>
+                            <td><code>flex</code></td>
+                            <td>Contenedor flex (hijos = flex items)</td>
+                            <td>Si</td>
+                        </tr>
+                        <tr>
+                            <td><code>grid</code></td>
+                            <td>Contenedor grid (hijos = grid items)</td>
+                            <td>Si</td>
+                        </tr>
+                        <tr>
+                            <td><code>none</code></td>
+                            <td>Oculta el elemento (no ocupa espacio)</td>
+                            <td>No aplica</td>
+                        </tr>
+                        <tr>
+                            <td><code>contents</code></td>
+                            <td>El elemento desaparece, sus hijos ascienden</td>
+                            <td>No aplica</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">display: none vs visibility: hidden vs opacity: 0</p>
+                        <p>Tres formas de ocultar, tres comportamientos distintos: <code>display: none</code> saca el elemento del flujo (no ocupa espacio, no recibe eventos). <code>visibility: hidden</code> lo oculta pero sigue ocupando espacio. <code>opacity: 0</code> es transparente pero sigue ocupando espacio y recibe eventos (puede hacerse click). Para animaciones de entrada/salida, us&aacute; <code>opacity</code> con <code>transform</code> y <code>pointer-events: none</code>. Para ocultar accesiblemente, us&aacute; la clase <code>.sr-only</code> (screen reader only) que posiciona fuera de pantalla sin <code>display: none</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Position -->
+            <section class="sub-section animate-on-scroll" id="position">
+                <h2>
+                    Position
+                    <a href="#position" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La propiedad <code>position</code> controla c&oacute;mo un elemento es posicionado dentro del documento y en relaci&oacute;n con otros elementos. Es la base para crear headers sticky, tooltips, modales, men&uacute;es desplegables y cualquier layout que necesite elementos fuera del flujo normal. Cada valor de <code>position</code> habilita propiedades espec&iacute;ficas (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>) que funcionan de manera distinta seg&uacute;n el contexto.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* static (default): flujo normal, top/left/ bottom/right no tienen efecto */
+.element {
+    position: static;
+}
+
+/* relative: se mueve respecto a su posicion normal
+   Sigue ocupando su espacio original en el flujo */
+.card {
+    position: relative;
+    /* top/left lo desplazan desde donde estaria normalmente */
+}
+
+.card:hover {
+    top: -4px;    /* se mueve 4px para arriba */
+    left: 2px;    /* se mueve 2px para la derecha */
+}
+
+/* absolute: se posiciona respecto al ancestro posicionado mas cercano
+   Si no hay ninguno, usa el viewport (html) */
+.card .badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    /* Se posiciona dentro de .card porque .card tiene position: relative */
+}
+
+/* fixed: se posiciona respecto al viewport (no se mueve con scroll)
+   Ideal para headers, botones flotantes, toasts */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    /* Siempre visible en la esquina inferior derecha */
+}
+
+/* sticky: se comporta como relative hasta un punto de scroll,
+   luego se "pega" como si fuera fixed
+   Necesita al menos un top/bottom declarado */
+.table-header th {
+    position: sticky;
+    top: 0;         /* Se pega cuando el scroll llega arriba */
+    z-index: 10;
+    background: var(--bg-secondary);
+}
+
+/* z-index: controla el orden de apilamiento (solo funciona con position) */
+.tooltip {
+    position: absolute;
+    z-index: 50;    /* Por encima de los demas elementos */
+}
+
+/* Nota: z-index solo funciona en elementos posicionados
+   (position distinto de static) o en elementos flex/grid */</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Patr&oacute;n position: relative + absolute</p>
+                        <p>Este es uno de los patrones m&aacute;s usados en CSS. Al poner <code>position: relative</code> en un contenedor, creas un "contexto de posicionamiento" para sus hijos. Luego puedes usar <code>position: absolute</code> en cualquier hijo para posicionarlo exactamente dentro de ese contenedor. Es ideal para badges sobre cards, tooltips sobre botones, overlays sobre im&aacute;genes y men&uacute;es desplegables. Sin el <code>relative</code> en el padre, el <code>absolute</code> del hijo se escapar&iacute;a al ancestro posicionado m&aacute;s cercano (o al viewport).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Overflow -->
+            <section class="sub-section animate-on-scroll" id="overflow">
+                <h2>
+                    Overflow
+                    <a href="#overflow" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La propiedad <code>overflow</code> controla qu&eacute; pasa cuando el contenido de un elemento es m&aacute;s grande que su contenedor. Tiene cuatro valores principales: <code>visible</code> (el contenido se desborda y es visible, es el default), <code>hidden</code> (el contenido que excede se corta sin indicador), <code>scroll</code> (siempre muestra barras de scroll) y <code>auto</code> (muestra scroll solo cuando es necesario). Puedes controlar los ejes independientemente con <code>overflow-x</code> y <code>overflow-y</code>.
+                </p>
+
+                <p>
+                    <code>overflow: hidden</code> es especialmente &uacute;til para crear efectos de recorte (clip), contenedores de slideshows, o resolver problemas de margin colapso (crea un nuevo Block Formatting Context). Sin embargo, ten&eacute; cuidado: <code>overflow: hidden</code> corta no solo el contenido visible sino tambi&eacute;n los shadows, tooltips y dropdowns que se extiendan fuera del contenedor, lo que puede ser una fuente de bugs dif&iacute;ciles de rastrear.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* visible (default): el contenido se desborda normalmente */
+.overflow-visible {
+    overflow: visible;
+}
+
+/* hidden: corta el contenido que excede */
+.card-image {
+    overflow: hidden;
+    height: 200px;
+    /* La imagen se corta si es mas alta que 200px */
+}
+
+/* scroll: siempre muestra barras (incluso si no es necesario) */
+.code-block {
+    overflow: scroll;
+    /* Barras siempre visibles - poco usado hoy */
+}
+
+/* auto: scroll solo cuando es necesario (el mas comun) */
+.code-block {
+    overflow: auto;
+    /* Scroll horizontal si el codigo es largo,
+       scroll vertical si el contenido excede la altura */
+}
+
+/* Control por eje */
+.container {
+    overflow-x: auto;   /* Scroll horizontal para carousel */
+    overflow-y: hidden;  /* Sin scroll vertical */
+}
+
+/* Texto largo en una linea con scroll horizontal */
+.text-nowrap {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+/* Crear un BFC con overflow para contener floats */
+.clearfix-modern {
+    overflow: hidden; /* Crea un Block Formatting Context */
+}
+
+/* Clip de imagenes con border-radius */
+.rounded-image {
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+/* Contenedor de carousel horizontal */
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+}
+
+.carousel-item {
+    scroll-snap-align: start;
+    flex: 0 0 80%;
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Sub-section: Float y Clear -->
+            <section class="sub-section animate-on-scroll" id="float">
+                <h2>
+                    Float y Clear
+                    <a href="#float" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>float</code> fue la primera herramienta de layout en CSS, dise&ntilde;ada originalmente para que el texto fluya alrededor de im&aacute;genes (como en peri&oacute;dicos). Antes de Flexbox y Grid, era la t&eacute;cnica principal para crear layouts multi-columna. Hoy en d&iacute;a, su uso para layout est&aacute; completamente obsoleto&mdash;Flexbox y Grid son superiores en todos los aspectos. Sin embargo, <code>float</code> sigue siendo &uacute;til para su prop&oacute;sito original: texto alrededor de im&aacute;genes y layouts editorial-like.
+                </p>
+
+                <p>
+                    El problema cl&aacute;sico de float es que el contenedor padre no "ve" la altura de sus hijos flotados&mdash;se colapsa como si estuviera vac&iacute;o. Esto se solucionaba con el "clearfix hack" (un pseudo-elemento <code>::after</code> con <code>clear: both</code>) o con <code>overflow: hidden</code> en el padre. Hoy, la alternativa moderna para crear un BFC es <code>display: flow-root</code>, que hace lo mismo sin los efectos secundarios de <code>overflow: hidden</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Uso moderno de float: texto alrededor de imagen */
+.article-image {
+    float: left;
+    width: 250px;
+    margin: 0 1.5rem 0.5rem 0;
+}
+
+.article-image.right {
+    float: right;
+    margin: 0 0 0.5rem 1.5rem;
+}
+
+/* clear: impedir que un elemento se ubique al lado de un float */
+.clear-below {
+    clear: both;    /* ambos lados */
+    clear: left;   /* solo izquierdo */
+    clear: right;  /* solo derecho */
+}
+
+/* Clearfix hack (solucion clasica para el colapso del padre) */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Solucion moderna: flow-root (reemplaza clearfix) */
+.container-moderno {
+    display: flow-root;
+    /* Crea un BFC que contiene a los floats
+       Sin efectos secundarios de overflow: hidden */
+}
+
+/* NO uses float para layout - usa flex o grid */
+.antipatron {
+    /* float: left;       NO */
+    /* width: 33.333%;    NO */
+    /* Usa grid en su lugar: */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+/* image-rendering para imagenes flotadas */
+img.float-img {
+    float: left;
+    shape-outside: circle();  /* El texto rodea la forma circular */
+    border-radius: 50%;
+    margin-right: 1rem;
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">shape-outside: float avanzado</p>
+                        <p>La propiedad <code>shape-outside</code> permite que el texto fluya alrededor de formas no rectangulares cuando usas <code>float</code>. Con <code>shape-outside: circle(50%)</code> y <code>border-radius: 50%</code> en una imagen, el texto rodear&aacute; perfectamente el c&iacute;rculo en lugar del recuadro rectangular. Puedes usar <code>circle()</code>, <code>ellipse()</code>, <code>inset()</code> y hasta <code>polygon()</code> para formas personalizadas. Es la &uacute;nica raz&oacute;n leg&iacute;tima para usar float en layouts modernos.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Propiedades shorthand comunes -->
+            <section class="sub-section animate-on-scroll" id="shorthand">
+                <h2>
+                    Propiedades Shorthand Comunes
+                    <a href="#shorthand" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las propiedades shorthand permiten declarar m&uacute;ltiples valores relacionados en una sola l&iacute;nea, haciendo tu CSS m&aacute;s conciso y f&aacute;cil de leer. CSS tiene docenas de shorthands, pero hay algunas que vas a usar constantemente en cualquier proyecto. Entender el orden de los valores y los valores por defecto de cada shorthand es esencial para no sorprenderte con resultados inesperados.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* === margin === */
+/* 1 valor: todos los lados */
+margin: 1rem;              /* top right bottom left = 1rem */
+
+/* 2 valores: vertical | horizontal */
+margin: 1rem 2rem;         /* top/bottom = 1rem, left/right = 2rem */
+
+/* 3 valores: top | horizontal | bottom */
+margin: 1rem 2rem 3rem;    /* top=1rem, left/right=2rem, bottom=3rem */
+
+/* 4 valores: top | right | bottom | left (sentido horario) */
+margin: 1rem 2rem 3rem 4rem;
+
+/* === padding: mismo orden que margin === */
+padding: 1rem 2rem;
+
+/* === border: width style color === */
+border: 1px solid var(--border-color);
+border-top: 2px dashed var(--accent-blue);
+border-radius: 8px;
+border-radius: 50% 0 50% 0;  /* esquinas individuales */
+
+/* === background: color image position/size repeat === */
+background: var(--bg-primary);
+background: url("img.jpg") center/cover no-repeat;
+/* Es lo mismo que:
+   background-color: var(--bg-primary);
+   background-image: url("img.jpg");
+   background-position: center;
+   background-size: cover;
+   background-repeat: no-repeat; */
+
+/* === font: style weight size/line-height family === */
+font: italic 600 1.5rem/1.6 "Inter", sans-serif;
+/* Nota: font-size y font-family son obligatorios en el shorthand */
+
+/* === transition: property duration timing-function delay === */
+transition: transform 0.3s ease 0s;
+transition: all 0.3s ease;       /* atencion: all puede generar problemas */
+transition: transform 0.3s ease, opacity 0.3s ease;
+
+/* === animation: name duration timing-function delay iteration-count direction fill-mode === */
+animation: fadeIn 0.6s ease forwards;
+
+/* === flex shorthand (en el item, no el contenedor) === */
+flex: 1;              /* flex-grow: 1; flex-shrink: 1; flex-basis: 0% */
+flex: 0 0 200px;      /* no crece, no se achica, mide 200px */
+flex: 1 1 auto;       /* crece, se achica, tamano del contenido */
+
+/* === list-style: type position image === */
+list-style: square inside;
+list-style: none;      /* quitar bullets */
+
+/* === outline (para focus, debugging) === */
+outline: 2px solid var(--accent-cyan);
+outline-offset: 2px;</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Regla mnemot&eacute;cnica: TRouBLe (Top, Right, Bottom, Left)</p>
+                        <p>Cuando usas 4 valores en <code>margin</code>, <code>padding</code> o <code>border-radius</code>, el orden es siempre en sentido horario empezando desde arriba: <strong>T</strong>op, <strong>R</strong>ight, <strong>B</strong>ottom, <strong>L</strong>eft. Con 2 valores es vertical primero, horizontal despu&eacute;s. Con 3 valores es top, horizontal, bottom (left copia right). Una vez que internaliz&aacute;s este patr&oacute;n, escribir CSS se vuelve mucho m&aacute;s r&aacute;pido.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="html-accesibilidad.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Accesibilidad
+                </a>
+                <a href="css-variables.html" class="btn btn-secondary">
+                    Variables CSS
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
