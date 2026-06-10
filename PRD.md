@@ -662,7 +662,7 @@ Las cheatsheets son secciones dedicadas con formato de **referencia rápida**. T
 - [x] Escribir `sections/js-moderno.html`
 - [x] Escribir `sections/js-dom.html`
 - [x] Escribir `sections/js-eventos.html`
-- [ ] Escribir `sections/js-asincronia.html`
+- [x] Escribir `sections/js-asincronia.html`
 - [ ] Escribir `sections/js-almacenamiento.html`
 - [ ] Escribir `cheatsheets/js-cheatsheet.html`
 
