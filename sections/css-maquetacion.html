@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquetaci&oacute;n Web y Convenciones — WebForge</title>
+    <meta name="description" content="Aprende a maquetar sitios web profesionales: flujo de trabajo (dise&ntilde;o, maqueta, desarrollo), convenci&oacute;n BEM (Block Element Modifier), dise&ntilde;o mobile-first, estrategia de breakpoints, componentes at&oacute;micos (atoms, molecules, organisms) y herramientas esenciales (Figma a c&oacute;digo, DevTools, grid overlays).">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Maquetaci&oacute;n Web y Convenciones</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Maquetaci&oacute;n Web y Convenciones</h1>
+                <p>La <strong>maquetaci&oacute;n web</strong> es el proceso de traducir un dise&ntilde;o visual (mockup, prototipo, wireframe) en c&oacute;digo HTML, CSS y JavaScript funcional. Va m&aacute;s all&aacute; de &quot;copiar un dise&ntilde;o en p&iacute;xeles&quot;: implica entender la estructura sem&aacute;ntica, elegir el sistema de layout correcto (Flexbox, Grid, posiciones), definir una arquitectura de clases CSS mantenible y asegurarse de que el resultado sea responsive, accesible y performante. Las <strong>convenciones</strong> como BEM, la filosof&iacute;a mobile-first y la metodolog&iacute;a de atomic design son herramientas que ayudan a mantener la consistencia y la escalabilidad a medida que un proyecto crece.</p>
+            </div>
+
+            <p>
+                Esta secci&oacute;n es diferente de las anteriores: no cubre una propiedad o m&oacute;dulo espec&iacute;fico de CSS, sino el <em>flujo de trabajo</em> y las <em>convenciones</em> que todo desarrollador frontend necesita dominar para producir c&oacute;digo limpio, predecible y f&aacute;cil de mantener. Aqu&iacute; vas a aprender c&oacute;mo pasar de un dise&ntilde;o en Figma a una p&aacute;gina real, c&oacute;mo nombrar tus clases CSS de forma inteligente, por qu&eacute; dise&ntilde;ar para mobile primero es una ventaja, c&oacute;mo pensar en breakpoints, c&oacute;mo descomponer una interfaz en componentes reutilizables y qu&eacute; herramientas usan los profesionales en su d&iacute;a a d&iacute;a. Si domin&aacute;s Flexbox y Grid pero no ten&eacute;s un m&eacute;todo de trabajo, el c&oacute;digo se vuelve r&aacute;pidamente inmanejable.
+            </p>
+
+            <!-- Sub-section: Flujo de Trabajo -->
+            <section class="sub-section animate-on-scroll" id="flujo-trabajo">
+                <h2>
+                    Flujo de Trabajo: Dise&ntilde;o &rarr; Maqueta &rarr; Desarrollo
+                    <a href="#flujo-trabajo" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Todo proyecto web que valga la pena sigue un flujo de trabajo definido, aunque la rigurosidad var&iacute;a seg&uacute;n el tama&ntilde;o del equipo y la complejidad del proyecto. El flujo cl&aacute;sico tiene tres fases principales: <strong>dise&ntilde;o</strong>, <strong>maqueta</strong> y <strong>desarrollo</strong>. En equipos grandes, cada fase la hace un rol distinto (dise&ntilde;ador, maquetador, desarrollador). En equipos chicos o proyectos personales, vos hac&eacute;s las tres, pero el flujo mental es el mismo. Saltarse pasos (por ejemplo, ir directo de un dise&ntilde;o borroso al c&oacute;digo) casi siempre genera rework y frustraci&oacute;n.
+                </p>
+
+                <h3>Fase 1: Dise&ntilde;o</h3>
+
+                <p>
+                    Es donde se define <em>qu&eacute;</em> se va a construir y <em>c&oacute;mo</em> se va a ver. Puede empezar con <strong>wireframes</strong> (esquemas de baja fidelidad en blanco y negro que definen la estructura y jerarqu&iacute;a del contenido sin distracci&oacute;n visual) y evolucionar hacia <strong>mockups</strong> de alta fidelidad (con colores, tipograf&iacute;a, im&aacute;genes y espaciado real). Las herramientas m&aacute;s usadas son <strong>Figma</strong>, <strong>Sketch</strong> o <strong>Adobe XD</strong>, pero un papel y l&aacute;piz tambi&eacute;n valen para la fase exploratoria. Lo importante es definir: la jerarqu&iacute;a visual (qu&eacute; es t&iacute;tulo, qu&eacute; es subt&iacute;tulo, qu&eacute; es contenido principal), el sistema de grid (cu&aacute;ntas columnas, cu&aacute;nto gap), la paleta de colores, las tipograf&iacute;as y los componentes que se van a repetir (botones, tarjetas, inputs).
+                </p>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Tip profesional:</strong> Si trabaj&aacute;s con un dise&ntilde;ador, ped&iacute;le que exporte los <strong>design tokens</strong> (colores, tipograf&iacute;as, espaciados) como variables. Esto te ahorra horas de mediciones manuales y garantiza consistencia entre el dise&ntilde;o y el c&oacute;digo. Figma tiene plugins como &quot;Design Tokens&quot; que generan CSS custom properties autom&aacute;ticamente.
+                    </div>
+                </div>
+
+                <h3>Fase 2: Maqueta (Wireframe t&eacute;cnico)</h3>
+
+                <p>
+                    La maqueta es el paso intermedio entre el dise&ntilde;o visual y el c&oacute;digo. Consiste en analizar el dise&ntilde;o y planificar la <strong>estructura HTML</strong> y el <strong>sistema de layout CSS</strong> que vas a usar. No es escribir c&oacute;digo a&uacute;n, sino pensarlo: &quot;este hero va a ser un Grid de 2 columnas&quot;, &quot;la navbar usa Flexbox con <code>justify-content: space-between</code>&quot;, &quot;las cards van en un Grid de 3 columnas con auto-fill para que sea responsive&quot;. En esta fase tambi&eacute;n defin&iacute;s la <strong>nomenclatura de clases</strong> (BEM, utility-first, etc.) y c&oacute;mo vas a organizar los archivos CSS. Es como hacer un plano antes de construir una casa: no necesitas dibujar cada ladrillo, pero s&iacute; saber d&oacute;nde van las paredes, las ventanas y las puertas.
+                </p>
+
+                <h3>Fase 3: Desarrollo (c&oacute;digo)</h3>
+
+                <p>
+                    Aqu&iacute; es donde escrib&iacute;s el HTML sem&aacute;ntico, los estilos CSS y el JavaScript necesario. La recomendaci&oacute;n es ir de <strong>afuera hacia adentro</strong> y de <strong>arriba hacia abajo</strong>: primero la estructura general (header, main, footer), luego las secciones principales, y finalmente los detalles dentro de cada secci&oacute;n. Esto te permite verificar r&aacute;pidamente que el layout general funciona antes de invertir tiempo en detalles. Tambi&eacute;n es &uacute;til desarrollar <strong>mobile-first</strong>: empezar con los estilos base para pantallas peque&ntilde;as y luego agregar media queries para pantallas m&aacute;s grandes. Hacerlo al rev&eacute;s (desktop-first) suele generar m&aacute;sOverrides y c&oacute;dico m&aacute;s dif&iacute;cil de mantener.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            Flujo de trabajo recomendado
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-plaintext">
+1. Analizar el dise&ntilde;o &rarr; identificar componentes repetidos
+2. Definir design tokens (variables CSS)
+3. Armar estructura HTML sem&aacute;ntica
+4. Aplicar layout CSS (Grid/Flexbox) de afuera hacia adentro
+5. Estilizar componentes (tipograf&iacute;a, colores, espaciado)
+6. Agregar responsive (media queries mobile-first)
+7. Agregar interactividad (JS)
+8. Testear en m&uacute;ltiples viewports y navegadores
+9. Revisar accesibilidad (contrast, focus, semantics)
+10. Optimizar (performance, SEO, bundle size)
+                    </code></pre>
+                </div>
+            </section>
+
+            <!-- Sub-section: BEM -->
+            <section class="sub-section animate-on-scroll" id="bem">
+                <h2>
+                    Convenci&oacute;n BEM: Block Element Modifier
+                    <a href="#bem" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>BEM</strong> (Block Element Modifier) es una convenci&oacute;n de nomenclatura para clases CSS creada por Yandex (el &quot;Google ruso&quot;). Su objetivo es hacer que los nombres de las clases sean autoexplicativos, predecibles y &uacute;nicos, evitando la <strong>especificidad ca&oacute;tica</strong> que genera anidar selectores sin control. La premisa es simple: cada clase tiene un prop&oacute;sito claro y no depende de su posici&oacute;n en el DOM. BEM divide las clases en tres categor&iacute;as:
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            Conceptos BEM
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-plaintext">
+/* BLOQUE: componente independiente y reutilizable */
+.card { }                    /* El bloque: una tarjeta */
+.button { }                  /* El bloque: un bot&oacute;n */
+.navbar { }                  /* El bloque: la barra de navegaci&oacute;n */
+
+/* ELEMENTO: parte interna del bloque, separada con __ (doble guion bajo) */
+.card__title { }             /* El t&iacute;tulo dentro de una card */
+.card__body { }              /* El cuerpo dentro de una card */
+.card__image { }             /* La imagen dentro de una card */
+.navbar__link { }            /* Un link dentro de la navbar */
+.navbar__logo { }            /* El logo dentro de la navbar */
+
+/* MODIFIER: variante o estado del bloque/elemento, separada con -- (doble guion medio) */
+.card--featured { }          /* Una card en estado &quot;destacado&quot; */
+.card--dark { }              /* Una card con variante oscura */
+.button--primary { }          /* Un bot&oacute;n de variante primaria */
+.button--large { }           /* Un bot&oacute;n de variante grande */
+.card__title--uppercase { }  /* El t&iacute;tulo en variante may&uacute;sculas */
+                    </code></pre>
+                </div>
+
+                <p>
+                    La clave de BEM es que <strong>nunca anidas selectores</strong>. Cada regla CSS vive al nivel ra&iacute;z (o a lo sumo dentro de un solo nivel de anidamiento para temas o scopes), y la relaci&oacute;n entre block, element y modifier se expresa a trav&eacute;s del nombre de la clase, no de la estructura del DOM. Esto significa que <code>.card__title</code> funciona correctamente sin importar si est&aacute; dentro de un <code>.card</code> o de un <code>.article</code>, porque el nombre de la clase ya describe su contexto. Esto elimina los conflictos de nombres y hace que el CSS sea plano, predecible y f&aacute;cil de mantener.
+                </p>
+
+                <h3>BEM en pr&aacute;ctica</h3>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Bloque: .user-card --&gt;
+&lt;article class="user-card user-card--featured"&gt;
+    &lt;img class="user-card__avatar" src="foto.jpg" alt="Avatar"&gt;
+    &lt;div class="user-card__info"&gt;
+        &lt;h3 class="user-card__name"&gt;Mar&iacute;a Gonz&aacute;lez&lt;/h3&gt;
+        &lt;p class="user-card__role user-card__role--admin"&gt;Admin&lt;/p&gt;
+        &lt;p class="user-card__bio"&gt;Desarrolladora frontend en Acme Corp&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="user-card__actions"&gt;
+        &lt;button class="button button--primary"&gt;Seguir&lt;/button&gt;
+        &lt;button class="button button--outline"&gt;Mensaje&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Block */
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+/* Modifier */
+.user-card--featured {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 1px var(--accent-blue);
+}
+
+/* Elements */
+.user-card__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-card__name {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.user-card__role {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin: var(--space-1) 0;
+}
+
+/* Element + Modifier */
+.user-card__role--admin {
+    color: var(--accent-purple);
+    font-weight: var(--font-weight-semibold);
+}
+
+.user-card__bio {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: var(--space-2) 0 0;
+}</code></pre>
+                </div>
+
+                <h3>Cu&aacute;ndo (y cu&aacute;ndo no) usar BEM</h3>
+
+                <p>
+                    BEM brilla en proyectos de tama&ntilde;o mediano a grande, donde m&uacute;ltiples personas trabajan en el mismo CSS o donde el proyecto va a crecer significativamente. En proyectos peque&ntilde;os o prototipos r&aacute;pidos, la verbosity de BEM puede sentirse excesiva. Tambi&eacute;n, si us&aacute;s un framework utility-first como Tailwind CSS, BEM tiene menos sentido porque las clases utilitarias ya evitan la necesidad de nombres sem&aacute;nticos personalizados. Lo importante es <strong>ser consistente</strong>: eleg&iacute; una convenci&oacute;n y aplicala en todo el proyecto. Mezclar BEM con nombres inventados al azar es peor que no usar ninguna convenci&oacute;n.
+                </p>
+
+                <div class="callout callout-danger">
+                    <div class="callout-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Error com&uacute;n:</strong> Anidar elementos de BEM. Escribir <code>.card .card__title</code> rompe el prop&oacute;sito de BEM (depender del DOM). Lo correcto es usar solo <code>.card__title</code>. Si necesit&aacute;s un scope, us&aacute; CSS nesting moderno: <code>.card { &amp;__title { ... } }</code>, que compila exactamente a <code>.card__title</code>.
+                    </div>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Convenci&oacute;n</th>
+                            <th>Ejemplo</th>
+                            <th>Pros</th>
+                            <th>Contras</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BEM</strong></td>
+                            <td><code>.card__title--large</code></td>
+                            <td>Autoexplicativo, sin anidamiento, escalable</td>
+                            <td>Verboso, nombres largos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Utility-first</strong></td>
+                            <td><code>flex items-center gap-4 p-4</code></td>
+                            <td>R&aacute;pido, sin inventar nombres, consistente</td>
+                            <td>HTML verboso, dif&iacute;cil de leer, acoplado al layout</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SMACSS</strong></td>
+                            <td><code>.layout-sidebar</code>, <code>.is-active</code></td>
+                            <td>Categor&iacute;as claras (base, layout, module, state)</td>
+                            <td>M&aacute;s conceptual, menos prescriptivo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CamelCase</strong></td>
+                            <td><code>.userCard</code>, <code>.btnPrimary</code></td>
+                            <td>Corto, familiar para devs JS</td>
+                            <td>Conflicto potencial con JS classes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: Mobile-First -->
+            <section class="sub-section animate-on-scroll" id="mobile-first">
+                <h2>
+                    Dise&ntilde;o Mobile-First
+                    <a href="#mobile-first" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>Mobile-first</strong> es una filosof&iacute;a de desarrollo que consiste en escribir primero los estilos para la versi&oacute;n m&oacute;vil (pantallas peque&ntilde;as) y luego usar <code>min-width</code> media queries para ir agregando complejidad a medida que el viewport crece. Es lo opuesto a <strong>desktop-first</strong>, donde empez&aacute;s con la versi&oacute;n de escritorio y us&aacute;s <code>max-width</code> para &quot;achicar&quot; cosas en pantallas menores. Mobile-first no es solo una t&eacute;cnica CSS: es un cambio de mentalidad. Obliga a priorizar el contenido esencial, a pensar en la UX en condiciones restrictivas (pantalla chica, touch, conexi&oacute;n lenta) y a agregar funcionalidad progresivamente en lugar de quitarla.
+                </p>
+
+                <p>
+                    La raz&oacute;n principal para usar mobile-first es que <strong>los estilos base (sin media queries) se aplican a todos los dispositivos</strong>. Si empez&aacute;s con mobile, esos estilos base son los m&iacute;nimos necesarios para que la p&aacute;gina funcione. Luego, las media queries con <code>min-width</code> solo agregan o modifican lo que hace falta para pantallas m&aacute;s grandes. Si hac&eacute;s desktop-first, los estilos base son para escritorio, y necesit&aacute;s <strong>m&aacute;s media queries</strong> para &quot;corregir&quot; todo en m&oacute;viles, lo que genera m&aacute;s c&oacute;digo y m&aacute;s puntos de falla. Estad&iacute;sticamente, m&aacute;s de la mitad del tr&aacute;fico web mundial viene desde dispositivos m&oacute;viles, as&iacute; que tiene sentido empezar por all&iacute;.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS (Mobile-First)
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* === BASE: M&oacute;vil (sin media query) === */
+.container {
+    width: 100%;
+    padding: 0 var(--space-4);
+}
+
+.grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr; /* 1 columna en m&oacute;vil */
+}
+
+.hero {
+    padding: var(--space-6) 0;
+    text-align: center;
+}
+
+.hero__title {
+    font-size: var(--font-size-xl); /* Tama&ntilde;o m&oacute;vil */
+}
+
+.nav {
+    flex-direction: column; /* Stack vertical en m&oacute;vil */
+    gap: var(--space-2);
+}
+
+/* === TABLET: min-width 768px === */
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    }
+
+    .hero__title {
+        font-size: var(--font-size-2xl); /* M&aacute;s grande en tablet */
+    }
+
+    .nav {
+        flex-direction: row; /* Horizontal en tablet+ */
+    }
+}
+
+/* === DESKTOP: min-width 1024px === */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1200px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+    }
+
+    .hero__title {
+        font-size: var(--font-size-3xl); /* M&aacute;s grande en desktop */
+    }
+}
+
+/* === WIDE: min-width 1440px === */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+}</code></pre>
+                </div>
+
+                <h3>Progressive Enhancement vs. Graceful Degradation</h3>
+
+                <p>
+                    Mobile-first est&aacute; alineado con el concepto de <strong>Progressive Enhancement</strong> (mejora progresiva): empez&aacute;s con una experiencia b&aacute;sica que funciona para todos (incluso navegadores antiguos o conexiones lentas) y vas agregando funcionalidades y estilos avanzados para navegadores y dispositivos m&aacute;s capaces. Es lo opuesto a <strong>Graceful Degradation</strong> (degradaci&oacute;n elegante), donde empez&aacute;s con la versi&oacute;n completa (desktop) y vas quitando cosas para que funcione en dispositivos menores. Progressive Enhancement es generalmente considerado superior porque garantiza una experiencia funcional para todos, mientras que Graceful Degradation a menudo deja la experiencia m&oacute;vil como un &quot;afterthought&quot;.
+                </p>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Tip:</strong> Us&aacute; <code>min-width</code> para media queries mobile-first y <code>max-width</code> solo para casos excepcionales (por ejemplo, para corregir un bug espec&iacute;fico en un rango de viewport). Mant&eacute;n tus media queries organizadas de menor a mayor breakpoint para que el flujo de lectura sea natural.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Breakpoints -->
+            <section class="sub-section animate-on-scroll" id="breakpoints">
+                <h2>
+                    Estrategia de Breakpoints
+                    <a href="#breakpoints" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Los <strong>breakpoints</strong> son los puntos de corte donde el layout de tu p&aacute;gina cambia para adaptarse a un tama&ntilde;o de pantalla diferente. No son un n&uacute;mero m&aacute;gico: deber&iacute;an definirse en funci&oacute;n del <em>contenido</em>, no de los dispositivos espec&iacute;ficos. Un error com&uacute;n es usar breakpoints fijos como &quot;320px para iPhone&quot; o &quot;768px para iPad&quot;, lo que genera un layout fr&aacute;gil que se rompe en dispositivos con resoluciones intermedias. La estrategia correcta es: <strong>el contenido define los breakpoints</strong>. Agreg&aacute; un breakpoint cuando el dise&ntilde;o actual deja de verse bien, no cuando cambia el nombre del dispositivo.
+                </p>
+
+                <p>
+                    Dicho esto, existen breakpoints <em>comunes</em> que funcionan como punto de partida en la mayor&iacute;a de los proyectos. Estos valores no son universalmente correctos, pero son un buen default hasta que tu contenido te diga lo contrario. Lo importante es que los definas como <strong>CSS custom properties</strong> para mantenerlos centralizados y f&aacute;ciles de modificar.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* === Breakpoints como Custom Properties === */
+:root {
+    /* Breakpoints (valores de referencia, no reglas estrictas) */
+    --bp-sm: 640px;    /* Small: tel&eacute;fonos grandes / landscape */
+    --bp-md: 768px;    /* Medium: tablets portrait */
+    --bp-lg: 1024px;   /* Large: tablets landscape / laptops */
+    --bp-xl: 1280px;   /* XL: desktops est&aacute;ndar */
+    --bp-2xl: 1536px;  /* 2XL: desktops grandes */
+}
+
+/* Nota: Las custom properties NO funcionan dentro de @media.
+   Us&aacute; los valores directamente o define los breakpoints
+   con un preprocesador/mixin. */
+
+/* Breakpoints directos (m&aacute;s pr&aacute;ctico) */
+@media (min-width: 640px) { /* sm */ }
+@media (min-width: 768px) { /* md */ }
+@media (min-width: 1024px) { /* lg */ }
+@media (min-width: 1280px) { /* xl */ }
+@media (min-width: 1536px) { /* 2xl */ }</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Breakpoint</th>
+                            <th>Valor</th>
+                            <th>Dispositivos t&iacute;picos</th>
+                            <th>Columnas Grid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Base (mobile)</strong></td>
+                            <td><code>0 &ndash; 639px</code></td>
+                            <td>Tel&eacute;fonos portrait</td>
+                            <td>1 columna</td>
+                        </tr>
+                        <tr>
+                            <td><strong>sm</strong></td>
+                            <td><code>640px+</code></td>
+                            <td>Tel&eacute;fonos landscape, phablets</td>
+                            <td>1-2 columnas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>md</strong></td>
+                            <td><code>768px+</code></td>
+                            <td>Tablets portrait, iPads</td>
+                            <td>2 columnas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>lg</strong></td>
+                            <td><code>1024px+</code></td>
+                            <td>Tablets landscape, laptops</td>
+                            <td>3 columnas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>xl</strong></td>
+                            <td><code>1280px+</code></td>
+                            <td>Desktops est&aacute;ndar</td>
+                            <td>3-4 columnas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2xl</strong></td>
+                            <td><code>1536px+</code></td>
+                            <td>Desktops grandes, monitores externos</td>
+                            <td>4+ columnas</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Content-based breakpoints</h3>
+
+                <p>
+                    La mejor estrategia es <strong>no definir breakpoints por adelantado</strong>, sino ir ajust&aacute;ndolos mientras maquet&aacute;s. Redimension&aacute; el navegador y cuando un elemento se vea mal (texto truncado, im&aacute;genes desproporcionadas, demasiado espacio vac&iacute;o), ah&iacute; agreg&aacute; un breakpoint. Esto genera breakpoints &uacute;nicos para cada proyecto, m&aacute;s org&aacute;nicos y menos fr&aacute;giles. Por ejemplo, en vez de un breakpoint gen&eacute;rico de 768px, podr&iacute;as terminar con uno en 850px porque es exactamente donde tu sidebar colapsa bien. La regla: <em>los breakpoints nacen del contenido, no del dispositivo</em>.
+                </p>
+
+                <h3>Container queries: el futuro</h3>
+
+                <p>
+                    Los <strong>Container Queries</strong> (<code>@container</code>) son una funcionalidad relativamente nueva que permite que un componente responda al tama&ntilde;o de su contenedor padre, no al viewport. Esto resuelve un problema fundamental de las media queries: un componente como una card deber&iacute;a verse diferente si est&aacute; en un sidebar estrecho vs. en el contenido principal, sin importar el tama&ntilde;o de la pantalla. Con <code>@container</code>, el componente se adapta a su contexto, lo que lo hace mucho m&aacute;s reutilizable. El soporte de navegadores es excelente a partir de 2023-2024 (Chrome, Firefox, Safari todos lo soportan), as&iacute; que ya es viable usarlo en producci&oacute;n.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Definir el contenedor */
+.card-wrapper {
+    container-type: inline-size;
+    container-name: card-container;
+}
+
+/* El componente responde al tama&ntilde;o de SU contenedor */
+@container card-container (min-width: 400px) {
+    .card {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: var(--space-4);
+    }
+
+    .card__image {
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+/* Si el contenedor es chico, layout vertical */
+@container card-container (max-width: 399px) {
+    .card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card__image {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Sub-section: Atomic Design -->
+            <section class="sub-section animate-on-scroll" id="atomic-design">
+                <h2>
+                    Componentes At&oacute;micos: Atoms &rarr; Molecules &rarr; Organisms
+                    <a href="#atomic-design" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>Atomic Design</strong>, creado por Brad Frost, es una metodolog&iacute;a para construir interfaces descomponi&eacute;ndolas en sus partes m&aacute;s peque&ntilde;as y recomponi&eacute;ndolas jer&aacute;rquicamente. La analog&iacute;a es con la qu&iacute;mica: los &aacute;tomos se combinan para formar mol&eacute;culas, las mol&eacute;culas se combinan para formar organismos, y los organismos se combinan para formar templates y p&aacute;ginas. Esta metodolog&iacute;a no depende de ninguna tecnolog&iacute;a espec&iacute;fica (funciona igual con HTML/CSS vanilla, con React, con Vue, con lo que sea) y su valor principal es <strong>forzarte a pensar en reutilizaci&oacute;n</strong> desde el inicio.
+                </p>
+
+                <h3>Los 5 niveles de Atomic Design</h3>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Nivel</th>
+                            <th>Definici&oacute;n</th>
+                            <th>Ejemplos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Atoms</strong></td>
+                            <td>Los bloques de construcci&oacute;n m&aacute;s peque&ntilde;os. No se pueden descomponer m&aacute;s.</td>
+                            <td>Bot&oacute;n, input, label, icono, color, tipograf&iacute;a</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Molecules</strong></td>
+                            <td>Grupos de atoms que funcionan juntos como una unidad.</td>
+                            <td>Search bar (input + bot&oacute;n), card header (img + t&iacute;tulo), tag (icono + texto)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Organisms</strong></td>
+                            <td>Componentes complejos formados por molecules y atoms.</td>
+                            <td>Navbar, hero section, card list, footer, comment section</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Templates</strong></td>
+                            <td>La estructura de la p&aacute;gina con componentes placeholder.</td>
+                            <td>Layout de blog (header + sidebar + content + footer)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pages</strong></td>
+                            <td>Templates con contenido real y datos espec&iacute;ficos.</td>
+                            <td>Home page, art&iacute;culo individual, perfil de usuario</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Ejemplo pr&aacute;ctico: una card de producto</h3>
+
+                <p>
+                    Una card de producto en un e-commerce es un ejemplo perfecto de c&oacute;mo funcionan los niveles de Atomic Design. El <strong>bot&oacute;n &quot;Comprar&quot;</strong> es un <em>atom</em>. La <strong>estrella de rating</strong> es otro <em>atom</em>. El <strong>precio con formato</strong> es un <em>atom</em>. Cuando combin&aacute;s la imagen del producto + el t&iacute;tulo + el precio, ten&eacute;s una <em>molecule</em> (el cuerpo de la card). Cuando le agreg&aacute;s el bot&oacute;n de compra + las estrellas de rating + el badge de descuento, ten&eacute;s un <em>organism</em> (la card completa). Varias cards juntas en un grid forman parte de un <em>template</em> de categor&iacute;a de productos, y la p&aacute;gina final con el header, el grid de cards y el footer es una <em>page</em>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- ATOMS: componentes indivisibles --&gt;
+&lt;!-- Usados dentro de la card pero tambi&eacute;n en otras partes --&gt;
+
+&lt;!-- Molecule: product-card__body (img + title + price) --&gt;
+&lt;div class="product-card__body"&gt;
+    &lt;img class="product-card__image" src="product.jpg" alt="Producto"&gt;
+    &lt;h3 class="product-card__title"&gt;Auriculares Bluetooth&lt;/h3&gt;
+    &lt;span class="product-card__price"&gt;$4.999&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Molecule: product-card__rating (stars + count) --&gt;
+&lt;div class="product-card__rating"&gt;
+    &lt;div class="stars"&gt;&#9733;&#9733;&#9733;&#9733;&#9734;&lt;/div&gt;
+    &lt;span class="rating__count"&gt;(127 rese&ntilde;as)&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- ORGANISM: product-card completa --&gt;
+&lt;article class="product-card product-card--sale"&gt;
+    &lt;span class="product-card__badge"&gt;-30%&lt;/span&gt;
+    &lt;div class="product-card__body"&gt;
+        &lt;img class="product-card__image" src="product.jpg" alt="Producto"&gt;
+        &lt;h3 class="product-card__title"&gt;Auriculares Bluetooth&lt;/h3&gt;
+        &lt;span class="product-card__price"&gt;$4.999&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="product-card__rating"&gt;
+        &lt;div class="stars"&gt;&#9733;&#9733;&#9733;&#9733;&#9734;&lt;/div&gt;
+        &lt;span class="rating__count"&gt;(127 rese&ntilde;as)&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;button class="button button--primary product-card__cta"&gt;
+        Agregar al carrito
+    &lt;/button&gt;
+&lt;/article&gt;</code></pre>
+                </div>
+
+                <h3>Organizaci&oacute;n de archivos con Atomic Design</h3>
+
+                <p>
+                    Una de las ventajas pr&aacute;cticas de Atomic Design es que sugiere una estructura de carpetas l&oacute;gica que escala bien. En proyectos grandes, cada nivel puede tener su propia carpeta con archivos CSS (o componentes, si us&aacute;s un framework JS). Esto hace f&aacute;cil encontrar d&oacute;nde est&aacute;n definidos los estilos de un componente y evita archivos gigantes de miles de l&iacute;neas que nadie se anima a tocar.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            Estructura sugerida
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-plaintext">
+css/
+&circ;&circ;&mdash; atoms/
+&circ;&mdash;&mdash; button.css
+&circ;&mdash;&mdash; input.css
+&circ;&mdash;&mdash; badge.css
+&circ;&mdash;&mdash; icon.css
+&circ;&mdash; molecules/
+&circ;&mdash;&mdash; search-bar.css
+&circ;&mdash;&mdash; card-body.css
+&circ;&mdash;&mdash; price-tag.css
+&circ;&mdash; organisms/
+&circ;&mdash;&mdash; navbar.css
+&circ;&mdash;&mdash; card.css
+&circ;&mdash;&mdash; hero.css
+&circ;&mdash;&mdash; footer.css
+&circ;&mdash; templates/
+&circ;&mdash;&mdash; blog-layout.css
+&circ;&mdash;&mdash; dashboard-layout.css
+&circ;&mdash; globals.css  (reset, variables, tipograf&iacute;a base)
+                    </code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    </div>
+                    <div class="callout-content">
+                        <strong>No seas dogm&aacute;tico:</strong> Si un componente es claramente un molecule pero se usa solo una vez, no lo sobre-ingenier&iacutes;es. Atomic Design es una gu&iacute;a, no una ley. Lo importante es que pienses en t&eacute;rminos de componentes reutilizables y que tu c&oacute;digo sea f&aacute;cil de mantener.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Herramientas -->
+            <section class="sub-section animate-on-scroll" id="herramientas">
+                <h2>
+                    Herramientas Esenciales
+                    <a href="#herramientas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Conocer las herramientas correctas puede marcar una diferencia enorme en tu productividad y en la calidad de tu maquetaci&oacute;n. No se trata de usar todas las herramientas disponibles, sino de tener un set b&aacute;sico que cubra las necesidades principales: inspeccionar dise&ntilde;os, medir distancias, probar responsividad, depurar CSS y automatizar tareas repetitivas. Ac&aacute; van las herramientas que todo maquetador frontend deber&iacute;a conocer y dominar, desde las m&aacute;s b&aacute;sicas hasta las m&aacute;s avanzadas.
+                </p>
+
+                <h3>De Figma a C&oacute;digo</h3>
+
+                <p>
+                    <strong>Figma</strong> es el est&aacute;ndar de la industria para dise&ntilde;o UI y tu fuente principal de &quot;verdad visual&quot; cuando maquet&aacute;s. La clave es aprender a usarlo eficientemente como desarrollador, no como dise&ntilde;ador. Las funciones m&aacute;s &uacute;tiles para devs son: <strong>inspeccionar propiedades</strong> (click derecho en un elemento &rarr; &quot;Copy as CSS&quot; para obtener spacing, colors, fonts), <strong>medir distancias</strong> (mantener Alt/Opt y hover sobre otro elemento para ver la distancia en p&iacute;xeles), <strong>exportar assets</strong> (click en un asset &rarr; Export &rarr; elegir formato y escala), y <strong>navegar el prototipo</strong> (para entender el flujo de interacci&oacute;n). Figma tambi&eacute;n tiene plugins que generan c&oacute;digo autom&aacute;ticamente (como Anima, Locofy), pero la calidad del c&oacute;digo generado suele ser mediocre&mdash;es mejor usarlos como referencia y escribir el c&oacute;digo t&uacute; mismo.
+                </p>
+
+                <h3>Chrome DevTools</h3>
+
+                <p>
+                    Las <strong>DevTools</strong> del navegador (accesibles con <kbd>F12</kbd> o <kbd>Ctrl+Shift+I</kbd>) son tu mejor amigo durante la maquetaci&oacute;n. La pesta&ntilde;a <strong>Elements</strong> te permite inspeccionar y modificar el HTML y CSS en tiempo real, ver qu&eacute; reglas se aplican a cada elemento, entender la cascada y la especificidad, y probar cambios r&aacute;pidamente sin tocar los archivos. La pesta&ntilde;a <strong>Device Toolbar</strong> (icono de celu en la esquina superior izquierda) simula diferentes viewports para testear responsividad. La pesta&ntilde;a <strong>Layout</strong> muestra visualmente los m&aacute;rgenes, paddings, borders y Grid/Flexbox overlays del elemento seleccionado, lo que es invaluable para debuggear problemas de layout.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            DevTools: atajos esenciales
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                    <pre><code class="language-plaintext">
+Ctrl + Shift + C        &rarr; Seleccionar elemento haciendo click en la p&aacute;gina
+Ctrl + Shift + M        &rarr; Toggle Device Toolbar (modo responsive)
+H                       &rarr; Ocultar/mostrar el elemento seleccionado
+F                       &rarr; Toggle Flexbox/Grid overlay del contenedor
+Ctrl + Shift + I        &rarr; Abrir DevTools
+Ctrl + [                &rarr; Colapsar el nodo seleccionado en el panel Elements
+Ctrl + Shift + C        &rarr; Modo selector (click para inspeccionar)
+Tab                     &rarr; Navegar al siguiente atributo/propiedad editable
+Esc                     &rarr; Mostrar/ocultar Console drawer
+Ctrl + Shift + D        &rarr; Dock DevTools en ventana separada</code></pre>
+                </div>
+
+                <h3>Grid Overlays y Debugging</h3>
+
+                <p>
+                    Ver el grid invisible es crucial para debuggear layouts CSS. Los navegadores modernos tienen <strong>Grid overlays</strong> integrados en las DevTools: en Chrome, seleccion&aacute; un contenedor Grid, y ver&aacute;s opciones como &quot;Grid&quot; y &quot;Gap&quot; en el panel Layout. Firefox lleva esto a&uacute;n m&aacute;s lejos con su <strong>Grid Inspector</strong>, que muestra n&uacute;meros de l&iacute;neas, &aacute;reas de grid nombradas y overlay de gaps coloreados. Para Flexbox, el <strong>Flexbox inspector</strong> (disponible en Chrome y Firefox) muestra los ejes principales/cruzados, el justify-content y el align-items visualmente. Si necesit&aacute;s algo m&aacute;s visual y permanente, extensiones como <strong>CSS Peeper</strong> o <strong>WhatFont</strong> te permiten inspeccionar los estilos de cualquier website sin abrir DevTools.
+                </p>
+
+                <h3>Herramientas de medicci&oacute;n y alineaci&oacute;n</h3>
+
+                <p>
+                    Para verificar que tu maquetaci&oacute;n coincida con el dise&ntilde;o, necesitas poder medir distancias con precisi&oacute;n. Dentro de Figma, las distancias se muestran autom&aacute;ticamente cuando mant&eacute;s <kbd>Alt</kbd>/<kbd>Opt</kbd> y hover sobre elementos. En el navegador, las DevTools muestran las dimensiones y espaciados del elemento seleccionado. Para mediciones m&aacute;s flexibles, extensiones como <strong>PerfectPixel</strong> te permiten superponer una imagen del dise&ntilde;o exportada desde Figma sobre tu p&aacute;gina y comparar p&iacute;xel por p&iacute;xel. <strong>Page Ruler</strong> es otra extensi&oacute;n que funciona como una regla virtual sobre la p&aacute;gina para medir distancias entre cualquier par de puntos.
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Herramienta</th>
+                            <th>Tipo</th>
+                            <th>Para qu&eacute; sirve</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Figma</strong></td>
+                            <td>Web / Desktop</td>
+                            <td>Dise&ntilde;o fuente, inspecci&oacute;n de props, medici&oacute;n de distancias, exportar assets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chrome DevTools</strong></td>
+                            <td>Integrada</td>
+                            <td>Inspeccionar/editar HTML+CSS en vivo, responsive testing, Grid/Flexbox overlays</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firefox DevTools</strong></td>
+                            <td>Integrada</td>
+                            <td>Mejor Grid Inspector, CSS Grid highlighting, font debugging</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PerfectPixel</strong></td>
+                            <td>Extensi&oacute;n Chrome</td>
+                            <td>Superponer imagen de dise&ntilde;o sobre la p&aacute;gina para comparar pixel-perfect</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Page Ruler Redux</strong></td>
+                            <td>Extensi&oacute;n Chrome</td>
+                            <td>Regla virtual para medir distancias en la p&aacute;gina</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Responsively App</strong></td>
+                            <td>Desktop</td>
+                            <td>Vista simult&aacute;nea de m&uacute;ltiples viewports (m&oacute;vil, tablet, desktop)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BrowserStack / LambdaTest</strong></td>
+                            <td>Web (SaaS)</td>
+                            <td>Test en navegadores y dispositivos reales sin tenerlos f&iacute;sicamente</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CSS Peeper</strong></td>
+                            <td>Extensi&oacute;n Chrome</td>
+                            <td>Inspecci&oacute;n r&aacute;pida de estilos sin abrir DevTools</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Preview en m&uacute;ltiples dispositivos</h3>
+
+                <p>
+                    Para testear responsividad, no alcanza con el Device Toolbar de Chrome. Las simulaciones de navegador pueden no reflejar exactamente c&oacute;mo se ve tu sitio en un dispositivo real (por diferencias en pixel ratio, rendering engine, comportamientos de scroll nativos). Las opciones van desde <strong>Responsively App</strong> (una app desktop que muestra tu sitio en m&uacute;ltiples viewports simult&aacute;neamente y sincroniza scroll/click entre ellos) hasta <strong>Chrome DevTools Device Pairing</strong> (conect&aacute;s tu tel&eacute;fono real via USB y us&aacute;s DevTools de Chrome desktop para inspeccionar lo que se ve en tu celu). Para cobertura total de navegadores, servicios como <strong>BrowserStack</strong> o <strong>LambdaTest</strong> te dan acceso a m&aacute;quinas virtuales con cualquier combinaci&oacute;n de OS + navegador, &uacute;til especialmente para verificar bugs en Safari/IE/Edge antiguos.
+                </p>
+
+                <div class="callout callout-tip">
+                    <div class="callout-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    </div>
+                    <div class="callout-content">
+                        <strong>Flujo profesional de maquetaci&oacute;n:</strong> Abr&iacute; Figma + tu editor + el navegador uno al lado del otro. Inspeccion&aacute; en Figma lo que necesit&aacute;s medir, escrib&iacute; el c&oacute;digo en el editor, y verific&aacute; el resultado en el navegador con DevTools abiertas. Iter&aacute; r&aacute;pidamente entre estas tres ventanas. Si ten&eacute;s un monitor grande o dos monitores, es el setup ideal.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Buenas Prácticas -->
+            <section class="sub-section animate-on-scroll" id="buenas-practicas">
+                <h2>
+                    Buenas Pr&aacute;cticas de Maquetaci&oacute;n
+                    <a href="#buenas-practicas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Despu&eacute;s de cubrir las metodolog&iacute;as y herramientas, vale la pena consolidar las buenas pr&aacute;cticas que separan a una maquetaci&oacute;n profesional de un c&oacute;digo chapucero. Estas recomendaciones se acumulan con la experiencia y son el resultado de a&ntilde;os de lecciones aprendidas por la comunidad de desarrollo frontend. No todas aplican a todo proyecto, pero como reglas generales te van a ahorrar dolores de cabeza significativos.
+                </p>
+
+                <h3>Sem&aacute;ntica sobre divitis</h3>
+
+                <p>
+                    Us&aacute; HTML sem&aacute;ntico (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code>) en lugar de envolver todo en <code>&lt;div&gt;</code>. La sem&aacute;ntica no solo mejora la accesibilidad (screen readers usan las etiquetas para navegar) y el SEO (los motores de b&uacute;squeda entienden mejor la estructura), sino que tambi&eacute;n hace tu c&oacute;digo m&aacute;s legible y autoexplicativo. La regla: si un <code>&lt;div&gt;</code> puede ser reemplazado por una etiqueta sem&aacute;ntica con el mismo efecto visual, us&aacute; la etiqueta sem&aacute;ntica. Solo us&aacute; <code>&lt;div&gt;</code> y <code>&lt;span&gt;</code> como &uacute;ltimo recurso, cuando no existe una etiqueta m&aacute;s apropiada.
+                </p>
+
+                <h3>Evita el posicionamiento absoluto para layout</h3>
+
+                <p>
+                    <code>position: absolute</code> y <code>position: fixed</code> deber&iacute;an usarse para casos espec&iacute;ficos (tooltips, modales, badges, decorative elements), no para construir el layout general de la p&aacute;gina. Un layout basado en posiciones absolutas es fr&aacute;gil, no fluye con el contenido y es pr&aacute;cticamente imposible de hacer responsive. Flexbox y Grid cubren el 99% de las necesidades de layout y manejan el flujo de contenido de forma natural. Si te encontr&aacute;s usando mucho <code>position: absolute</code> para organizar elementos, probablemente necesit&aacute;s repensar tu enfoque de layout.
+                </p>
+
+                <h3>Nunca uses <code>!important</code> como primera opci&oacute;n</h3>
+
+                <p>
+                    <code>!important</code> rompe la cascada natural de CSS y hace que el c&oacute;digo sea impredecible. Si necesit&aacute;s <code>!important</code>, es una se&ntilde;al de que la especificidad de tus selectores est&aacute; mal gestionada. Las &uacute;nicas excepciones leg&iacute;timas son: utility classes que deben ganar sobre todo (en frameworks utility-first), estilos de terceros que necesitas sobreescribir, y resets/overrides globales muy espec&iacute;ficos. En tu propio CSS, la soluci&oacute;n es usar selectores m&aacute;s espec&iacute;ficos o reestructurar las reglas para evitar el conflicto.
+                </p>
+
+                <h3>Mant&eacute;n tus media queries cerca del componente</h3>
+
+                <p>
+                    Hay dos escuelas: poner todas las media queries al final del archivo (f&aacute;cil de encontrar) o poner cada media query justo debajo del componente que modifica (f&aacute;cil de mantener). La segunda opci&oacute;n es generalmente mejor para proyectos grandes porque cuando edit&aacute;s un componente, todo lo relacionado est&aacute; junto. Si us&aacute;s CSS nativo sin preprocesador, esto significa que en el mismo archivo puedes tener el estilo base del componente seguido de sus media queries. Con Sass/LESS, pod&eacute;s usar el mixin <code>@include respond-to(md) { ... }</code> para mantener las media queries inline sin perder legibilidad.
+                </p>
+
+                <h3>Testea en viewports reales</h3>
+
+                <p>
+                    Las DevTools son geniales para un r&aacute;pido testeo, pero no reemplazan el testing en dispositivos reales. Cosas que pueden verse bien en la simulaci&oacute;n pero fallar en un dispositivo real incluyen: comportamientos de scroll (overscroll, bounce), teclado virtual que achica el viewport, hover states que no existen en touch, rendimiento de animaciones, y renderizado de fuentes. Si pod&eacute;s, ten&eacute; al menos un par de dispositivos f&iacute;sicos (un iPhone y un Android, preferentemente) para verificar antes de hacer deploy.
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Pr&aacute;ctica</th>
+                            <th>Por qu&eacute; importa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>HTML sem&aacute;ntico</strong></td>
+                            <td>Accesibilidad, SEO, legibilidad del c&oacute;digo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Variables CSS para tokens</strong></td>
+                            <td>Consistencia, theming f&aacute;cil, mantenimiento centralizado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Convenci&oacute;n de nombres consistente</strong></td>
+                            <td>Predecibilidad, menos conflictos, onboarding r&aacute;pido</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile-first</strong></td>
+                            <td>Menos media queries, mejor UX base, progressive enhancement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Componentes reutilizables</strong></td>
+                            <td>Menos duplicaci&oacute;n, consistencia visual, desarrollo m&aacute;s r&aacute;pido</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Evitar !important</strong></td>
+                            <td>Cascada predecible, c&oacute;digo mantenible</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Testear en dispositivos reales</strong></td>
+                            <td>Detectar bugs que la simulaci&oacute;n no muestra</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prefers-reduced-motion</strong></td>
+                            <td>Accesibilidad para usuarios con vestibular disorders</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Section Nav -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="css-animaciones.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Animaciones y Transiciones
+                </a>
+                <a href="js-basico.html" class="btn btn-secondary">
+                    JavaScript B&aacute;sico
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- JS -->
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
