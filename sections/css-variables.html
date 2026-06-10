@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables CSS — WebForge</title>
+    <meta name="description" content="Domina las Custom Properties de CSS: sintaxis, var(), fallbacks, temas din&aacute;micos dark/light, @property y manipulaci&oacute;n con JavaScript. La base de todo sistema de dise&ntilde;o mantenible.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Variables CSS</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Variables CSS</h1>
+                <p>Las Custom Properties (m&aacute;s conocidas como "variables CSS") son una de las caracter&iacute;sticas m&aacute;s poderosas del lenguaje. Permiten definir valores reutilizables que se propagan por cascada, se heredan entre elementos y se pueden modificar din&aacute;micamente con JavaScript. Son la columna vertebral de cualquier sistema de dise&ntilde;o moderno: sin variables, cambiar un color base en un proyecto de cientos de archivos CSS ser&iacute;a una pesadilla. Con ellas, un solo cambio en <code>:root</code> actualiza toda tu interfaz al instante.</p>
+            </div>
+
+            <!-- Sub-section: Custom Properties -->
+            <section class="sub-section animate-on-scroll" id="custom-properties">
+                <h2>
+                    Custom Properties (definici&oacute;n)
+                    <a href="#custom-properties" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Una custom property se define con el prefijo <code>--</code> seguido de un nombre descriptivo, y se le asigna un valor como cualquier otra propiedad CSS. La diferencia fundamental con las variables de preprocesadores (Sass <code>$var</code>, Less <code>@var</code>) es que las custom properties <strong>viven en el navegador</strong>: se eval&uacute;an en tiempo real, se heredan por cascada y pueden ser le&iacute;das o modificadas por JavaScript sin necesidad de recompilar nada. Adem&aacute;s, son sensibles a media queries, pseudo-clases y al estado de los elementos, algo imposible en preprocesadores.
+                </p>
+
+                <p>
+                    El lugar m&aacute;s com&uacute;n para definir variables globales es <code>:root</code>, que es el pseudo-elemento que representa el elemento ra&iacute;z del documento (<code>&lt;html&gt;</code>). Al definir las variables ah&iacute;, est&aacute;n disponibles para cualquier elemento del DOM, ya que todos heredan de <code>:root</code>. Sin embargo, tambi&eacute;n pod&eacute;s definir variables a nivel de componente (en una clase espec&iacute;fica) para crear variaciones locales que sobreescriben las globales, manteniendo la flexibilidad del sistema.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Definicion global: disponibles en todo el documento */
+:root {
+    /* Colores del sistema */
+    --color-primary: #3b82f6;
+    --color-secondary: #8b5cf6;
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+
+    /* Fondos */
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+
+    /* Texto */
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #484f58;
+
+    /* Tipografia */
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-heading: 'Space Grotesk', sans-serif;
+
+    /* Espaciado */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+
+    /* Bordes */
+    --border-radius: 8px;
+    --border-color: #30363d;
+
+    /* Sombras */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    /* Transiciones */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Variables locales: sobreescriben las globales para un componente */
+.card {
+    /* Este componente usa sus propias variables */
+    --card-padding: var(--space-lg);
+    --card-bg: var(--bg-secondary);
+    --card-border: var(--border-color);
+    --card-radius: var(--border-radius);
+
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+}
+
+/* Variaciones del mismo componente con solo cambiar variables */
+.card--highlight {
+    --card-bg: #1c2333;
+    --card-border: var(--color-primary);
+    /* Hereda todo lo demas de .card, solo sobreescribe lo necesario */
+}
+
+.card--compact {
+    --card-padding: var(--space-sm);
+    /* Misma card, pero mas compacta */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Nomenclatura recomendada</p>
+                        <p>No existe una convenci&oacute;n &uacute;nica para nombrar variables CSS, pero el patr&oacute;n m&aacute;s usado en la industria es <code>--categoria-elemento-modificador</code> (similar a BEM). Ejemplos: <code>--color-primary</code>, <code>--text-secondary</code>, <code>--space-lg</code>, <code>--border-radius-md</code>. Lo importante es ser consistente dentro de tu proyecto. Otra buena pr&aacute;ctica es organizar las variables por categor&iacute;a (colores, tipograf&iacute;a, espaciado, sombras) con comentarios claros, como se ve en el ejemplo de <code>:root</code> arriba.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: var() -->
+            <section class="sub-section animate-on-scroll" id="var-funcion">
+                <h2>
+                    La funci&oacute;n var()
+                    <a href="#var-funcion" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La funci&oacute;n <code>var()</code> es la forma de consumir (leer) una custom property. Recibe como primer argumento el nombre de la variable (con el prefijo <code>--</code>) y opcionalmente un segundo argumento que funciona como valor por defecto si la variable no est&aacute; definida. <code>var()</code> puede usarse en <strong>cualquier propiedad CSS</strong>&mdash;colores, dimensiones, fuentes, sombras, gradientes, incluso dentro de <code>calc()</code>. Esto la hace extremadamente vers&aacute;til: no est&aacute;s limitado a variables de color como en algunos frameworks, sino que puedes parameterizar pr&aacute;cticamente cualquier valor visual.
+                </p>
+
+                <p>
+                    Un detalle importante: <code>var()</code> no se puede usar dentro de los nombres de propiedades ni de selectores (para eso se necesita la funci&oacute;n <code>@property</code> o JS). Solo funciona en los <em>valores</em> de las propiedades. Tampoco pod&eacute;s hacer operaciones matem&aacute;ticas directamente dentro de <code>var()</code>&mdash;para eso us&aacute; <code>calc()</code> combinado con <code>var()</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Uso basico de var() */
+.btn {
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-sans);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-fast);
+}
+
+/* var() dentro de calc() */
+.sidebar {
+    width: calc(100% - var(--sidebar-width, 280px));
+    margin-left: var(--sidebar-width, 280px);
+}
+
+/* var() en gradientes */
+.hero {
+    background: linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-secondary)
+    );
+}
+
+/* var() en sombras */
+.card {
+    box-shadow: var(--shadow-md),
+                0 0 0 1px var(--border-color);
+}
+
+/* var() en media queries (esto funciona!) */
+.container {
+    padding: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .container {
+        /* Sobreescribis la variable solo en este contexto */
+        --container-padding: var(--space-xl);
+        padding: var(--container-padding);
+    }
+}</code></pre>
+                </div>
+
+                <h3>Fallbacks (valores por defecto)</h3>
+
+                <p>
+                    El segundo par&aacute;metro de <code>var()</code> es el fallback: el valor que se usar&aacute; si la variable no existe o est&aacute; inicializada con un valor inv&aacute;lido (como <code>initial</code> o un valor vac&iacute;o). Los fallbacks son esenciales cuando escribis CSS reutilizable (librer&iacute;as, componentes compartidos, design tokens) porque garantizan que tu componente funcione aunque el usuario no haya definido la variable. El fallback puede incluir a su vez otra llamada a <code>var()</code>, lo que permite crear cadenas de fallback encadenados.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Fallback basico: si --color-primary no existe, usa #3b82f6 */
+.btn {
+    background: var(--color-primary, #3b82f6);
+}
+
+/* Fallback con variable encadenada:
+   1ro intenta --component-bg, si no existe
+   intenta --bg-secondary, si no existe
+   usa #1a1a2e */
+.component {
+    background: var(--component-bg, var(--bg-secondary, #1a1a2e));
+}
+
+/* Fallback en shorthand con comas (separar con coma) */
+.text {
+    /* El fallback "1.5, sans-serif" se pasa completo
+       a la propiedad font */
+    font: var(--font-body, 1.5, sans-serif);
+}
+
+/* Detalle: si el fallback contiene comas, funciona bien
+   porque el parser de var() sabe que despues de la primer
+   coma viene el fallback */
+.element {
+    font-family: var(--font-stack, 'Inter', system-ui, sans-serif);
+}</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">var() no es un preprocesador</p>
+                        <p>A diferencia de las variables de Sass (<code>$var</code>) que se reemplazan en tiempo de compilaci&oacute;n, <code>var()</code> se eval&uacute;a en tiempo de ejecuci&oacute;n por el navegador. Esto significa que si cambias el valor de una variable en <code>:root</code> con JavaScript, <strong>todos los elementos que la usan se actualizan instant&aacute;neamente</strong> sin recargar la p&aacute;gina. Es lo que hace posible el theme switching, las animaciones de variables y los design tokens din&aacute;micos.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Cascada y herencia -->
+            <section class="sub-section animate-on-scroll" id="cascada-herencia">
+                <h2>
+                    Cascada, herencia y scope
+                    <a href="#cascada-herencia" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las custom properties siguen las mismas reglas de cascada y herencia que cualquier propiedad CSS. Si defin&iacute;s <code>--color: red</code> en un <code>.card</code>, todos los elementos hijos de esa card heredar&aacute;n <code>--color: red</code> a menos que sobreescribas la variable en un nivel m&aacute;s profundo. Esto es lo que se conoce como "scope" o &aacute;mbito: las variables definidas en un elemento son visibles para ese elemento y todos sus descendientes, exactamente igual que funciona la herencia de CSS.
+                </p>
+
+                <p>
+                    Esta caracter&iacute;stica es lo que permite crear componentes "tematizables" sin necesidad de clases extra. En lugar de crear <code>.card-blue</code>, <code>.card-green</code>, etc., defin&iacute;s las variables que controlan la apariencia del card y las sobreescrib&iacute;s en el wrapper padre. Cada instancia del componente puede tener su propio "theme" simplemente cambiando el valor de las variables CSS, sin tocar el CSS del componente en s&iacute;. Este patr&oacute;n se conoce como "theming por contenedor" y es extremadamente poderoso para sistemas de dise&ntilde;o escalables.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* El componente usa variables internas */
+.alert {
+    --alert-bg: var(--bg-secondary);
+    --alert-border: var(--border-color);
+    --alert-text: var(--text-primary);
+    --alert-icon-color: var(--text-secondary);
+
+    background: var(--alert-bg);
+    border-left: 4px solid var(--alert-border);
+    color: var(--alert-text);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--border-radius);
+}
+
+.alert .alert-icon {
+    color: var(--alert-icon-color);
+}
+
+/* Sobreescribis las variables en el padre: theming por contenedor */
+.alert--success {
+    --alert-bg: rgba(34, 197, 94, 0.1);
+    --alert-border: var(--color-success);
+    --alert-icon-color: var(--color-success);
+}
+
+.alert--warning {
+    --alert-bg: rgba(245, 158, 11, 0.1);
+    --alert-border: var(--color-warning);
+    --alert-icon-color: var(--color-warning);
+}
+
+.alert--danger {
+    --alert-bg: rgba(239, 68, 68, 0.1);
+    --alert-border: var(--color-danger);
+    --alert-icon-color: var(--color-danger);
+}
+
+/* Herencia en accion:
+   Todos los hijos de .theme-blue heredan estas variables */
+.theme-blue {
+    --accent: #3b82f6;
+    --accent-light: #60a5fa;
+    --accent-dark: #2563eb;
+}
+
+.theme-blue .btn {
+    /* .btn hereda --accent de .theme-blue */
+    background: var(--accent);
+}
+
+.theme-blue .link {
+    color: var(--accent-light);
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Caracter&iacute;stica</th>
+                            <th>Comportamiento</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Definidas en <code>:root</code></td>
+                            <td>Globales: disponibles en todo el documento.</td>
+                            <td><code>:root { --color: #fff; }</code></td>
+                        </tr>
+                        <tr>
+                            <td>Definidas en una clase</td>
+                            <td>Locales: solo visibles para el elemento y sus hijos.</td>
+                            <td><code>.card { --padding: 1rem; }</code></td>
+                        </tr>
+                        <tr>
+                            <td>Herencia</td>
+                            <td>Los hijos heredan las variables del padre (igual que <code>color</code> o <code>font-size</code>).</td>
+                            <td>Si <code>.card</code> define <code>--radius</code>, <code>.card .title</code> puede usarla.</td>
+                        </tr>
+                        <tr>
+                            <td>Sobrescritura</td>
+                            <td>Un valor m&aacute;s espec&iacute;fico (m&aacute;s profundo en el DOM) gana al m&aacute;s general.</td>
+                            <td><code>.card .btn { --color: red; }</code> sobreescribe el <code>--color</code> de <code>:root</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>initial</code></td>
+                            <td>Resetea la variable a su valor heredado, o la elimina si no existe en el scope.</td>
+                            <td><code>.override { --color: initial; }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>revert</code></td>
+                            <td>Revierte la variable al valor del stylesheet del navegador (user-agent).</td>
+                            <td><code>.reset { --color: revert; }</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: Theming -->
+            <section class="sub-section animate-on-scroll" id="theming">
+                <h2>
+                    Theming: dark / light mode
+                    <a href="#theming" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El caso de uso m&aacute;s popular de las variables CSS es el theming: poder cambiar la apariencia completa de una interfaz (colores, fondos, bordes, sombras) con un solo mecanismo. El patr&oacute;n cl&aacute;sico es definir las variables de un tema en <code>[data-theme="dark"]</code> y otro en <code>[data-theme="light"]</code> (o directamente en <code>:root</code> para uno y en <code>@media (prefers-color-scheme: light)</code> para el otro). Cuando cambi&aacute;s el atributo <code>data-theme</code> en el <code>&lt;html&gt;</code>, todas las variables se actualizan instant&aacute;neamente y la interfaz entera hace la transici&oacute;n sin recargar.
+                </p>
+
+                <p>
+                    Este patr&oacute;n es superior a tener dos archivos CSS separados (uno para dark, otro para light) porque evita la duplicaci&oacute;n de reglas: el CSS de tus componentes solo usa <code>var()</code>, y las variables son las &uacute;nicas que cambian entre temas. Tambi&eacute;n es superior a usar clases como <code>.dark .btn</code> porque no necesitas duplicar selectores ni mantener reglas paralelas. Todo se reduce a un &uacute;nico cambio de contexto.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   TEMA OSCURO (default)
+   ============================================ */
+:root,
+[data-theme="dark"] {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --border-color: #30363d;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   TEMA CLARO
+   ============================================ */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --bg-tertiary: #eaeef2;
+    --text-primary: #1f2328;
+    --text-secondary: #656d76;
+    --border-color: #d0d7de;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   RESPETA LA PREFERENCIA DEL SISTEMA OPERATIVO
+   ============================================ */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f6f8fa;
+        --bg-tertiary: #eaeef2;
+        --text-primary: #1f2328;
+        --text-secondary: #656d76;
+        --border-color: #d0d7de;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* ============================================
+   TRANSICION SUAVE ENTRE TEMAS
+   ============================================ */
+*,
+*::before,
+*::after {
+    transition: background-color var(--transition-normal),
+                color var(--transition-normal),
+                border-color var(--transition-normal),
+                box-shadow var(--transition-normal);
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-js">// Toggle de tema con JavaScript
+const html = document.documentElement;
+const themeToggle = document.getElementById('theme-toggle');
+
+// Recuperar tema guardado (o preferencia del sistema)
+function getPreferredTheme() {
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved;
+
+    return window.matchMedia('(prefers-color-scheme: dark)')
+        .matches ? 'dark' : 'light';
+}
+
+// Aplicar tema
+function setTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    themeToggle.textContent = theme === 'dark'
+        ? '\u2600\uFE0F'  // emoji sol
+        : '\uD83C\uDF19'; // emoji luna
+}
+
+// Inicializar
+setTheme(getPreferredTheme());
+
+// Toggle al hacer click
+themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+// Escuchar cambios en la preferencia del sistema
+window.matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Guard&aacute; la preferencia del usuario</p>
+                        <p>Siempre guard&aacute; el tema elegido en <code>localStorage</code> para que se mantenga entre sesiones. Pero tambi&eacute;n respeta la preferencia del sistema operativo con <code>prefers-color-scheme</code> como fallback si el usuario nunca eligi&oacute; un tema manualmente. La funci&oacute;n <code>getPreferredTheme()</code> del ejemplo arriba implementa exactamente esta l&oacute;gica: prioridad del usuario guardado &gt; preferencia del sistema &gt; dark como default.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: @property -->
+            <section class="sub-section animate-on-scroll" id="at-property">
+                <h2>
+                    @property: propiedades registradas
+                    <a href="#at-property" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    La regla <code>@property</code> (CSS Houdini) permite "registrar" una custom property con un tipo de dato, sintaxis y valor inicial. Esto parece un detalle menor, pero tiene una consecuencia enorme: <strong>permite animar variables CSS con <code>@keyframes</code> y <code>transition</code></strong>. Sin <code>@property</code>, el navegador trata todas las variables como cadenas de texto y no puede interpolar entre dos valores (por ejemplo, no sabe que <code>#ff0000</code> y <code>#0000ff</code> son colores para hacer un gradiente). Con <code>@property</code>, le dec&iacute;s al navegador "esta variable siempre es un color" y entonces s&iacute; puede calcular los valores intermedios.
+                </p>
+
+                <p>
+                    Las propiedades registradas con <code>@property</code> tambi&eacute;n se comportan mejor con <code>initial</code> y <code>inherit</code>, ya que tienen un valor por defecto definido. Esto evita el comportamiento silencioso de las custom properties no registradas, donde una variable no definida simplemente no aplica ning&uacute;n estilo. La compatibilidad actual es excelente en todos los navegadores modernos (Chrome, Edge, Firefox 128+, Safari 15.4+).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Registrar una variable de tipo color */
+@property --hue {
+    syntax: '&lt;number&gt;';
+    initial-value: 220;
+    inherits: false;
+}
+
+@property --glow-color {
+    syntax: '&lt;color&gt;';
+    initial-value: #3b82f6;
+    inherits: false;
+}
+
+@property --card-radius {
+    syntax: '&lt;length&gt;';
+    initial-value: 8px;
+    inherits: true;
+}
+
+/* ============================================
+   ANIMACION DE GRADIENTE con @property
+   Sin @property, esto NO funcionaria
+   ============================================ */
+@property --gradient-angle {
+    syntax: '&lt;angle&gt;';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.gradient-animated {
+    --gradient-angle: 0deg;
+    background: linear-gradient(
+        var(--gradient-angle),
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-primary)
+    );
+    background-size: 200% 200%;
+    animation: rotate-gradient 4s linear infinite;
+}
+
+@keyframes rotate-gradient {
+    to {
+        --gradient-angle: 360deg;
+    }
+}
+
+/* ============================================
+   ANIMACION DE COLOR con @property
+   ============================================ */
+@property --button-color {
+    syntax: '&lt;color&gt;';
+    initial-value: #3b82f6;
+    inherits: false;
+}
+
+.btn-animated {
+    --button-color: #3b82f6;
+    background: var(--button-color);
+    transition: --button-color 0.5s ease;
+}
+
+.btn-animated:hover {
+    --button-color: #8b5cf6;
+    /* El navegador interpola entre #3b82f6 y #8b5cf6
+       porque sabe que son colores gracias a @property */
+}
+
+/* ============================================
+   PROGRESS BAR con animacion de color
+   ============================================ */
+@property --progress-percent {
+    syntax: '&lt;percentage&gt;';
+    initial-value: 0%;
+    inherits: false;
+}
+
+.progress-bar {
+    width: var(--progress-percent);
+    height: 8px;
+    background: linear-gradient(90deg, #22c55e, #3b82f6);
+    border-radius: 4px;
+    animation: fill-bar 2s ease-out forwards;
+}
+
+@keyframes fill-bar {
+    to {
+        --progress-percent: 75%;
+    }
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Propiedad de @property</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>syntax</code></td>
+                            <td>El tipo de dato que acepta la variable. Define c&oacute;mo el navegador la interpreta y si puede animarse.</td>
+                            <td><code>&lt;color&gt;</code>, <code>&lt;length&gt;</code>, <code>&lt;number&gt;</code>, <code>&lt;angle&gt;</code>, <code>&lt;percentage&gt;</code>, <code>&lt;image&gt;</code>, <code>*</code> (cualquier valor)</td>
+                        </tr>
+                        <tr>
+                            <td><code>initial-value</code></td>
+                            <td>El valor por defecto si la variable no est&aacute; definida. Debe ser v&aacute;lido seg&uacute;n la sintaxis declarada.</td>
+                            <td><code>initial-value: 0deg;</code>, <code>initial-value: #000;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>inherits</code></td>
+                            <td>Si la variable se hereda a los elementos hijos. <code>true</code> para variables globales (colores, fuentes), <code>false</code> para animaciones locales.</td>
+                            <td><code>inherits: true;</code> (como <code>color</code>), <code>inherits: false;</code> (como <code>width</code>)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Sin @property: variables no animables</p>
+                        <p>Las custom properties sin registrar (<code>@property</code>) son tratadas como cadenas de texto por el navegador. Esto significa que <code>transition: --color 0.3s</code> no funciona sin <code>@property</code>, porque el navegador no sabe que <code>--color</code> contiene un color. Si necesit&aacute;s animar una variable, <strong>deb&eacute;s registrarla primero con <code>@property</code></strong>. Para todos los dem&aacute;s usos (theming, valores est&aacute;ticos, calc()), las variables no registradas funcionan perfectamente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Variables din&aacute;micas con JS -->
+            <section class="sub-section animate-on-scroll" id="variables-js">
+                <h2>
+                    Variables din&aacute;micas con JavaScript
+                    <a href="#variables-js" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    JavaScript puede leer y escribir custom properties en tiempo real usando la API <code>style</code> de los elementos. Para leer una variable us&aacute;s <code>getComputedStyle(element).getPropertyValue('--nombre')</code> y para escribir us&aacute;s <code>element.style.setProperty('--nombre', 'valor')</code>. Esto abre un mundo de posibilidades: animaciones controladas por scroll, configuraciones de usuario que persisten en <code>localStorage</code>, sliders que ajustan espaciado en tiempo real, personalización de colores en un "theme builder", y mucho m&aacute;s.
+                </p>
+
+                <p>
+                    La ventaja de manipular variables CSS desde JS (en vez de aplicar estilos inline directamente) es que respet&aacute;s la cascada y la consistencia del sistema de dise&ntilde;o. No est&aacute;s aplicando <code>element.style.background = '#red'</code> directamente, sino que actualiz&aacute;s la variable que controla el background. Todos los componentes que usan esa variable se actualizan autom&aacute;ticamente, sin que JS necesite conocer cu&aacute;les son. Es la diferencia entre "setear un valor" y "configurar un par&aacute;metro del sistema".
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-js">// =============================================
+// LEER una variable CSS desde JavaScript
+// =============================================
+const root = document.documentElement;
+const styles = getComputedStyle(root);
+
+// Lee una variable global (definida en :root)
+const primaryColor = styles.getPropertyValue('--color-primary').trim();
+console.log(primaryColor); // "#3b82f6"
+
+// Lee una variable de un elemento espec&iacute;fico
+const card = document.querySelector('.card');
+const cardPadding = getComputedStyle(card)
+    .getPropertyValue('--card-padding').trim();
+
+// =============================================
+// ESCRIBIR una variable CSS desde JavaScript
+// =============================================
+
+// En :root (variable global)
+root.style.setProperty('--color-primary', '#ef4444');
+// Todos los elementos que usan var(--color-primary)
+// se actualizan instant&aacute;neamente
+
+// En un elemento espec&iacute;fico (variable local)
+card.style.setProperty('--card-padding', '2rem');
+
+// =============================================
+// ANIMACION CONTROLADA POR SCROLL
+// =============================================
+const header = document.querySelector('.site-header');
+
+window.addEventListener('scroll', () =&gt; {
+    const scrollY = window.scrollY;
+    const maxScroll = 300;
+    const progress = Math.min(scrollY / maxScroll, 1);
+
+    // Mapea el scroll al blur del backdrop (0 a 12px)
+    header.style.setProperty(
+        '--header-blur',
+        `${progress * 12}px`
+    );
+
+    // Mapea el scroll a la opacidad del fondo (0.8 a 1)
+    header.style.setProperty(
+        '--header-bg-opacity',
+        0.8 + (progress * 0.2)
+    );
+});
+
+// En el CSS:
+// .site-header {
+//     backdrop-filter: blur(var(--header-blur, 0px));
+//     background: rgba(13, 17, 23, var(--header-bg-opacity, 0.8));
+// }
+
+// =============================================
+// SLIDER DE CONFIGURACION EN TIEMPO REAL
+// =============================================
+const spacingSlider = document.getElementById('spacing-slider');
+const previewBox = document.getElementById('preview-box');
+
+spacingSlider.addEventListener('input', (e) =&gt; {
+    const value = e.target.value;
+    previewBox.style.setProperty('--spacing', `${value}px`);
+});
+
+// =============================================
+// ELIMINAR una variable CSS
+// =============================================
+// Remueve la variable del inline style (vuelve al CSS original)
+card.style.removeProperty('--card-padding');</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Performance: us&aacute; <code>requestAnimationFrame</code></p>
+                        <p>Si actualiz&aacute;s variables CSS dentro de un <code>scroll</code> o <code>mousemove</code> event listener, us&aacute; <code>requestAnimationFrame</code> para agrupar las actualizaciones y evitar layout thrashing. Cada llamada a <code>setProperty()</code> dispara un repaint potencial, as&iacute; que es mejor agrupar todos los cambios en un solo frame de animaci&oacute;n. Para animaciones complejas, consider&aacute; usar <code>Web Animations API</code> (WAAPI) que permite animar variables CSS registradas con <code>@property</code> de forma m&aacute;s eficiente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="css-basico.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    CSS B&aacute;sico
+                </a>
+                <a href="css-flexbox.html" class="btn btn-secondary">
+                    Flexbox
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
