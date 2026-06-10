@@ -666,10 +666,12 @@ Las cheatsheets son secciones dedicadas con formato de **referencia rápida**. T
 - [x] Escribir `sections/js-almacenamiento.html`
 - [x] Escribir `cheatsheets/js-cheatsheet.html`
 
-### Fase 8: Contenido — Extras
+### Fase 8: Contenido — SEO & Extras
 - [x] Escribir `sections/herramientas-workflow.html`
 - [ ] Escribir `sections/seo-performance.html`
 - [ ] Escribir `cheatsheets/seo-cheatsheet.html`
+- [ ] Escribir `sections/recursos.html` (links, tutoriales, videos)
+- [x] Reorganizar men&uacute;: SEO como categor&iacute;a propia, Extras con Herramientas + Recursos
 
 ### Fase 9: Funcionalidades Extra & Polish
 - [ ] Implementar buscador in-page (`search.js`)
