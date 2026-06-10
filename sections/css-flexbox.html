@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox — WebForge</title>
+    <meta name="description" content="Domina Flexbox: el sistema de layout unidimensional de CSS. Propiedades del contenedor (direction, justify, align, wrap, gap), propiedades de los items (grow, shrink, basis, align-self, order) y patrones comunes de layout.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Flexbox</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Flexbox</h1>
+                <p>Flexbox (Flexible Box Layout) es el sistema de layout unidimensional de CSS: est&aacute; dise&ntilde;ado para distribuir elementos en una sola direcci&oacute;n (fila o columna) y controlar c&oacute;mo se estiran, encogen y alinean dentro de su contenedor. Antes de Flexbox, lograr layouts como centrar verticalmente, crear barras de navegaci&oacute;n con espacios distribuidos, o hacer que los &iacute;tems de una fila crezcan proporcionalmente era un dolor&mdash;requer&iacute;a hacks con float, inline-block, table-cell y position. Con Flexbox, todo eso se resuelve con pocas propiedades intuitivas.</p>
+            </div>
+
+            <p>
+                El concepto clave es la relaci&oacute;n <strong>padre-hijo</strong>: aplic&aacute;s propiedades de flexbox al <em>contenedor</em> (el padre) para definir la direcci&oacute;n, alineaci&oacute;n y envoltura, y aplic&aacute;s propiedades al <em>&iacute;tem</em> (los hijos) para controlar c&oacute;mo crecen, se encogen y se ordenan individualmente. Las propiedades del contenedor son <code>display: flex</code>, <code>flex-direction</code>, <code>justify-content</code>, <code>align-items</code>, <code>flex-wrap</code> y <code>gap</code>. Las de los &iacute;tems son <code>flex-grow</code>, <code>flex-shrink</code>, <code>flex-basis</code>, <code>align-self</code> y <code>order</code>.
+            </p>
+
+            <!-- Sub-section: Contenedor Flex -->
+            <section class="sub-section animate-on-scroll" id="contenedor-flex">
+                <h2>
+                    Propiedades del contenedor
+                    <a href="#contenedor-flex" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Todo sistema Flexbox empieza con un contenedor al que se le aplica <code>display: flex</code>. A partir de ese momento, todos los hijos directos de ese contenedor se convierten autom&aacute;ticamente en <strong>flex items</strong> y responden a las propiedades de flexbox. No necesit&aacute;s agregar clases extra ni modificar el HTML&mdash;el hecho de que el padre sea flex ya cambia completamente el comportamiento de los hijos. Los items pierden su comportamiento block/inline predeterminado y adoptan las reglas del contexto de formato flex.
+                </p>
+
+                <h3>flex-direction</h3>
+
+                <p>
+                    Esta propiedad define el <strong>eje principal</strong> del contenedor: la direcci&oacute;n en la que los flex items se disponen uno detr&aacute;s de otro. El valor por defecto es <code>row</code> (horizontal, de izquierda a derecha). Al cambiar la direcci&oacute;n, tambi&eacute;n cambia cu&aacute;l es el eje principal y cu&aacute;l el eje transversal. El eje principal es donde se distribuyen los items, el transversal es donde se alinean. <code>row-reverse</code> y <code>column-reverse</code> invierten el orden visual de los items, pero tambi&eacute;n el orden de lectura y tabulaci&oacute;n&mdash;us&aacute;los con precauci&oacute;n por temas de accesibilidad.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* row (default): horizontal, izquierda a derecha
+   Eje principal = horizontal, eje transversal = vertical */
+.nav {
+    display: flex;
+    flex-direction: row;
+}
+
+/* row-reverse: horizontal, derecha a izquierda
+   CUIDADO: invierte tambien el orden de tabulacion */
+.nav-rtl {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+/* column: vertical, arriba a abajo
+   Eje principal = vertical, eje transversal = horizontal
+   Ideal para: sidebars, formularios, stacks de contenido */
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+/* column-reverse: vertical, abajo a arriba
+   Usos: chat messages (los mas recientes arriba) */
+.chat-messages {
+    display: flex;
+    flex-direction: column-reverse;
+}</code></pre>
+                </div>
+
+                <h3>justify-content (eje principal)</h3>
+
+                <p>
+                    <code>justify-content</code> controla la <strong>distribuci&oacute;n de los items a lo largo del eje principal</strong>. Es la propiedad que us&aacute;s para crear espacios entre elementos, alinear contenido a un lado del contenedor, o distribuir el espacio libre de manera uniforme. Los valores m&aacute;s usados son <code>flex-start</code> (agrupar al inicio), <code>flex-end</code> (agrupar al final), <code>center</code> (centrar en el eje principal) y <code>space-between</code> (espacio igual entre items, sin espacio en los bordes).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">.container {
+    display: flex;
+}
+
+/* flex-start (default): agrupa los items al inicio
+   [item][item][item]               ____espacio libre */
+.container-start {
+    justify-content: flex-start;
+}
+
+/* flex-end: agrupa al final
+   ____espacio libre          [item][item][item] */
+.container-end {
+    justify-content: flex-end;
+}
+
+/* center: centra los items en el eje principal
+   __[item][item][item]__ */
+.container-center {
+    justify-content: center;
+}
+
+/* space-between: espacio igual ENTRE items, sin espacios en bordes
+   [item]  [item]  [item] */
+/* EL MAS USADO para navbars y toolbars */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* space-around: espacio igual ALREDEDOR de cada item
+   _[item]_[item]_[item]_
+   El espacio entre items es el doble que en los bordes */
+.container-around {
+    justify-content: space-around;
+}
+
+/* space-evenly: espacio IGUAL en todas partes (bordes y entre items)
+   _[item]_[item]_[item]_ */
+.container-evenly {
+    justify-content: space-evenly;
+}</code></pre>
+                </div>
+
+                <h3>align-items y align-content (eje transversal)</h3>
+
+                <p>
+                    Mientras <code>justify-content</code> controla el eje principal, <code>align-items</code> controla la <strong>alineaci&oacute;n de los items en el eje transversal</strong> (perpendicular al eje principal). Si tu flex-direction es <code>row</code>, el eje transversal es vertical, as&iacute; que <code>align-items</code> controla la alineaci&oacute;n vertical. Si es <code>column</code>, el eje transversal es horizontal. El valor por defecto es <code>stretch</code>, que estira los items para que ocupen toda la altura del contenedor. <code>align-content</code>, en cambio, solo funciona cuando hay m&uacute;ltiples l&iacute;neas de items (es decir, con <code>flex-wrap: wrap</code>) y controla el espacio entre esas l&iacute;neas.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* stretch (default): estira los items para llenar el eje transversal
+   Todos los items tendran la misma altura (la del contenedor) */
+.container-stretch {
+    display: flex;
+    align-items: stretch;
+}
+
+/* flex-start: alinea al inicio del eje transversal
+   (top si es row, left si es column) */
+.container-top {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* flex-end: alinea al final del eje transversal
+   (bottom si es row, right si es column) */
+.container-bottom {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* center: centra en el eje transversal
+   PATRON CLASICO para centrar verticalmente */
+.container-vcenter {
+    display: flex;
+    align-items: center;
+}
+
+/* baseline: alinea segun la linea base del texto
+   Util para que los textos de items con diferentes
+   tamanios de fuente esten alineados */
+.container-baseline {
+    display: flex;
+    align-items: baseline;
+}
+
+/* ============================================
+   align-content: solo con flex-wrap: wrap
+   Controla el espacio ENTRE LINEAS de items
+   ============================================ */
+.wrapped-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;   /* Lineas agrupadas arriba */
+    /* align-content: center;      Lineas centradas */
+    /* align-content: space-between; Espacio entre lineas */
+    /* align-content: space-evenly;  Espacio uniforme */
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Propiedad</th>
+                            <th>Eje</th>
+                            <th>Qu&eacute; controla</th>
+                            <th>Funciona siempre?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>justify-content</code></td>
+                            <td>Eje principal</td>
+                            <td>Distribuci&oacute;n de items a lo largo del eje principal (espacios, alineaci&oacute;n).</td>
+                            <td>Si</td>
+                        </tr>
+                        <tr>
+                            <td><code>align-items</code></td>
+                            <td>Eje transversal</td>
+                            <td>Alineaci&oacute;n de items individuales en el eje transversal.</td>
+                            <td>Si</td>
+                        </tr>
+                        <tr>
+                            <td><code>align-content</code></td>
+                            <td>Eje transversal</td>
+                            <td>Espacio entre l&iacute;neas de items (solo con wrap).</td>
+                            <td>Solo con <code>flex-wrap: wrap</code> y l&iacute;neas m&uacute;ltiples</td>
+                        </tr>
+                        <tr>
+                            <td><code>align-self</code></td>
+                            <td>Eje transversal</td>
+                            <td>Sobreescribe <code>align-items</code> para un item espec&iacute;fico (propiedad del item).</td>
+                            <td>Si (se aplica en el item)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>flex-wrap y gap</h3>
+
+                <p>
+                    Por defecto, los flex items intentan caber todos en una sola l&iacute;nea, encogi&eacute;ndose si es necesario. <code>flex-wrap: wrap</code> cambia este comportamiento: si los items no caben, pasan a una nueva l&iacute;nea. Esto es fundamental para layouts responsivos donde no sab&eacute;s de antemano cu&aacute;ntos items hay ni el tama&ntilde;o de la pantalla. La propiedad <code>gap</code> (disponible en Flexbox desde 2020, con soporte completo en todos los navegadores) define el espacio entre items sin necesidad de margenes. <code>gap</code> reemplaz&oacute; los viejos hacks de margenes negativos y <code>:last-child { margin-right: 0 }</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* nowrap (default): todo en una linea, se encogen */
+.container-nowrap {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+/* wrap: los items pasan a la siguiente linea si no caben */
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+/* wrap-reverse: como wrap, pero las lineas nuevas van arriba */
+.container-reverse {
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+
+/* ============================================
+   gap: espacio entre items (sin margenes!)
+   ============================================ */
+
+/* gap uniforme (filas y columnas) */
+.flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* 1rem entre todos los items */
+}
+
+/* gap diferente para filas y columnas */
+.flex-grid-dense {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;   /* row-gap: 1rem, column-gap: 1.5rem */
+    /* o explicitamente: */
+    row-gap: 1rem;
+    column-gap: 1.5rem;
+}
+
+/* ============================================
+   Ejemplo practico: card grid responsivo
+   ============================================ */
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.card-grid .card {
+    /* Cada card ocupa minimo 280px, maximo 1fr del espacio libre */
+    flex: 1 1 280px;
+    /* Equivalente a: flex-grow: 1, flex-shrink: 1, flex-basis: 280px */
+    /* Si el contenedor mide 800px: caben 2 cards de ~380px cada una
+       Si mide 1200px: caben 3 de ~360px
+       Si el screen es 600px: 1 card por linea */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">gap vs margenes</p>
+                        <p><code>gap</code> solo a&ntilde;ade espacio <em>entre</em> los items, nunca en los bordes del contenedor. Esto es superior a los margenes porque evita el problema del &uacute;ltimo item (necesitabas <code>:last-child { margin-right: 0 }</code>) y el problema del colapso de m&aacute;rgenes (gap no colapsa). Para Flexbox y Grid, us&aacute; siempre <code>gap</code> en lugar de margenes para espaciar items.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Propiedades de los items -->
+            <section class="sub-section animate-on-scroll" id="items-flex">
+                <h2>
+                    Propiedades de los &iacute;tems
+                    <a href="#items-flex" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las propiedades de los &iacute;tems flex controlan c&oacute;mo cada elemento individual se comporta dentro del contenedor flex. Mientras que las propiedades del contenedor definen las reglas generales (direcci&oacute;n, alineaci&oacute;n, envoltura), las propiedades de los &iacute;tems permiten ajustar cada uno independientemente: cu&aacute;nto debe crecer, cu&aacute;nto debe encoger, cu&aacute;l es su tama&ntilde;o base y si debe alinearse diferente al resto.
+                </p>
+
+                <h3>flex-grow, flex-shrink y flex-basis</h3>
+
+                <p>
+                    Estas tres propiedades juntas definen el comportamiento de crecimiento y encogimiento de cada flex item. <code>flex-grow</code> controla cu&aacute;nto del espacio libre disponible se reparte a este item (0 = no crece, 1 = crece proporcionalmente). <code>flex-shrink</code> controla cu&aacute;nto se reduce si no hay suficiente espacio (0 = no se encoge, 1 = se encoge proporcionalmente). <code>flex-basis</code> es el tama&ntilde;o inicial del item antes de que se distribuya el espacio libre (puede ser un tama&ntilde;o fijo, un porcentaje o <code>auto</code>).
+                </p>
+
+                <p>
+                    En la pr&aacute;ctica, casi siempre us&aacute;s el shorthand <code>flex</code> que combina los tres. El patr&oacute;n m&aacute;s com&uacute;n es <code>flex: 1 1 300px</code> que significa: "empieza en 300px, crece si hay espacio, se encoge si hace falta". Otro patr&oacute;n cl&aacute;sico es <code>flex: 1</code> (equivalente a <code>flex: 1 1 0%</code>) que hace que un item ocupe todo el espacio disponible dividi&eacute;ndolo equitativamente con otros items que tambi&eacute;n tengan <code>flex: 1</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   flex-grow: cuanto espacio libre absorbe (0 = nada)
+   ============================================ */
+
+/* Los items con grow: 0 no crecen, con grow: 1 se reparten igual */
+.nav-main {
+    display: flex;
+}
+
+.nav-main .logo {
+    flex-grow: 0; /* Tamaño fijo */
+}
+
+.nav-main .nav-links {
+    flex-grow: 1; /* Ocupa todo el espacio restante */
+}
+
+/* Proporciones desiguales: el primero crece el doble */
+ unequal-grow {
+    display: flex;
+}
+
+.unequal-grow .sidebar {
+    flex-grow: 1;  /* 1 parte del espacio libre */
+}
+
+.unequal-grow .main-content {
+    flex-grow: 2;  /* 2 partes del espacio libre (el doble) */
+}
+
+/* ============================================
+   flex-shrink: cuanto se reduce si falta espacio
+   ============================================ */
+
+/* Cero: el item NO se encoge (mantiene su tamaño) */
+.important-element {
+    flex-shrink: 0;
+}
+
+/* Ejemplo: navbar con logo que nunca debe encogerse */
+.navbar {
+    display: flex;
+}
+
+.navbar .logo {
+    flex-shrink: 0; /* Siempre su tamaño completo */
+    width: 120px;
+}
+
+.navbar .search-bar {
+    flex: 1; /* Se encoge si hace falta */
+    min-width: 0; /* Permite que el texto se trunque */
+}
+
+.navbar .user-menu {
+    flex-shrink: 0;
+}
+
+/* ============================================
+   flex-basis: tamaño inicial antes de distribuir
+   ============================================ */
+
+/* Tamaño fijo de inicio */
+.item-fixed {
+    flex-basis: 200px;
+}
+
+/* auto: usa el tamaño natural del contenido */
+.item-auto {
+    flex-basis: auto;
+}
+
+/* Porcentaje del contenedor */
+.item-percent {
+    flex-basis: 50%;
+}
+
+/* ============================================
+   Shorthand: flex (grow shrink basis)
+   ============================================ */
+
+/* flex: 1 = flex: 1 1 0% (crece, se encoge, base = 0) */
+.sidebar-layout {
+    display: flex;
+}
+
+.sidebar-layout .sidebar {
+    flex: 0 0 280px; /* Fijo en 280px, no crece ni se encoge */
+}
+
+.sidebar-layout .content {
+    flex: 1; /* Crece para ocupar el resto */
+}
+
+/* flex: 1 1 300px = crece, se encoge, empieza en 300px */
+.responsive-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.responsive-grid .item {
+    flex: 1 1 300px; /* Minimo 300px, crece si hay espacio */
+}
+
+/* Patrones comunes de flex shorthand */
+.flex-none  { flex: 0 0 auto;   } /* No crece ni se encoge */
+.flex-1     { flex: 1 1 0%;     } /* Crea partes iguales */
+.flex-auto  { flex: 1 1 auto;   } /* Crece pero respeta contenido */
+.flex-fill  { flex: 1 1 0%;     } /* Igual que flex-1 */</code></pre>
+                </div>
+
+                <h3>align-self y order</h3>
+
+                <p>
+                    <code>align-self</code> permite sobreescribir la alineaci&oacute;n del contenedor (<code>align-items</code>) para un &iacute;tem espec&iacute;fico. Es la propiedad del item, no del contenedor, y acepta los mismos valores que <code>align-items</code>: <code>auto</code>, <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>baseline</code> y <code>stretch</code>. <code>order</code> cambia el orden visual de un item sin modificar el HTML. El valor por defecto es <code>0</code>, y items con <code>order</code> menor aparecen primero. Aunque es tentador usar <code>order</code> para reorganizar layouts, la recomendaci&oacute;n es usarlo con moderaci&oacute;n porque afecta el orden de tabulaci&oacute;n y el flujo l&oacute;gico del DOM, lo cual puede confundir a usuarios de lectores de pantalla.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* align-self: sobreescribir la alineacion de un item
+   El contenedor tiene align-items: flex-start (arriba) */
+.container {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+/* Este item se alinea al fondo, no arriba como los demas */
+.container .special-item {
+    align-self: flex-end;
+}
+
+/* Este item se centra verticalmente */
+.container .centered-item {
+    align-self: center;
+}
+
+/* Ejemplo: card con un boton pegado al fondo */
+.card-footer {
+    display: flex;
+    align-items: center; /* Todos centrados */
+    gap: 0.5rem;
+}
+
+.card-footer .spacer {
+    flex: 1; /* Empuja el boton a la derecha */
+}
+
+/* ============================================
+   order: cambiar el orden visual
+   ============================================ */
+
+/* Los items se muestran en orden de menor a mayor order */
+/* Todos los items por defecto tienen order: 0 */
+
+.sidebar-layout {
+    display: flex;
+}
+
+/* En desktop: sidebar primero, contenido despues */
+@media (min-width: 1024px) {
+    .sidebar-layout .sidebar   { order: 1; }
+    .sidebar-layout .content  { order: 2; }
+}
+
+/* En mobile: contenido primero, sidebar despues
+   (sin cambiar el HTML, solo con CSS) */
+@media (max-width: 1023px) {
+    .sidebar-layout .sidebar   { order: 2; }
+    .sidebar-layout .content  { order: 1; }
+}
+
+/* ============================================
+   min-width: 0 — el fix para el overflow
+   ============================================ */
+/* IMPORTANTE: los flex items tienen min-width: auto por defecto,
+   lo que significa que NUNCA se encogen por debajo de su contenido.
+   Esto puede causar overflow. La solucion: */
+
+.flex-item-safe {
+    flex: 1;
+    min-width: 0; /* Permite que el item se encogue por debajo del contenido */
+    /* Tambien aplica a min-height: 0 para flex-direction: column */
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Shorthand</th>
+                            <th>Se expande a</th>
+                            <th>Comportamiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>flex: 0 1 auto</code></td>
+                            <td><code>flex-grow: 0; flex-shrink: 1; flex-basis: auto</code></td>
+                            <td>Valor por defecto. No crece, se encoge si hace falta, respeta el tama&ntilde;o del contenido.</td>
+                        </tr>
+                        <tr>
+                            <td><code>flex: 1</code></td>
+                            <td><code>flex-grow: 1; flex-shrink: 1; flex-basis: 0%</code></td>
+                            <td>Crece para ocupar espacio libre proporcionalmente. El m&aacute;s usado para layouts.</td>
+                        </tr>
+                        <tr>
+                            <td><code>flex: none</code></td>
+                            <td><code>flex-grow: 0; flex-shrink: 0; flex-basis: auto</code></td>
+                            <td>Tama&ntilde;o fijo del contenido. No crece ni se encoge. &Uacute;til para elementos que no deben cambiar.</td>
+                        </tr>
+                        <tr>
+                            <td><code>flex: auto</code></td>
+                            <td><code>flex-grow: 1; flex-shrink: 1; flex-basis: auto</code></td>
+                            <td>Crece y se encoge, pero respeta el tama&ntilde;o del contenido como base.</td>
+                        </tr>
+                        <tr>
+                            <td><code>flex: 1 1 300px</code></td>
+                            <td><code>flex-grow: 1; flex-shrink: 1; flex-basis: 300px</code></td>
+                            <td>Empieza en 300px, crece o se encoge seg&uacute;n el espacio. Ideal para cards responsivas.</td>
+                        </tr>
+                        <tr>
+                            <td><code>flex: 0 0 280px</code></td>
+                            <td><code>flex-grow: 0; flex-shrink: 0; flex-basis: 280px</code></td>
+                            <td>Sidebar fija de 280px que no crece ni se encoge.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">No uses flex: 1 para texto largo</p>
+                        <p>Si un flex item con <code>flex: 1</code> contiene texto largo (p&aacute;rrafos, URLs, palabras sin espacios), el texto puede hacer que el item no se encoga correctamente porque el tama&ntilde;o m&iacute;nimo del contenido supera el espacio disponible. La soluci&oacute;n es agregar <code>min-width: 0</code> (o <code>overflow: hidden</code>) al item para permitir que se encoga por debajo del tama&ntilde;o de su contenido. Este es uno de los bugs m&aacute;s comunes de Flexbox.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Patrones comunes -->
+            <section class="sub-section animate-on-scroll" id="patrones">
+                <h2>
+                    Patrones comunes con Flexbox
+                    <a href="#patrones" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Una vez entendidas las propiedades, la mejor forma de interiorizar Flexbox es ver c&oacute;mo se aplican a los patrones de layout reales que us&aacute;s todos los d&iacute;as. Estos son los patrones m&aacute;s frecuentes y la combinaci&oacute;n exacta de propiedades para cada uno. La mayor&iacute;a se resuelven con 3-5 l&iacute;neas de CSS, lo cual demuestra la potencia de Flexbox frente a las t&eacute;cnicas legacy.
+                </p>
+
+                <h3>Centrado perfecto (vertical y horizontal)</h3>
+
+                <p>
+                    El Santo Grial de CSS que antes requer&iacute;a hacks como <code>position: absolute + transform: translate(-50%, -50%)</code> o <code>display: table-cell + vertical-align: middle</code>. Con Flexbox, centrar cualquier elemento en ambas direcciones es literalmente dos l&iacute;neas. Es probablemente la raz&oacute;n n&uacute;mero uno por la que los devs aprenden Flexbox.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Centrado perfecto */
+.center-container {
+    display: flex;
+    justify-content: center; /* Eje principal (horizontal) */
+    align-items: center;     /* Eje transversal (vertical) */
+    min-height: 100vh;       /* Necesita altura para centrar verticalmente */
+}</code></pre>
+                </div>
+
+                <h3>Navbar con logo, links y bot&oacute;n</h3>
+
+                <p>
+                    El patr&oacute;n de navbar cl&aacute;sico: logo a la izquierda, enlaces en el centro o distribuidos, y un bot&oacute;n de acci&oacute;n a la derecha. Con <code>justify-content: space-between</code> no necesit&aacute;s separar en tres grupos&mdash;Flexbox se encarga de la distribuci&oacute;n autom&aacute;ticamente.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Navbar: logo a la izq, links al centro, boton a la der */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-lg);
+    height: 64px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar .logo {
+    flex-shrink: 0; /* Nunca encoger el logo */
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: var(--space-md);
+    list-style: none;
+}
+
+.navbar .cta-button {
+    flex-shrink: 0; /* El boton tampoco se encoge */
+}
+
+/* Variante: logo y links a la izq, boton a la der */
+.navbar-alt {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.navbar-alt .nav-links {
+    display: flex;
+    gap: var(--space-sm);
+    flex: 1; /* Ocupa el espacio entre logo y boton */
+}</code></pre>
+                </div>
+
+                <h3>Card layout responsivo</h3>
+
+                <p>
+                    Un grid de cards que se adapta autom&aacute;ticamente al ancho disponible sin media queries. Cada card tiene un tama&ntilde;o m&iacute;nimo (<code>flex-basis</code>) y crece proporcionalmente hasta que entran m&aacute;s cards por fila. Es el patr&oacute;n m&aacute;s usado para grids de contenido que no son Grid.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Card grid responsivo sin media queries */
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.card-grid .card {
+    flex: 1 1 280px; /* Minimo 280px, crece para llenar la fila */
+    max-width: calc(50% - 0.75rem); /* Maximo 2 por fila en pantallas grandes */
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
+}
+
+/* Layout sidebar + contenido */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.app-layout .sidebar {
+    flex: 0 0 260px;
+    border-right: 1px solid var(--border-color);
+    padding: var(--space-lg);
+}
+
+.app-layout .main {
+    flex: 1;
+    padding: var(--space-xl);
+    min-width: 0; /* Fix para overflow de contenido */
+}
+
+/* En mobile: sidebar se oculta, contenido ocupa todo */
+@media (max-width: 768px) {
+    .app-layout {
+        flex-direction: column;
+    }
+
+    .app-layout .sidebar {
+        flex: 0 0 auto; /* Solo el alto de su contenido */
+    }
+}</code></pre>
+                </div>
+
+                <h3>Footer sticky</h3>
+
+                <p>
+                    El patr&oacute;n de "footer pegajoso" donde el footer se queda en el fondo de la p&aacute;gina cuando el contenido es corto, y aparece naturalmente debajo del contenido cuando es largo. Con Flexbox, la t&eacute;cnica es aplicar <code>display: flex</code> y <code>flex-direction: column</code> al wrapper de la p&aacute;gina, darle <code>min-height: 100vh</code>, y usar <code>flex: 1</code> en el contenido principal para que crezca y empuje el footer hacia abajo.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Footer sticky con Flexbox */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-wrapper .site-header {
+    flex-shrink: 0; /* El header nunca se encoge */
+}
+
+.page-wrapper .main-content {
+    flex: 1; /* Crece para empujar el footer abajo */
+    /* Si el contenido es corto: main crece, footer queda abajo
+       Si el contenido es largo: main crece, footer baja naturalmente */
+}
+
+.page-wrapper .site-footer {
+    flex-shrink: 0; /* El footer nunca se encoge */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Flexbox vs Grid: cu&aacute;ndo usar cada uno</p>
+                        <p>Flexbox es unidimensional (una direcci&oacute;n a la vez): ideal para barras de navegaci&oacute;n, herramientas, filas de botones, distribuci&oacute;n de elementos en un eje, y layouts simples con sidebar. Grid es bidimensional (filas y columnas): ideal para grids complejos de cards, layouts de p&aacute;ginas completas con &aacute;reas definidas, y cualquier cosa que necesite control sobre dos ejes. En la pr&aacute;ctica, se usan juntos: Flexbox para componentes internos (navbar, card header, listas) y Grid para el layout principal de la p&aacute;gina.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="css-variables.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Variables CSS
+                </a>
+                <a href="css-grid.html" class="btn btn-secondary">
+                    CSS Grid
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
