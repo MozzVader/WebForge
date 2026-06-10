@@ -794,6 +794,131 @@ lighthouse https://ejemplo.com --chrome-flags="--headless" --output html</code><
                 </div>
             </section>
 
+            <!-- ===================== SITEMAP Y ROBOTS ===================== -->
+            <section class="sub-section animate-on-scroll" id="sitemap-robots">
+                <h2>
+                    Sitemap.xml y robots.txt
+                    <a href="#sitemap-robots" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Si tu sitio fuera una ciudad, los links internos ser&iacute;an las calles y el <code>sitemap.xml</code> ser&iacute;a el mapa que le entreg&aacute;s al navegador GPS de Google. Es un archivo XML que lista todas las URLs p&uacute;blicas de tu sitio junto con metadatos como la fecha de &uacute;ltima modificaci&oacute;n, la frecuencia de actualizaci&oacute;n y la prioridad relativa de cada p&aacute;gina. Google (y Bing, y Yandex) lo leen para descubrir p&aacute;ginas que quiz&aacute;s no encontrar&iacute;an solo siguiendo links internos, especialmente en sitios grandes o con contenido nuevo que a&uacute;n no fue linkeado desde ninguna parte. No es un factor de ranking directo, pero acelera la indexaci&oacute;n y asegura que Google conozca todas tus p&aacute;ginas.
+                </p>
+
+                <p>
+                    El <code>robots.txt</code>, en cambio, es el archivo que le dice a los crawlers <strong>qu&eacute; NO deben rastrear</strong>. Va en la ra&iacute;z de tu sitio (<code>tusitio.com/robots.txt</code>) y usa una sintaxis simple para permitir o bloquear el acceso a ciertas rutas. Ambos archivos trabajan en conjunto: el <code>robots.txt</code> controla el acceso al rastreo, y el <code>sitemap.xml</code> dice "estas son las p&aacute;ginas que s&iacute; quiero que index&eacute;is". Un error com&uacute;n es bloquear en <code>robots.txt</code> una p&aacute;gina que est&aacute; en el sitemap, lo cual env&iacute;a una se&ntilde;al contradictoria a Google.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            XML &mdash; sitemap.xml b&aacute;sico
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+
+    &lt;url&gt;
+        &lt;loc&gt;https://ejemplo.com/&lt;/loc&gt;
+        &lt;lastmod&gt;2026-06-11&lt;/lastmod&gt;
+        &lt;changefreq&gt;weekly&lt;/changefreq&gt;
+        &lt;priority&gt;1.0&lt;/priority&gt;
+    &lt;/url&gt;
+
+    &lt;url&gt;
+        &lt;loc&gt;https://ejemplo.com/blog/flexbox-guide&lt;/loc&gt;
+        &lt;lastmod&gt;2026-06-10&lt;/lastmod&gt;
+        &lt;changefreq&gt;monthly&lt;/changefreq&gt;
+        &lt;priority&gt;0.8&lt;/priority&gt;
+    &lt;/url&gt;
+
+    &lt;url&gt;
+        &lt;loc&gt;https://ejemplo.com/contacto&lt;/loc&gt;
+        &lt;lastmod&gt;2026-01-15&lt;/lastmod&gt;
+        &lt;changefreq&gt;yearly&lt;/changefreq&gt;
+        &lt;priority&gt;0.5&lt;/priority&gt;
+    &lt;/url&gt;
+
+&lt;/urlset&gt;</code></pre>
+                </div>
+
+                <h3>Estructura del sitemap explicada</h3>
+
+                <p>
+                    Cada entrada <code>&lt;url&gt;</code> dentro del <code>&lt;urlset&gt;</code> representa una p&aacute;gina de tu sitio. El tag <code>&lt;loc&gt;</code> es obligatorio y debe contener la URL completa y absoluta (con https://). El <code>&lt;lastmod&gt;</code> indica la fecha de la &uacute;ltima modificaci&oacute;n en formato <strong>YYYY-MM-DD</strong> y es una se&ntilde;al para Google de que el contenido se actualiz&oacute; y deber&iacute;a volver a rastrearlo. El <code>&lt;changefreq&gt;</code> sugiere la frecuencia de actualizaci&oacute;n (<code>always</code>, <code>hourly</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>, <code>yearly</code>, <code>never</code>), aunque hoy en d&iacute;a Google lo usa m&aacute;s como una sugerencia que como una regla estricta. El <code>&lt;priority&gt;</code> va de 0.0 a 1.0 y le indica a Google qu&eacute; p&aacute;ginas son m&aacute;s importantes relativas a otras de tu sitio: la homepage suele ser 1.0, las p&aacute;ginas de secci&oacute;n 0.8, y las p&aacute;ginas de contenido individual 0.6-0.7. Este valor <strong>no afecta el ranking</strong> entre tu sitio y el de tus competidores, solo ayuda a Google a priorizar el rastreo dentro de tu propio sitio.
+                </p>
+
+                <h3>Sitemaps para im&aacute;genes y v&iacute;deos</h3>
+
+                <p>
+                    Adem&aacute;s del sitemap est&aacute;ndar de p&aacute;ginas, exist&iacute;an sitemaps espec&iacute;ficos para im&aacute;genes (<code>&lt;image:image&gt;</code>) y v&iacute;deos (<code>&lt;video:video&gt;</code>) que permit&iacute;an dar informaci&oacute;n extra como el t&iacute;tulo de una imagen, la descripci&oacute;n de un video, o la duraci&oacute;n. Sin embargo, desde 2023 Google recomienda usar structured data (JSON-LD) en vez de extensiones de sitemap para im&aacute;genes y videos. Para sitios peque&ntilde;os y medianos (menos de 50.000 URLs), un &uacute;nico <code>sitemap.xml</code> con todas tus p&aacute;ginas es suficiente. Para sitios m&aacute;s grandes, pod&eacute;s dividirlo en m&uacute;ltiples sitemaps y crear un <strong>sitemap index</strong> que los agrupe.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Texto &mdash; robots.txt
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-plaintext"># robots.txt - va en la ra&iacute;z: tusitio.com/robots.txt
+
+# Permitir a todos los crawlers rastrear todo el sitio
+User-agent: *
+Allow: /
+
+# Bloquear rastreo de carpetas que no queremos indexar
+Disallow: /admin/
+Disallow: /api/
+Disallow: /tmp/
+Disallow: /*?utm_*          # Bloquear URLs con par&aacute;metros UTM
+Disallow: /*?sort=*         # Bloquear URLs con par&aacute;metros de orden
+
+# Sitemap - le dice a Google d&oacute;nde encontrar el sitemap
+Sitemap: https://ejemplo.com/sitemap.xml
+
+# Para un CMS espec&iacute;fico (ejemplo: WordPress)
+# User-agent: *
+# Disallow: /wp-admin/
+# Disallow: /wp-includes/
+# Allow: /wp-admin/admin-ajax.php
+# Sitemap: https://ejemplo.com/wp-sitemap.xml</code></pre>
+                </div>
+
+                <h3>Reglas clave de robots.txt</h3>
+
+                <p>
+                    El <code>User-agent</code> especifica a qu&eacute; crawler se aplica la regla. Con <code>*</code> aplic&aacute;s a todos los crawlers, pero pod&eacute;s apuntar a uno espec&iacute;fico como <code>Googlebot</code> o <code>Bingbot</code>. <code>Allow</code> y <code>Disallow</code> definen las rutas que se pueden o no rastrear. Las rutas son prefijos: <code>Disallow: /admin/</code> bloquea todo lo que empiece con <code>/admin/</code>. La directiva <code>Sitemap</code> no es parte del est&aacute;ndar original pero es soportada por todos los buscadores importantes. Un detalle cr&iacute;tico: si bloque&aacute;s una p&aacute;gina con <code>Disallow</code>, Google no la rastrea pero a&uacute;n puede <strong>indexarla</strong> si encuentra un link hacia ella desde otro sitio. Si realmente no quer&eacute;s que una p&aacute;gina aparezca en Google, us&aacute; <code>noindex</code> en el meta tag robots de esa p&aacute;gina.
+                </p>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">&iquest;D&oacute;nde se env&iacute;a el sitemap?</p>
+                        <p>Una vez creado tu <code>sitemap.xml</code>, lo envi&aacute;s a <strong>Google Search Console</strong> (search.google.com/search-console) en la secci&oacute;n "Sitemaps". Peg&aacute;s la URL (por ejemplo <code>https://ejemplo.com/sitemap.xml</code>) y Google empieza a rastrearlo. Tambi&eacute;n pod&eacute;s (y deber&iacute;as) agregar la l&iacute;nea <code>Sitemap: ...</code> en tu <code>robots.txt</code> como ruta de respaldo. Para sitios en GitHub Pages, el sitemap es un archivo XML est&aacute;tico que sub&iacute;s a la ra&iacute;z del repo. Para sitios din&aacute;micos (WordPress, Next.js, etc.), existen plugins y herramientas que lo generan autom&aacute;ticamente.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">No inclu&iacute;s p&aacute;ginas con noindex en el sitemap</p>
+                        <p>Si una p&aacute;gina tiene <code>&lt;meta name="robots" content="noindex"&gt;</code>, no la pongas en el sitemap. Es contradictorio decirle a Google "esta p&aacute;gina existe, indexala" (v&iacute;a sitemap) y "no indexes esta p&aacute;gina" (v&iacute;a meta tag). Google puede ignorar ambas instrucciones si se contradicen, o puede mostrar un error en Search Console. Lo mismo aplica para p&aacute;ginas bloqueadas con <code>Disallow</code> en <code>robots.txt</code>: si no quer&eacute;s que se rastree, tampoco la pongas en el sitemap.</p>
+                    </div>
+                </div>
+            </section>
+
             <!-- ===================== CHECKLIST SEO ===================== -->
             <section class="sub-section animate-on-scroll" id="checklist">
                 <h2>
@@ -867,6 +992,7 @@ EXTRAS:
     <!-- Highlight.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
     <script>hljs.highlightAll();</script>
 
