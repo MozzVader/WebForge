@@ -1093,6 +1093,11 @@
                                 <td>Abre o crea una base de datos del lado del cliente (asincrona, objetos estructurados, indices)</td>
                                 <td><span class="code-cell">const req = indexedDB.open("MiDB", 1);</span></td>
                             </tr>
+                            <tr>
+                                <td><span class="code-cell">fetch(url).then(r => r.json())</span></td>
+                                <td>Datos remotos: pide JSON a una API y convierte la respuesta a objetos JS. Combina con localStorage para cache</td>
+                                <td><span class="code-cell">const data = await (await fetch("https://api.example.com/data")).json();</span></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
