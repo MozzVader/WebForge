@@ -655,7 +655,7 @@ Las cheatsheets son secciones dedicadas con formato de **referencia rápida**. T
 - [x] Escribir `sections/css-frameworks.html`
 - [x] Escribir `sections/css-animaciones.html`
 - [x] Escribir `sections/css-maquetacion.html`
-- [ ] Escribir `cheatsheets/css-cheatsheet.html`
+- [x] Escribir `cheatsheets/css-cheatsheet.html`
 
 ### Fase 7: Contenido — JavaScript
 - [ ] Escribir `sections/js-basico.html`
