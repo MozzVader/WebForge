@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation — WebForge</title>
+    <meta name="description" content="Aprende a manipular el DOM con JavaScript: seleccionar elementos, crear nodos, modificar contenido, recorrer el arbol y trabajar con data attributes.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>JavaScript</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>DOM Manipulation</h1>
+                <p>El DOM (Document Object Model) es el puente entre tu HTML y JavaScript. Es la representaci&oacute;n en forma de &aacute;rbol que el navegador crea de tu p&aacute;gina, y que JS puede leer y modificar en tiempo real. Dominar el DOM es lo que te permite crear p&aacute;ginas interactivas, din&aacute;micas y reactivas.</p>
+            </div>
+
+            <!-- ===================== QUE ES EL DOM ===================== -->
+            <section class="sub-section animate-on-scroll" id="que-es-dom">
+                <h2>
+                    Qu&eacute; es el DOM
+                    <a href="#que-es-dom" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Cuando el navegador carga una p&aacute;gina HTML, parsea el c&oacute;digo y construye una estructura de &aacute;rbol donde cada etiqueta, atributo y texto se convierte en un <strong>nodo</strong>. Este &aacute;rbol es el DOM. La ra&iacute;z del &aacute;rbol es <code>document</code>, y a partir de ah&iacute; se ramifica en <code>html</code>, <code>head</code>, <code>body</code>, y todos los elementos que hayas escrito. Cada nodo es un objeto de JavaScript con propiedades y m&eacute;todos que te permiten leer y modificar la p&aacute;gina sin tener que recargarla.
+                </p>
+
+                <p>
+                    Es importante entender la diferencia entre el <strong>c&oacute;digo HTML fuente</strong> (lo que escribiste en el archivo) y el <strong>DOM</strong> (lo que el navegador interpreta y renderiza). JavaScript modifica el DOM, no el HTML fuente. Si inspeccion&aacute;s el c&oacute;digo fuente con "View Source" vas a ver el HTML original, pero si us&aacute;s DevTools vas a ver el DOM actual que puede haber sido modificado por JS.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Arbol DOM simplificado de esta estructura --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Mi P&aacute;gina&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hola&lt;/h1&gt;
+    &lt;p class="intro"&gt;P&aacute;rrafo&lt;/p&gt;
+    &lt;ul id="lista"&gt;
+      &lt;li&gt;Item 1&lt;/li&gt;
+      &lt;li&gt;Item 2&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+
+                <p>
+                    El DOM tiene varios tipos de nodos. Los m&aacute;s importantes son los <strong>element nodes</strong> (etiquetas HTML como <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>), los <strong>text nodes</strong> (el texto dentro de las etiquetas), los <strong>attribute nodes</strong> (los atributos como <code>class</code>, <code>id</code>, <code>href</code>), y el <strong>document node</strong> (la ra&iacute;z). En la pr&aacute;ctica, vas a trabajar casi exclusivamente con element nodes y sus propiedades. Los text nodes aparecen cuando us&aacute;s <code>childNodes</code> o <code>firstChild</code>, pero generalmente us&aacute;s <code>children</code> que filtra solo los elementos.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Tipos de nodos
+document.nodeType;         // 9 (DOCUMENT_NODE)
+document.body.nodeType;    // 1 (ELEMENT_NODE)
+document.body.firstChild;  // puede ser un text node (espacios en blanco)
+
+// Constantes de tipo de nodo
+console.log(Node.ELEMENT_NODE);   // 1
+console.log(Node.TEXT_NODE);      // 3
+console.log(Node.COMMENT_NODE);   // 8
+console.log(Node.DOCUMENT_NODE);  // 9
+
+// Nodos vs elementos (diferencia clave)
+const body = document.body;
+body.childNodes;   // TODOS los nodos (text, comments, elements)
+body.children;     // Solo elementos HTML (HTMLCollection)
+
+// Verificar tipo de nodo
+const primerHijo = body.firstChild;
+if (primerHijo.nodeType === Node.TEXT_NODE) {
+    console.log("Es un nodo de texto");
+}</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">children vs childNodes</p>
+                        <p>Us&aacute; siempre <code>children</code> (que devuelve solo elementos HTML) en vez de <code>childNodes</code> (que incluye text nodes de espacios en blanco, comentarios, etc.). <code>children</code> devuelve una <code>HTMLCollection</code> que es iterable con <code>for...of</code>. <code>childNodes</code> devuelve una <code>NodeList</code> viva que puede incluir nodos que no te interesan.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== SELECCION DE ELEMENTOS ===================== -->
+            <section class="sub-section animate-on-scroll" id="seleccion">
+                <h2>
+                    Selecci&oacute;n de elementos
+                    <a href="#seleccion" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Antes de poder modificar un elemento del DOM, primero necesit&aacute;s <strong>seleccionarlo</strong>. JavaScript ofrece varios m&eacute;todos para esto. Los m&eacute;todos modernos (<code>querySelector</code> y <code>querySelectorAll</code>) son los m&aacute;s usados porque aceptan cualquier selector CSS, lo que los hace extremadamente flexibles. Los m&eacute;todos cl&aacute;sicos como <code>getElementById</code> siguen siendo &uacute;tiles y un poco m&aacute;s r&aacute;pidos cuando solo necesit&aacute;s buscar por ID.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Metodos MODERNOS (recomendados) ===
+
+// querySelector — devuelve el PRIMER elemento que matchea
+const titulo = document.querySelector("h1");
+const primerItem = document.querySelector(".lista li");
+const boton = document.querySelector("#mi-boton");
+const compuesto = document.querySelector("nav a.active");
+
+// querySelectorAll — devuelve TODOS los que matchean (NodeList estatico)
+const todosLi = document.querySelectorAll("ul li");
+const todosParrafos = document.querySelectorAll("p.intro, p.destacado");
+const inputs = document.querySelectorAll("input[type='text']");
+
+// === Metodos CLASICOS (aun validos) ===
+
+// getElementById — un solo elemento por ID (el mas rapido)
+const header = document.getElementById("site-header");
+
+// getElementsByClassName — colecciones vivas por clase
+const cards = document.getElementsByClassName("card");
+// HTMLCollection (viva): se actualiza sola si el DOM cambia
+
+// getElementsByTagName — colecciones vivas por etiqueta
+const imagenes = document.getElementsByTagName("img");
+
+// getElementsByName — por atributo name (para forms)
+const radios = document.getElementsByName("genero");
+
+// === NodeList estatica vs HTMLCollection viva ===
+
+// querySelectorAll: NodeList ESTATICA (no se actualiza)
+const items = document.querySelectorAll(".item");
+// Si agregas un .item nuevo al DOM, 'items' NO cambia
+
+// getElementsByClassName: HTMLCollection VIVA (si se actualiza)
+const vivos = document.getElementsByClassName("item");
+// Si agregas un .item nuevo al DOM, 'vivos' SI lo incluye</code></pre>
+                </div>
+
+                <p>
+                    Una diferencia importante es que <code>querySelectorAll</code> devuelve una <code>NodeList</code> est&aacute;tica (una "foto" del DOM en ese momento), mientras que <code>getElementsByClassName</code> y <code>getElementsByTagName</code> devuelven colecciones <strong>vivas</strong> que se actualizan autom&aacute;ticamente cuando el DOM cambia. En la pr&aacute;ctica, la versi&oacute;n est&aacute;tica es m&aacute;s predecible y menos propensa a bugs. Para iterar sobre los resultados de <code>querySelectorAll</code>, pod&eacute;s usar <code>forEach</code>, <code>for...of</code>, o convertirlo a array con <code>[...items]</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Iterar sobre querySelectorAll
+const botones = document.querySelectorAll(".btn");
+
+// forEach (disponible en NodeList modernas)
+botones.forEach(btn => {
+    console.log(btn.textContent);
+});
+
+// for...of
+for (const btn of botones) {
+    console.log(btn.textContent);
+}
+
+// Convertir a array para usar metodos de array
+const arrayBotones = [...botones];
+const nombres = arrayBotones.map(b => b.textContent);
+
+// Buscar dentro de un elemento (no en todo el document)
+const nav = document.querySelector("nav");
+const links = nav.querySelectorAll("a");  // solo links dentro de nav
+
+// closest — buscar el ancestro mas cercano que matchea
+const link = document.querySelector("a");
+const li = link.closest("li");          // el li padre mas cercano
+const navContainer = link.closest("nav"); // el nav ancestro
+
+// matches — verificar si un elemento matchea un selector
+const el = document.querySelector("div");
+el.matches(".card.active");  // true si tiene ambas clases
+el.matches("section > div"); // true si es hijo directo de section</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Buena pr&aacute;ctica</p>
+                        <p>Us&aacute; <code>querySelector</code> y <code>querySelectorAll</code> como tus herramientas principales. Solo us&aacute; <code>getElementById</code> cuando busc&aacute;s por ID y necesit&aacute;s el m&aacute;ximo rendimiento (por ejemplo en un loop que se ejecuta miles de veces). Y siempre intent&aacute; buscar desde el contenedor m&aacute;s cercano en vez de desde <code>document</code> para limitar el &aacute;rea de b&uacute;squeda.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== CREACION Y ELIMINACION ===================== -->
+            <section class="sub-section animate-on-scroll" id="creacion">
+                <h2>
+                    Creaci&oacute;n y eliminaci&oacute;n de nodos
+                    <a href="#creacion" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Una de las operaciones m&aacute;s comunes con el DOM es <strong>crear nuevos elementos</strong> e insertarlos en la p&aacute;gina. Esto permite construir interfaces din&aacute;micas: listas que se agregan items, modales que aparecen al hacer click, notificaciones que se crean y desaparecen. El m&eacute;todo <code>document.createElement()</code> crea un nuevo elemento HTML que luego insert&aacute;s en el DOM con m&eacute;todos como <code>append</code>, <code>appendChild</code>, <code>prepend</code> o <code>insertBefore</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Crear elementos ===
+
+// createElement — crea un elemento HTML
+const div = document.createElement("div");
+div.textContent = "Hola mundo";
+div.className = "card";
+div.id = "mi-card";
+div.setAttribute("data-role", "info");
+
+// Crear un elemento completo antes de insertarlo
+const li = document.createElement("li");
+li.textContent = "Nuevo item";
+li.classList.add("list-item", "highlighted");
+
+// === Insertar en el DOM ===
+
+const lista = document.querySelector("ul");
+
+// appendChild — agregar como ultimo hijo (metodo clasico)
+lista.appendChild(li);
+
+// append — agregar al final (moderno, acepta multiples argumentos y strings)
+lista.append(li, "texto suelto", document.createElement("hr"));
+
+// prepend — agregar como PRIMER hijo
+lista.prepend(li);
+
+// insertBefore — insertar antes de un elemento referencia
+const segundo = lista.children[1];
+lista.insertBefore(li, segundo);
+
+// after / before — insertar despues o antes de un elemento (hermano)
+const h1 = document.querySelector("h1");
+h1.after(div);     // despues del h1
+h1.before(div);    // antes del h1
+
+// === Crear e insertar en una sola linea ===
+document.querySelector(".container").insertAdjacentHTML(
+    "beforeend",
+    '&lt;div class="card"&gt;Card nueva&lt;/div&gt;'
+);</code></pre>
+                </div>
+
+                <p>
+                    El m&eacute;todo <code>insertAdjacentHTML</code> es particularmente &uacute;til porque te permite insertar HTML como string en posiciones precisas sin tener que crear elementos uno por uno. Las posiciones posibles son <code>"beforebegin"</code> (antes del elemento), <code>"afterbegin"</code> (al inicio del elemento), <code>"beforeend"</code> (al final del elemento, antes de cerrar) y <code>"afterend"</code> (despues del elemento). Es m&aacute;s flexible que <code>innerHTML +=</code> porque no re-parsea todo el contenido existente.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// insertAdjacentHTML — posiciones
+const container = document.querySelector(".container");
+
+// beforebegin: antes del container mismo
+container.insertAdjacentHTML("beforebegin", "&lt;div&gt;Antes&lt;/div&gt;");
+
+// afterbegin: primer hijo del container
+container.insertAdjacentHTML("afterbegin", "&lt;p&gt;Primero&lt;/p&gt;");
+
+// beforeend: ultimo hijo del container
+container.insertAdjacentHTML("beforeend", "&lt;p&gt;Ultimo&lt;/p&gt;");
+
+// afterend: despues del container mismo
+container.insertAdjacentHTML("afterend", "&lt;div&gt;Despues&lt;/div&gt;");
+
+// === Eliminar elementos ===
+
+// remove() — elimina el elemento del DOM (moderno, limpio)
+const viejo = document.querySelector(".old-card");
+viejo?.remove();
+
+// removeChild() — elimina un hijo desde su padre (clasico)
+const lista = document.querySelector("ul");
+const primerHijo = lista.firstElementChild;
+if (primerHijo) {
+    lista.removeChild(primerHijo);
+}
+
+// Eliminar todos los hijos de un elemento
+const contenedor = document.querySelector(".items");
+contenedor.innerHTML = "";  // rapido pero destructivo
+// Alternativa mas segura:
+while (contenedor.firstChild) {
+    contenedor.removeChild(contenedor.firstChild);
+}
+
+// Clonar un elemento
+const original = document.querySelector(".card");
+const clon = original.cloneNode(true);  // true = copia profunda con hijos
+const clonSuperficial = original.cloneNode(false); // solo el elemento, sin hijos
+document.querySelector(".container").append(clon);</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">cloneNode y eventos</p>
+                        <p>Al clonar un elemento con <code>cloneNode(true)</code>, se copian los atributos HTML (incluyendo <code>id</code> y <code>class</code>) pero <strong>no</strong> los event listeners agregados con <code>addEventListener</code>. Si clon&aacute;s un elemento que tiene listeners, vas a tener que re-asignarlos manualmente al clon, o usar event delegation en su lugar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== MODIFICACION ===================== -->
+            <section class="sub-section animate-on-scroll" id="modificacion">
+                <h2>
+                    Modificaci&oacute;n de contenido y estilos
+                    <a href="#modificacion" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Una vez que ten&eacute;s seleccionado un elemento, pod&eacute;s modificar su contenido de texto, su HTML interno, sus clases CSS, sus atributos y sus estilos inline. Cada forma de modificar tiene sus ventajas y desventajas. Elegir la correcta es importante tanto para la funcionalidad como para la seguridad de tu aplicaci&oacute;n.
+                </p>
+
+                <p>
+                    Para <strong>texto</strong>, us&aacute; <code>textContent</code> (recomendado) o <code>innerText</code>. La diferencia es que <code>textContent</code> devuelve todo el texto incluyendo el de elementos ocultos con CSS, mientras que <code>innerText</code> solo devuelve el texto visible (teniendo en cuenta estilos como <code>display: none</code>). En la pr&aacute;ctica, <code>textContent</code> es m&aacute;s r&aacute;pido y m&aacute;s predecible. Para <strong>HTML</strong>, us&aacute; <code>innerHTML</code> que parsea strings como HTML, pero con un riesgo de seguridad importante.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const titulo = document.querySelector("h1");
+const parrafo = document.querySelector("p");
+
+// === Texto ===
+
+// textContent — leer y escribir texto (recomendado)
+console.log(titulo.textContent);  // "Hola Mundo"
+titulo.textContent = "Nuevo titulo";  // reemplaza todo el texto
+parrafo.textContent += " mas texto";  // concatenar (no recomendado, ver abajo)
+
+// innerText — solo texto visible (mas lento)
+titulo.innerText = "Solo visible";
+
+// === HTML interno ===
+
+// innerHTML — leer y escribir HTML (PELIGROSO con datos de usuarios)
+const container = document.querySelector(".container");
+console.log(container.innerHTML);  // todo el HTML interno como string
+container.innerHTML = "&lt;h2&gt;Nuevo&lt;/h2&gt;&lt;p&gt;Contenido&lt;/p&gt;";
+
+// === ATENCION: Riesgo XSS con innerHTML ===
+// NUNCA hagas esto con datos de usuarios:
+const userInput = "&lt;img src='x' onerror='alert(1)'&gt;";
+container.innerHTML = userInput;  // EJECUTA el codigo malicioso!
+
+// En su lugar, usa textContent o createElement
+const span = document.createElement("span");
+span.textContent = userInput;  // seguro, lo trata como texto
+container.appendChild(span);</code></pre>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">XSS con innerHTML</p>
+                        <p><code>innerHTML</code> parsea HTML, lo que significa que si insert&aacute;s contenido proveniente de un usuario o de una API no confiable, pod&eacute;s abrir una vulnerabilidad de <strong>Cross-Site Scripting (XSS)</strong>. Un atacante podr&iacute;a inyectar <code>&lt;script&gt;</code> tags o event handlers maliciosos. La regla es simple: si el contenido viene de un usuario, us&aacute; <code>textContent</code> o <code>createElement</code>. Solo us&aacute; <code>innerHTML</code> con contenido que vos control&aacute;s completamente.</p>
+                    </div>
+                </div>
+
+                <p>
+                    Para modificar <strong>clases CSS</strong>, la API <code>classList</code> es la herramienta correcta. Es mucho m&aacute;s limpia que manipular <code>className</code> directamente (que trabaja con strings y requiere reemplazar toda la lista de clases). <code>classList</code> tiene m&eacute;todos para agregar, eliminar, togglear y verificar clases individuales sin afectar las dem&aacute;s.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const card = document.querySelector(".card");
+
+// === classList ===
+
+// add — agregar una o mas clases
+card.classList.add("active", "highlighted");
+
+// remove — eliminar una o mas clases
+card.classList.remove("hidden", "old-class");
+
+// toggle — agrega si no tiene, quita si tiene
+card.classList.toggle("active");     // switch on/off
+card.classList.toggle("visible", true);  // forzar a true
+card.classList.toggle("hidden", false);   // forzar a false
+
+// contains — verificar si tiene una clase
+if (card.classList.contains("active")) {
+    console.log("La tarjeta esta activa");
+}
+
+// replace — reemplazar una clase por otra
+card.classList.replace("old-class", "new-class");
+
+// === Atributos ===
+
+// getAttribute / setAttribute
+card.getAttribute("class");           // "card active"
+card.setAttribute("id", "card-1");
+card.setAttribute("data-index", "0");
+
+// Propiedades directas (mas comunes)
+card.id = "card-1";
+card.href = "https://ejemplo.com";  // para &lt;a&gt;
+card.src = "imagen.jpg";            // para &lt;img&gt;
+card.value = "texto";                // para &lt;input&gt;
+card.disabled = true;                // para form elements
+card.hidden = false;                 // equivalente a removeAttribute("hidden")
+
+// removeAttribute
+card.removeAttribute("data-old");
+
+// hasAttribute
+if (card.hasAttribute("data-role")) {
+    console.log(card.getAttribute("data-role"));
+}
+
+// === Estilos inline (usar con moderacion) ===
+
+// style — objeto con todas las propiedades CSS en camelCase
+card.style.backgroundColor = "#1a1a2e";
+card.style.padding = "1rem";
+card.style.borderRadius = "8px";
+card.style.display = "flex";
+
+// Leer un estilo computado (el que realmente se aplica)
+const styles = getComputedStyle(card);
+console.log(styles.color);
+console.log(styles.padding);
+console.log(styles.getPropertyValue("background-color"));
+
+// cssText — setear multiples estilos de una vez
+card.style.cssText = "color: white; padding: 1rem; margin: 0 auto;";</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Estilos: CSS classes > inline styles</p>
+                        <p>Evit&aacute; modificar estilos con <code>element.style</code> directamente. En su lugar, agreg&aacute; o quit&aacute; clases CSS con <code>classList</code> y defin&iacute; los estilos en tu hoja de estilos. Esto mantiene la separaci&oacute;n de responsabilidades (HTML para estructura, CSS para presentaci&oacute;n, JS para comportamiento) y hace tu c&oacute;digo mucho m&aacute;s mantenible. Solo us&aacute; inline styles para valores din&aacute;micos que no pod&eacute;s predefinir en CSS.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== TRAVERSING ===================== -->
+            <section class="sub-section animate-on-scroll" id="traversing">
+                <h2>
+                    Traversing del DOM
+                    <a href="#traversing" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El <strong>traversing</strong> (o recorrido) del DOM consiste en navegar entre los nodos del &aacute;rbol usando las relaciones padre-hijo-hermano. Aunque hoy en d&iacute;a se usa menos que antes (porque <code>querySelector</code> es m&aacute;s directo para la mayor&iacute;a de los casos), knowing c&oacute;mo moverse por el &aacute;rbol sigue siendo &uacute;til para escribir componentes reutilizables que funcionen independientemente de la estructura del HTML que los rodea, y para event delegation.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const li = document.querySelector("li");
+
+// === Relaciones padre-hijo ===
+
+// Padre
+li.parentElement;           // el &lt;ul&gt; o &lt;ol&gt;
+li.closest("ul");          // el ancestro ul mas cercano
+li.closest(".container");  // el ancestro .container mas cercano
+
+// Hijos (solo elementos, sin text nodes)
+li.children;               // HTMLCollection de hijos directos
+li.firstElementChild;      // primer hijo que es elemento
+li.lastElementChild;       // ultimo hijo que es elemento
+li.childElementCount;      // cantidad de hijos elementos
+
+// === Relaciones entre hermanos ===
+
+li.nextElementSibling;     // siguiente hermano elemento
+li.previousElementSibling; // hermano anterior elemento
+
+// === Nodos (incluye text nodes y comentarios) ===
+
+li.childNodes;             // NodeList de TODOS los nodos hijos
+li.firstChild;             // primer nodo hijo (puede ser text)
+li.lastChild;              // ultimo nodo hijo
+li.nextSibling;            // siguiente nodo (puede ser text)
+li.previousSibling;        // nodo anterior (puede ser text)
+
+// === Ejemplo practico: navegar desde un boton hasta su card ===
+const botonEliminar = document.querySelector(".btn-delete");
+const card = botonEliminar.closest(".card");
+const titulo = card?.querySelector("h3");
+const contenedor = card?.parentElement;
+
+// Remover la card cuando se hace click en el boton
+botonEliminar?.addEventListener("click", () => {
+    card?.remove();
+});</code></pre>
+                </div>
+
+                <p>
+                    El m&eacute;todo <code>closest()</code> merece una menci&oacute;n especial porque es probablemente el m&eacute;todo de traversing m&aacute;s &uacute;til en el JavaScript moderno. Busca hacia arriba en el &aacute;rbol (desde el elemento actual hasta la ra&iacute;z) y devuelve el primer ancestro que matchea el selector CSS dado. Esto es ideal para <strong>event delegation</strong>: en vez de poner listeners en cada bot&oacute;n individual, pon&eacute;s un solo listener en el contenedor y us&aacute;s <code>event.target.closest()</code> para encontrar el elemento relevante.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Event delegation con closest
+// Un solo listener maneja clicks en multiples items
+const lista = document.querySelector(".todo-list");
+
+lista.addEventListener("click", (e) => {
+    // Buscar el boton mas cercano al click
+    const btn = e.target.closest(".btn-delete");
+    if (!btn) return;  // si no se clickeo un boton, ignorar
+
+    const item = btn.closest(".todo-item");
+    item?.remove();
+});
+
+// closest tambien funciona sobre si mismo
+const navLink = document.querySelector("nav a");
+navLink.closest("a");       // se devuelve a si mismo
+navLink.closest("nav");     // el nav padre
+navLink.closest("div");     // el div ancestro
+navLink.closest("section"); // null si no esta dentro de un section</code></pre>
+                </div>
+            </section>
+
+            <!-- ===================== DATA ATTRIBUTES ===================== -->
+            <section class="sub-section animate-on-scroll" id="data-attributes">
+                <h2>
+                    Data attributes (dataset)
+                    <a href="#data-attributes" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Los <strong>data attributes</strong> son atributos HTML personalizados que empiezan con <code>data-</code> y te permiten almacenar informaci&oacute;n extra en elementos HTML de forma est&aacute;ndar y sem&aacute;ntica. Son la forma correcta de pasar datos desde el HTML al JavaScript (por ejemplo, IDs de bases de datos, configuraciones, estados iniciales). JavaScript los expone a trav&eacute;s de la propiedad <code>dataset</code> del elemento, que convierte autom&aacute;ticamente los nombres de <code>kebab-case</code> a <code>camelCase</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Data attributes en HTML --&gt;
+&lt;div
+    class="user-card"
+    data-user-id="42"
+    data-role="admin"
+    data-last-login="2026-01-15"
+    data-preferences-theme="dark"
+    data-max-items="10"
+&gt;
+    &lt;h3&gt;Ana Garc&iacute;a&lt;/h3&gt;
+&lt;/div&gt;
+
+&lt;button data-action="delete" data-id="42"&gt;Eliminar&lt;/button&gt;
+&lt;button data-action="edit" data-id="42"&gt;Editar&lt;/button&gt;
+&lt;li data-todo-id="1" data-completed="false"&gt;Comprar leche&lt;/li&gt;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const card = document.querySelector(".user-card");
+
+// === Leer data attributes con dataset ===
+// HTML: data-user-id="42"  →  dataset.userId (string "42")
+// HTML: data-role="admin"   →  dataset.role (string "admin")
+// HTML: data-last-login="2026-01-15" → dataset.lastLogin (string)
+
+console.log(card.dataset.userId);    // "42" (siempre string!)
+console.log(card.dataset.role);      // "admin"
+console.log(card.dataset.lastLogin); // "2026-01-15"
+console.log(card.dataset.maxItems);  // "10"
+
+// Los valores SIEMPRE son strings, hay que convertir
+const id = Number(card.dataset.userId);        // 42 (number)
+const max = parseInt(card.dataset.maxItems, 10); // 10 (number)
+const done = card.dataset.completed === "true";   // true (boolean)
+
+// === Escribir data attributes ===
+card.dataset.userId = "99";              // setea data-user-id="99"
+card.dataset.newField = "valor";        // crea data-new-field="valor"
+delete card.dataset.role;                // elimina data-role del HTML
+
+// === Caso practico: botones con data attributes ===
+const botones = document.querySelectorAll("[data-action]");
+
+botones.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const accion = btn.dataset.action;  // "delete" o "edit"
+        const id = btn.dataset.id;          // "42"
+
+        if (accion === "delete") {
+            console.log(`Eliminar elemento ${id}`);
+        } else if (accion === "edit") {
+            console.log(`Editar elemento ${id}`);
+        }
+    });
+});
+
+// Seleccionar por data attribute
+const admins = document.querySelectorAll("[data-role='admin']");
+const pendientes = document.querySelectorAll("[data-completed='false']");
+const todosLosData = document.querySelectorAll("[data-]"); // cualquier elem con data-*</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Conversi&oacute;n de nombres</p>
+                        <p>La conversi&oacute;n de <code>data-</code> attribute a <code>dataset</code> property sigue esta regla: <code>data-max-items</code> se convierte en <code>dataset.maxItems</code> (se elimina el prefijo <code>data-</code>, cada guion medio separa palabras, y la primera letra de cada palabra despues del primer guion se convierte a may&uacute;scula). <code>data-user-id</code> becomes <code>dataset.userId</code>, <code>data-xml</code> becomes <code>dataset.xml</code> (solo la primera letra despues del guion se capitaliza).</p>
+                    </div>
+                </div>
+
+                <p>
+                    Los data attributes son ideales para almacenar datos que necesitas en JavaScript pero que no tienen significado sem&aacute;ntico en HTML. Por ejemplo, <code>data-user-id="42"</code> no significa nada para el navegador o para la accesibilidad, pero es informaci&oacute;n crucial para tu l&oacute;gica de JavaScript. Tambi&eacute;n son &uacute;tiles para CSS: pod&eacute;s seleccionar elementos con <code>[data-theme="dark"]</code> en tus hojas de estilo y combinarlos con <code>attr()</code> para crear estilos basados en datos.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Data attributes en CSS */
+
+/* Seleccionar por data attribute */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+/* Seleccionar por valor exacto */
+[data-role="admin"] {
+    border-color: var(--accent-red);
+}
+
+/* Seleccionar si el atributo existe (sin importar el valor) */
+[data-completed="true"] {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Seleccionar que contiene un valor */
+[data-tags~="javascript"] {
+    border-left: 3px solid var(--accent-blue);
+}
+
+/* Usar data attribute con attr() para contenido generado */
+[data-icon]::before {
+    content: attr(data-icon);
+}
+
+/* Data attributes con selectors de parcial */
+[data-color^="light"] {
+    background: #fafafa;
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Navigation between sections -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/js-moderno.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    ES6+ Moderno
+                </a>
+                <a href="../sections/js-eventos.html" class="btn btn-secondary">
+                    Eventos
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>

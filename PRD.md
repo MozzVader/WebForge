@@ -660,7 +660,7 @@ Las cheatsheets son secciones dedicadas con formato de **referencia rápida**. T
 ### Fase 7: Contenido — JavaScript
 - [x] Escribir `sections/js-basico.html`
 - [x] Escribir `sections/js-moderno.html`
-- [ ] Escribir `sections/js-dom.html`
+- [x] Escribir `sections/js-dom.html`
 - [ ] Escribir `sections/js-eventos.html`
 - [ ] Escribir `sections/js-asincronia.html`
 - [ ] Escribir `sections/js-almacenamiento.html`
