@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almacenamiento — WebForge</title>
+    <meta name="description" content="Aprende almacenamiento en JavaScript: localStorage, sessionStorage, cookies, IndexedDB, cu&aacute;ndo usar cada uno y buenas pr&aacute;cticas de seguridad.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>JavaScript</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Almacenamiento en el Navegador</h1>
+                <p>Las aplicaciones web necesitan guardar datos del lado del cliente: preferencias de usuario, carritos de compra, tokens de sesi&oacute;n, datos offline y m&aacute;s. JavaScript ofrece varias APIs para almacenar informaci&oacute;n en el navegador, cada una con caracter&iacute;sticas diferentes en cuanto a capacidad, persistencia, seguridad y complejidad. Elegir la correcta depende de qu&eacute; tipo de datos guard&aacute;s, cu&aacute;nto espacio necesit&aacute;s y si la informaci&oacute;n es sensible o no. Esta secci&oacute;n cubre localStorage, sessionStorage, cookies e IndexedDB, y te ayuda a decidir cu&aacute;ndo usar cada uno.</p>
+            </div>
+
+            <!-- ===================== LOCALSTORAGE ===================== -->
+            <section class="sub-section animate-on-scroll" id="localstorage">
+                <h2>
+                    localStorage
+                    <a href="#localstorage" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>localStorage</strong> es la forma m&aacute;s simple de almacenar datos en el navegador. Guarda pares clave-valor como strings que <strong>persisten indefinidamente</strong>: los datos quedan almacenados a&uacute;n despu&eacute;s de cerrar el navegador, reiniciar la computadora o pasar semanas sin visitar la p&aacute;gina. Solo se eliminan cuando el usuario los borra manualmente (desde las herramientas de desarrollo o la configuraci&oacute;n del navegador) o cuando tu c&oacute;digo llama a <code>removeItem</code> o <code>clear</code>. Comparte el mismo almacenamiento entre todas las pesta&ntilde;as y ventanas del <strong>mismo origen</strong> (misma URL + mismo puerto + mismo protocolo).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === CRUD basico con localStorage ===
+
+// Guardar un valor (siempre como STRING)
+localStorage.setItem("nombre", "Carlos");
+localStorage.setItem("edad", "28");
+localStorage.setItem("activo", "true");
+
+// Leer un valor
+const nombre = localStorage.getItem("nombre");   // "Carlos"
+const edad = localStorage.getItem("edad");       // "28" (string, no number!)
+const activo = localStorage.getItem("activo");   // "true" (string, no boolean!)
+
+// Eliminar un valor especifico
+localStorage.removeItem("activo");
+
+// Eliminar TODO el almacenamiento del dominio
+// localStorage.clear();  // cuidado: borra todo
+
+// Leer un valor que no existe
+const inexistente = localStorage.getItem("noExiste"); // null
+
+// === Almacenar objetos y arrays con JSON ===
+// localStorage solo guarda strings, necesitas serializar
+
+const usuario = {
+    id: 1,
+    nombre: "Ana",
+    email: "ana@mail.com",
+    preferencias: { tema: "dark", idioma: "es" }
+};
+
+// Guardar: objeto -> string JSON
+localStorage.setItem("usuario", JSON.stringify(usuario));
+
+// Leer: string JSON -> objeto
+const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+console.log(usuarioGuardado.nombre);      // "Ana"
+console.log(usuarioGuardado.preferencias); // { tema: "dark", idioma: "es" }
+
+// === Almacenar un array ===
+const tareas = [
+    { id: 1, texto: "Aprender JS", lista: true },
+    { id: 2, texto: "Construir un proyecto", lista: false }
+];
+
+localStorage.setItem("tareas", JSON.stringify(tareas));
+
+const tareasGuardadas = JSON.parse(localStorage.getItem("tareas"));
+console.log(tareasGuardadas[0].texto); // "Aprender JS"
+
+// === Verificar cuantos items hay ===
+console.log(localStorage.length); // 2 ("usuario" y "tareas")
+
+// === Obtener la clave en una posicion ===
+const primeraClave = localStorage.key(0); // "nombre" (o la primera clave)
+
+// === Recorrer todo el localStorage ===
+for (let i = 0; i < localStorage.length; i++) {
+    const clave = localStorage.key(i);
+    const valor = localStorage.getItem(clave);
+    console.log(`${clave}: ${valor}`);
+}
+
+// === Usar for...of con Object.entries (mas moderno) ===
+for (const [clave, valor] of Object.entries(localStorage)) {
+    console.log(`${clave}: ${valor}`);
+}</code></pre>
+                </div>
+
+                <p>
+                    Un detalle fundamental: <code>localStorage</code> <strong>solo almacena strings</strong>. Si guard&aacute;s un n&uacute;mero, un booleano o un objeto directamente, JavaScript lo convierte a string autom&aacute;ticamente y vas a tener sorpresas al leerlo. Por eso, para cualquier dato que no sea un string simple, siempre us&aacute; <code>JSON.stringify()</code> al guardar y <code>JSON.parse()</code> al leer. Si el string guardado no es JSON v&aacute;lido, <code>JSON.parse()</code> lanza un error, as&iacute; que es buena pr&aacute;ctica envolverlo en un <code>try/catch</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Funcion helper segura para leer del localStorage ===
+function getLocalStorage(key, fallback = null) {
+    try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : fallback;
+    } catch (error) {
+        console.error(`Error leyendo "${key}" del localStorage:`, error);
+        return fallback;
+    }
+}
+
+// Uso
+const config = getLocalStorage("config", { tema: "dark" });
+// Si no existe o hay error, devuelve el fallback
+
+// === Ejemplo practico: persistir tema del sitio ===
+const temaToggle = document.querySelector("#tema-toggle");
+
+function cargarTema() {
+    const tema = getLocalStorage("tema", "dark");
+    document.documentElement.setAttribute("data-theme", tema);
+}
+
+function alternarTema() {
+    const actual = document.documentElement.getAttribute("data-theme");
+    const nuevo = actual === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", nuevo);
+    localStorage.setItem("tema", JSON.stringify(nuevo));
+}
+
+temaToggle.addEventListener("click", alternarTema);
+cargarTema(); // al cargar la pagina
+
+// === Ejemplo: carrito de compras ===
+function obtenerCarrito() {
+    return getLocalStorage("carrito", []);
+}
+
+function agregarAlCarrito(producto) {
+    const carrito = obtenerCarrito();
+    const existente = carrito.find(item => item.id === producto.id);
+
+    if (existente) {
+        existente.cantidad += 1;
+    } else {
+        carrito.push({ ...producto, cantidad: 1 });
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    return carrito;
+}
+
+function vaciarCarrito() {
+    localStorage.removeItem("carrito");
+}
+
+// === Manejar el evento "storage" (cambia en OTRA pesta&ntilde;a) ===
+window.addEventListener("storage", (e) => {
+    console.log("Clave cambiada:", e.key);
+    console.log("Valor viejo:", e.oldValue);
+    console.log("Valor nuevo:", e.newValue);
+    console.log("URL origen:", e.url);
+
+    if (e.key === "carrito") {
+        actualizarInterfazCarrito();
+    }
+});</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">El evento "storage" solo se dispara en otras pesta&ntilde;as</p>
+                        <p>Cuando una pesta&ntilde;a modifica <code>localStorage</code>, el evento <code>storage</code> se dispara en todas las <strong>otras</strong> pesta&ntilde;as del mismo origen, pero <strong>no</strong> en la que hizo el cambio. Esto es &uacute;til para sincronizar estado entre pesta&ntilde;as (por ejemplo, si el usuario cierra sesi&oacute;n en una pesta&ntilde;a, las dem&aacute;s se enteran).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== SESSIONSTORAGE ===================== -->
+            <section class="sub-section animate-on-scroll" id="sessionstorage">
+                <h2>
+                    sessionStorage
+                    <a href="#sessionstorage" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>sessionStorage</strong> es id&eacute;ntico a <code>localStorage</code> en su API (mismos m&eacute;todos: <code>setItem</code>, <code>getItem</code>, <code>removeItem</code>, <code>clear</code>, <code>key</code>, <code>length</code>) pero con una diferencia clave: los datos <strong>se eliminan autom&aacute;ticamente</strong> cuando la pesta&ntilde;a o ventana se cierra. Adem&aacute;s, cada pesta&ntilde;a tiene su propia copia independiente: si abr&iacute;s dos pesta&ntilde;as del mismo sitio, los cambios en <code>sessionStorage</code> de una no afectan a la otra (a diferencia de <code>localStorage</code> que es compartido). Incluso si recarg&aacute;s la pesta&ntilde;a, los datos se mantienen, porque la sesi&oacute;n de la pesta&ntilde;a sigue viva.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === API identica a localStorage ===
+sessionStorage.setItem("formDraft", JSON.stringify({
+    titulo: "Mi post",
+    contenido: "Escribiendo..."
+}));
+
+const draft = JSON.parse(sessionStorage.getItem("formDraft"));
+console.log(draft.titulo); // "Mi post"
+
+sessionStorage.removeItem("formDraft");
+// sessionStorage.clear(); // borra todo de esta pestana
+
+// === Caso de uso: guardar datos de un formulario temporalmente ===
+const formulario = document.querySelector("#mi-formulario");
+
+// Restaurar datos al cargar la pagina
+function restaurarFormulario() {
+    const datos = sessionStorage.getItem("formDatos");
+    if (datos) {
+        const parsed = JSON.parse(datos);
+        formulario.titulo.value = parsed.titulo || "";
+        formulario.email.value = parsed.email || "";
+        formulario.mensaje.value = parsed.mensaje || "";
+    }
+}
+
+// Guardar datos en cada cambio
+formulario.addEventListener("input", () => {
+    sessionStorage.setItem("formDatos", JSON.stringify({
+        titulo: formulario.titulo.value,
+        email: formulario.email.value,
+        mensaje: formulario.mensaje.value
+    }));
+});
+
+// Limpiar al enviar
+formulario.addEventListener("submit", () => {
+    sessionStorage.removeItem("formDatos");
+});
+
+restaurarFormulario();</code></pre>
+                </div>
+
+                <p>
+                    Los casos de uso t&iacute;picos de <code>sessionStorage</code> incluyen: guardar el estado de un formulario mientras el usuario lo completa (para no perder datos si recarga), almacenar datos temporales de un wizard o flujo de pasos, o mantener un flag de "ya vi&oacute; este popup" que debe resetearse cuando cierra la pesta&ntilde;a. La regla general es simple: si los datos deben sobrevivir al cierre del navegador, us&aacute; <code>localStorage</code>. Si solo necesit&aacute;s que duren mientras la pesta&ntilde;a est&eacute; abierta, us&aacute; <code>sessionStorage</code>.
+                </p>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">localStorage vs sessionStorage: resumen r&aacute;pido</p>
+                        <p>Ambos tienen la misma API, misma capacidad (~5 MB), y solo guardan strings. La diferencia es la <strong>persistencia</strong> y el <strong>alcance</strong>: <code>localStorage</code> persiste para siempre y se comparte entre pesta&ntilde;as del mismo origen. <code>sessionStorage</code> se borra al cerrar la pesta&ntilde;a y cada pesta&ntilde;a tiene su propio almacenamiento aislado.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== COOKIES ===================== -->
+            <section class="sub-section animate-on-scroll" id="cookies">
+                <h2>
+                    Cookies
+                    <a href="#cookies" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las <strong>cookies</strong> son el mecanismo de almacenamiento m&aacute;s antiguo del navegador. A diferencia de localStorage, las cookies se env&iacute;an autom&aacute;ticamente con <strong>cada petici&oacute;n HTTP</strong> al servidor, lo que las hace ideales para datos que el backend necesita leer (como tokens de sesi&oacute;n, preferencias de idioma o tracking). Tienen un l&iacute;mite de ~4 KB por cookie y ~50 cookies por dominio. Se pueden configurar con fecha de expiraci&oacute;n, restricciones de ruta, dominio, seguridad (HTTPS) y flags anti-acceso desde JavaScript.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Leer cookies con document.cookie ===
+// Devuelve TODAS las cookies como un solo string: "nombre=valor; otra=valor"
+console.log(document.cookie);
+// "tema=dark; idioma=es; _ga=GA1.2.123456789"
+
+// === Escribir una cookie basica ===
+document.cookie = "tema=dark";
+
+// === Escribir una cookie con opciones ===
+document.cookie = "idioma=es; path=/; max-age=31536000; SameSite=Lax";
+
+// === Opciones de cookie explicadas ===
+
+// expires — fecha de expiracion (formato UTC)
+// La cookie se elimina automaticamente en esa fecha
+document.cookie = "sesion=abc123; expires=Fri, 31 Dec 2026 23:59:59 GMT";
+
+// max-age — segundos hasta expirar (alternativa a expires)
+// max-age=86400 = 1 dia, max-age=31536000 = 1 anio
+document.cookie = "token=xyz; max-age=3600"; // expira en 1 hora
+
+// path — ruta donde la cookie es valida
+// path=/           → toda la pagina
+// path=/dashboard  → solo bajo /dashboard
+document.cookie = "panel=abierto; path=/dashboard";
+
+// domain — dominio donde la cookie es valida
+// domain=.ejemplo.com → funciona en subdominios tambien
+document.cookie = "prefs=dark; domain=.ejemplo.com";
+
+// Secure — la cookie solo se envia por HTTPS
+document.cookie = "token=abc; Secure";
+
+// HttpOnly — JavaScript NO puede leer esta cookie (solo el servidor la crea)
+// NO se puede setear desde document.cookie, solo desde el backend
+// document.cookie = "token=abc; HttpOnly"; // esto NO funciona desde JS
+
+// SameSite — controla envio en peticiones cross-site
+// Strict: no se envia en NINGUNA peticion cross-site (mas seguro)
+// Lax:    se envia en navegaciones seguras (links, GET), no en POST cross-site
+// None:   se envia siempre (requiere Secure)
+document.cookie = "sid=xyz; SameSite=Strict; Secure";
+
+// === Leer una cookie especifica (funcion helper) ===
+function getCookie(nombre) {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+        const [clave, valor] = cookie.split("=");
+        if (clave === nombre) {
+            return decodeURIComponent(valor);
+        }
+    }
+    return null;
+}
+
+console.log(getCookie("tema"));    // "dark"
+console.log(getCookie("noExiste")); // null
+
+// === Eliminar una cookie (setearla con max-age=0 o fecha pasada) ===
+function deleteCookie(nombre, path = "/") {
+    document.cookie = `${nombre}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path}`;
+}
+
+deleteCookie("tema");
+deleteCookie("token", "/dashboard"); // si tenia path especifico
+
+// === Verificar si las cookies estan habilitadas ===
+function cookiesHabilitadas() {
+    try {
+        document.cookie = "test=1";
+        const habilitadas = document.cookie.indexOf("test=") !== -1;
+        document.cookie = "test=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        return habilitadas;
+    } catch (e) {
+        return false;
+    }
+}</code></pre>
+                </div>
+
+                <p>
+                    Las cookies son el &uacute;nico mecanismo de almacenamiento que <strong>se env&iacute;a al servidor</strong> autom&aacute;ticamente con cada request HTTP. Esto las hace necesarias para sesiones y autenticaci&oacute;n, pero tambi&eacute;n puede ser un problema de performance si almacen&aacute;s datos grandes o innecesarios en cookies, porque cada request lleva ese peso extra. Es por eso que el patr&oacute;n moderno es usar cookies solo para tokens de sesi&oacute;n peque&ntilde;os (<code>HttpOnly</code>, <code>Secure</code>, <code>SameSite=Strict</code>) y dejar el resto de los datos del cliente en <code>localStorage</code> o <code>sessionStorage</code>.
+                </p>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Seguridad: HttpOnly, Secure y SameSite</p>
+                        <p>Nunca guardes datos sensibles (tokens, contrase&ntilde;as, info personal) en cookies accesibles desde JavaScript. Us&aacute; <code>HttpOnly</code> para que solo el servidor pueda leerlas (se configuran desde el backend con <code>Set-Cookie</code> header). Siempre us&aacute; <code>Secure</code> para que solo viajen por HTTPS. Y configur&aacute; <code>SameSite=Strict</code> o al menos <code>Lax</code> para proteger contra ataques CSRF. Cookies sin estas flags son vulnerables a XSS y CSRF.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">La API de cookies es horrible (y eso es normal)</p>
+                        <p>La API nativa <code>document.cookie</code> es una de las peores de JavaScript: lee todas las cookies como un string que ten&eacute;s que parsear manualmente, escribir sobreescribe todo el string, y no hay forma directa de modificar una sola cookie. En proyectos reales, muchos desarrolladores usan una librer&iacute;a pequeña como <code>js-cookie</code> para simplificar esto, o manejan las cookies exclusivamente desde el backend.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== INDEXEDDB ===================== -->
+            <section class="sub-section animate-on-scroll" id="indexeddb">
+                <h2>
+                    IndexedDB
+                    <a href="#indexeddb" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>IndexedDB</strong> es una base de datos NoSQL del lado del cliente. A diferencia de localStorage (que es clave-valor simple y s&oacute;lo strings), IndexedDB puede almacenar <strong>objetos estructurados, archivos, blobs y datos binarios</strong> de forma eficiente. Soporta &iacute;ndices para b&uacute;squedas r&aacute;pidas, transacciones ACID y tiene una capacidad mucho mayor (cientos de MB o incluso GB, dependiendo del navegador). Es la opci&oacute;n correcta cuando necesit&aacute;s almacenar cantidades significativas de datos, hacer consultas complejas o trabajar offline con datos estructurados.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Conceptos clave de IndexedDB ===
+//
+// Database  → la base de datos (como en cualquier DB)
+// Object Store → como una "tabla" que guarda objetos
+// Index → un &iacute;ndice para buscar rapido por una propiedad
+// Transaction → operaciones at&oacute;micas (todo exita o nada)
+// Cursor → iterar sobre muchos registros
+//
+// La API es EVENT-BASED (usa onsuccess, onerror, onupgradeneeded)
+// A diferencia de localStorage que es sincrono, IndexedDB es ASINCRONO
+
+// === Abrir (o crear) una base de datos ===
+const request = indexedDB.open("MiAppDB", 1); // nombre, version
+
+// Se ejecuta la PRIMERA vez o cuando cambia la version
+request.onupgradeneeded = (event) => {
+    const db = event.target.result;
+
+    // Crear un "object store" (como una tabla)
+    if (!db.objectStoreNames.contains("usuarios")) {
+        const store = db.createObjectStore("usuarios", { keyPath: "id" });
+
+        // Crear indices para buscar rapido
+        store.createIndex("nombre", "nombre", { unique: false });
+        store.createIndex("email", "email", { unique: true });
+    }
+
+    if (!db.objectStoreNames.contains("productos")) {
+        const store = db.createObjectStore("productos", { keyPath: "id", autoIncrement: true });
+        store.createIndex("categoria", "categoria", { unique: false });
+        store.createIndex("precio", "precio", { unique: false });
+    }
+};
+
+// === Operaciones CRUD con IndexedDB ===
+
+function agregarUsuario(db, usuario) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("usuarios", "readwrite");
+        const store = tx.objectStore("usuarios");
+        const request = store.add(usuario);
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function obtenerUsuario(db, id) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("usuarios", "readonly");
+        const store = tx.objectStore("usuarios");
+        const request = store.get(id);
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function obtenerTodos(db) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("usuarios", "readonly");
+        const store = tx.objectStore("usuarios");
+        const request = store.getAll();
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function eliminarUsuario(db, id) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("usuarios", "readwrite");
+        const store = tx.objectStore("usuarios");
+        const request = store.delete(id);
+
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+// === Buscar por indice ===
+function buscarPorNombre(db, nombre) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("usuarios", "readonly");
+        const store = tx.objectStore("usuarios");
+        const index = store.index("nombre");
+        const request = index.getAll(nombre);
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+// === Uso completo ===
+const dbRequest = indexedDB.open("MiAppDB", 1);
+
+dbRequest.onsuccess = async (event) => {
+    const db = event.target.result;
+
+    await agregarUsuario(db, { id: 1, nombre: "Ana", email: "ana@mail.com" });
+    await agregarUsuario(db, { id: 2, nombre: "Carlos", email: "carlos@mail.com" });
+
+    const usuario = await obtenerUsuario(db, 1);
+    console.log(usuario); // { id: 1, nombre: "Ana", email: "ana@mail.com" }
+
+    const todos = await obtenerTodos(db);
+    console.log("Todos:", todos);
+
+    const resultados = await buscarPorNombre(db, "Ana");
+    console.log("Busqueda:", resultados);
+};</code></pre>
+                </div>
+
+                <p>
+                    La API de IndexedDB es notoriamente verbose y compleja (todo es callback-based y requiere manejar transacciones manualmente). Por eso, en proyectos reales casi nadie usa la API nativa directamente. En su lugar, se usan librer&iacute;as wrapper como <strong>idb</strong> (de Jake Archibald, muy ligera) o <strong>Dexie.js</strong> (m&aacute;s completa con API promise-based). Estas librer&iacute;as envuelven la API cruda en algo mucho m&aacute;s amigable que se parece a usar un ORM. Lo importante es entender los conceptos (object stores, &iacute;ndices, transacciones) aunque en la pr&aacute;ctica uses un wrapper.
+                </p>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">&iquest;Cu&aacute;ndo us&aacute;s IndexedDB?</p>
+                        <p>Us&aacute; IndexedDB cuando necesit&aacute;s: (1) almacenar m&aacute;s de 5 MB de datos, (2) guardar datos estructurados con &iacute;ndices y b&uacute;squedas complejas, (3) trabajar offline con sincronizaci&oacute;n posterior (PWA), (4) almacenar archivos, im&aacute;genes o blobs, o (5) necesitas transacciones ACID. Para todo lo dem&aacute;s, <code>localStorage</code> es m&aacute;s simple y suficiente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== COMPARACION ===================== -->
+            <section class="sub-section animate-on-scroll" id="comparacion">
+                <h2>
+                    &iquest;Cu&aacute;ndo usar cada uno?
+                    <a href="#comparacion" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Elegir el mecanismo de almacenamiento correcto depende de varios factores: cu&aacute;ntos datos necesit&aacute;s guardar, por cu&aacute;nto tiempo, si el servidor necesita acceder a ellos, y qu&eacute; tan sensibles son. No existe una opci&oacute;n "mejor" en general: cada una brilla en su caso de uso espec&iacute;fico. La siguiente tabla resume las diferencias principales para ayudarte a decidir r&aacute;pidamente.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Comparativa
+                        </span>
+                    </div>
+                    <pre><code class="language-plaintext">| Caracteristica    | localStorage   | sessionStorage  | Cookies         | IndexedDB       |
+|-------------------|----------------|----------------|-----------------|-----------------|
+| Capacidad         | ~5 MB          | ~5 MB          | ~4 KB c/u       | Cientos de MB+  |
+| Tipo de dato      | Solo strings   | Solo strings   | Solo strings    | Objetos, blobs  |
+| Persistencia      | Permanente     | Hasta cerrar   | Configurable    | Permanente      |
+| Envia al servidor | No             | No             | Si (cada req)   | No              |
+| Alcance           | Mismo origen   | Misma pestana  | Mismo origen    | Mismo origen    |
+| Sincrono/Async    | Sincrono       | Sincrono       | Sincrono        | Asincrono       |
+| Indices/busqueda  | No             | No             | No              | Si              |
+| Seguridad JS      | Accesible      | Accesible      | HttpOnly protege| Accesible       |</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Guia rapida: que usar en cada caso ===
+
+// ✅ localStorage: preferencias del usuario, tema, idioma, datos del carrito
+localStorage.setItem("tema", JSON.stringify("dark"));
+localStorage.setItem("carrito", JSON.stringify([{ id: 1, nombre: "Zapatillas" }]));
+
+// ✅ sessionStorage: formularios incompletos, datos temporales, pasos de un wizard
+sessionStorage.setItem("pasoActual", JSON.stringify(2));
+sessionStorage.setItem("formDraft", JSON.stringify({ titulo: "", email: "" }));
+
+// ✅ Cookies: tokens de sesion (HttpOnly!), preferencias que el backend necesita
+// (se configuran desde el SERVIDOR con Set-Cookie header, no desde JS)
+// Set-Cookie: sid=abc123; HttpOnly; Secure; SameSite=Strict; Path=/
+
+// ✅ IndexedDB: datos offline grandes, cache de API, imagenes, historial extenso
+// (normalmente con una libreria como Dexie.js o idb)</code></pre>
+                </div>
+
+                <p>
+                    La regla de oro es empezar con la opci&oacute;n m&aacute;s simple que cubra tus necesidades. Para la mayor&iacute;a de aplicaciones web, <code>localStorage</code> es suficiente para preferencias y datos peque&ntilde;os del cliente, y cookies (configuradas desde el backend) para autenticaci&oacute;n. Solo migr&aacute; a IndexedDB cuando realmente necesites su capacidad extra, sus &iacute;ndices o soporte para datos binarios. No uses IndexedDB para guardar 3 preferencias: eso ser&iacute;a como usar un ca&ntilde;&oacute;n para matar una mosca.
+                </p>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">NUNCA guardes datos sensibles en localStorage</p>
+                        <p><code>localStorage</code> y <code>sessionStorage</code> son accesibles desde cualquier JavaScript que se ejecute en tu p&aacute;gina, incluyendo scripts de terceros (analytics, ads, extensiones del navegador). Si un atacante inyecta c&oacute;digo XSS en tu sitio, tiene acceso completo a todo lo que guardaste all&iacute;. Para datos sensibles (tokens, contrase&ntilde;as, informaci&oacute;n personal), us&aacute; cookies <code>HttpOnly</code> (solo configurables desde el servidor) o no las guardes del lado del cliente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation between sections -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/js-asincronia.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Asincron&iacute;a
+                </a>
+                <a href="../sections/herramientas-workflow.html" class="btn btn-secondary">
+                    Herramientas &amp; Workflow
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
