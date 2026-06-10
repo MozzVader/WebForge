@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramientas &amp; Workflow — WebForge</title>
+    <meta name="description" content="Herramientas esenciales para desarrollo web: VS Code, DevTools, Prettier, Emmet, Live Server, compatibilidad de navegadores y plataformas de deploy.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Extras</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Herramientas &amp; Workflow</h1>
+                <p>Saber HTML, CSS y JavaScript es la base, pero trabajar eficientemente requiere las herramientas correctas. Un buen setup de desarrollo te ahorra horas de trabajo repetitivo, te ayuda a escribir c&oacute;digo m&aacute;s limpio, te permite depurar problemas r&aacute;pidamente y te da un flujo de trabajo fluido donde pod&eacute;s enfocarte en lo que importa: construir cosas. Esta secci&oacute;n cubre las herramientas esenciales que usan los desarrolladores frontend profesionales, desde el editor de c&oacute;digo hasta las DevTools del navegador, pasando por formateo autom&aacute;tico, abreviaciones de c&oacute;digo y plataformas de deploy.</p>
+            </div>
+
+            <!-- ===================== VS CODE ===================== -->
+            <section class="sub-section animate-on-scroll" id="vscode">
+                <h2>
+                    VS Code
+                    <a href="#vscode" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>Visual Studio Code</strong> es el editor de c&oacute;digo m&aacute;s usado del mundo (seg&uacute;n encuestas de Stack Overflow, lo usan m&aacute;s del 70% de los desarrolladores). Es gratuito, de c&oacute;digo abierto, ligero y extremadamente extensible gracias a su ecosistema de extensiones. Desarrollado por Microsoft, funciona en Windows, macOS y Linux, y tiene soporte nativo para JavaScript, TypeScript, HTML y CSS con autocompletado IntelliSense, coloreo de sintaxis y depuraci&oacute;n integrada. A diferencia de un IDE pesado, VS Code arranca en segundos y consume pocos recursos, pero con las extensiones adecuadas puede competir con cualquier IDE completo.
+                </p>
+
+                <h3>Extensiones esenciales para frontend</h3>
+
+                <p>
+                    El verdadero poder de VS Code est&aacute; en sus extensiones. Estas son las que todo desarrollador web deber&iacute;a tener instaladas desde el d&iacute; uno, porque transforman el editor de un simple bloc de notas con sintaxis highlight en un entorno de desarrollo completo con autocompletado inteligente, formateo autom&aacute;tico, atajos de productividad y herramientas de depuraci&oacute;n integradas.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Extensiones recomendadas
+                        </span>
+                    </div>
+                    <pre><code class="language-plaintext">| Extensi&oacute;n              | Qu&eacute; hace                                                          | Imprescindible |
+|--------------------------|----------------------------------------------------------------------|----------------|
+| Prettier                 | Formatea tu c&oacute;digo autom&aacute;ticamente al guardar                   | Si             |
+| ESLint                   | Detecta errores y malas pr&aacute;cticas en JS/TS                      | Si             |
+| Live Server              | Servidor local con reload autom&aacute;tico                           | Si             |
+| Auto Rename Tag          | Renombra la etiqueta de cierre al editar la de apertura              | Si             |
+| HTML CSS Support         | Autocompletado de clases CSS en HTML                                 | Si             |
+| Path Intellisense        | Autocompletado de rutas de archivos                                  | Si             |
+| Error Lens               | Muestra errores inline directamente en el editor                    | No, pero genial|
+| CSS Peek                 | Ctrl+click en una clase HTML para ir al CSS                          | No             |
+| GitLens                  | Info de Git inline (quien cambi&oacute; qu&eacute;, cu&aacute;ndo)                   | No             |
+| Thunder Client           | Cliente HTTP tipo Postman, dentro de VS Code                         | No             |
+| Indent Rainbow           | Colorea la indentaci&oacute;n para ver bloques visuales                | No             |
+| Material Icon Theme      | Iconos bonitos para archivos y carpetas                              | No             |</code></pre>
+                </div>
+
+                <h3>Settings recomendados (settings.json)</h3>
+
+                <p>
+                    La configuraci&oacute;n por defecto de VS Code funciona, pero personalizarla marca una diferencia enorme en tu productividad diaria. Estas settings activan el formateo al guardar, configuran el tama&ntilde;o de tabulaci&oacute;n, eliminan espacios en blanco innecesarios y ajustan el comportamiento del editor para que se sienta natural. Para abrir el settings.json, us&aacute; <code>Ctrl+Shift+P</code> (o <code>Cmd+Shift+P</code> en Mac) y escrib&iacute; "Open User Settings (JSON)".
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 18H8"/><path d="M16 18h-2"/><path d="M12 12h2"/></svg>
+                            JSON
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-json">{
+    // Formatear al guardar (usa Prettier si est&aacute; instalado)
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+    // Tama&ntilde;o de tabulaci&oacute;n
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+
+    // Eliminar espacios en blanco al final de cada l&iacute;nea al guardar
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+
+    // Word wrap para no scrollear horizontalmente
+    "editor.wordWrap": "on",
+
+    // Minimap (el mapa lateral) - a gusto personal
+    "editor.minimap.enabled": false,
+
+    // Font y tama&ntilde;o
+    "editor.fontSize": 15,
+    "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
+    "editor.fontLigatures": true,
+
+    // Bracket pair colorization (colorea pares de llaves/parentesis)
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+
+    // Mostrar errores y warnings inline
+    "editor.inlineErrors.enabled": true,
+
+    // Emmet expand abbreviation en archivos que no son HTML
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+
+    // Excluir carpetas del file explorer para no polucionar
+    "files.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/.DS_Store": true
+    }
+}</code></pre>
+                </div>
+
+                <h3>Atajos de teclado esenciales</h3>
+
+                <p>
+                    Los atajos de teclado son lo que separa a alguien que "usa" VS Code de alguien que "vuela" en VS Code. Memorizar estos atajos te permite moverte por el c&oacute;digo, editar m&uacute;ltiples l&iacute;neas, buscar y reemplazar, y gestionar archivos sin tocar el mouse. Al principio cuesta recordarlos, pero despu&eacute;s de una semana us&aacute;ndolos se vuelven reflejo y no pod&eacute;s volver atr&aacute;s.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Atajos
+                        </span>
+                    </div>
+                    <pre><code class="language-plaintext">| Acci&oacute;n                           | Windows/Linux            | macOS                   |
+|-----------------------------------|-------------------------|-------------------------|
+| Command Palette                   | Ctrl+Shift+P            | Cmd+Shift+P             |
+| Abrir archivo r&aacute;pido              | Ctrl+P                  | Cmd+P                   |
+| B&uacute;squeda en archivos              | Ctrl+Shift+F            | Cmd+Shift+F             |
+| Terminal integrada                 | Ctrl+`                  | Cmd+`                   |
+| Split editor (lado a lado)        | Ctrl+\                  | Cmd+\                   |
+| Mover l&iacute;nea arriba/abajo         | Alt+Up/Down             | Option+Up/Down          |
+| Duplicar l&iacute;nea                    | Shift+Alt+Down          | Shift+Option+Down       |
+| Seleccionar siguiente ocurrencia   | Ctrl+D                  | Cmd+D                   |
+| Seleccionar todas las ocurrencias  | Ctrl+Shift+L            | Cmd+Shift+L             |
+| Ir a definici&oacute;n                  | F12 / Ctrl+Click        | F12 / Cmd+Click         |
+| Renombrar s&iacute;mbolo                 | F2                      | F2                      |
+| Toggle comment                    | Ctrl+/                  | Cmd+/                   |
+| Toggle block comment              | Shift+Alt+A             | Shift+Option+A          |
+| Formatear documento               | Shift+Alt+F             | Shift+Option+F          |
+| Multi-cursor (click en l&iacute;nea)    | Alt+Click               | Option+Click            |
+| Cerrar pesta&ntilde;a                   | Ctrl+W                  | Cmd+W                   |</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Tip: fuentes con ligaduras</p>
+                        <p>Si us&aacute;s una fuente con soporte de ligaduras (como Fira Code, JetBrains Mono o Cascadia Code) y activ&aacute;s <code>"editor.fontLigatures": true</code>, caracteres como <code>=></code> se muestran como una flecha, <code>!==</code> se muestra como <code>&#8800;</code>, y <code>...</code> como puntos horizontales. Es un detalle visual peque&ntilde;o pero hace que leer c&oacute;digo sea m&aacute;s agradable. Estas fuentes son gratuitas y se pueden instalar en tu sistema operativo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== LIVE SERVER ===================== -->
+            <section class="sub-section animate-on-scroll" id="live-server">
+                <h2>
+                    Live Server
+                    <a href="#live-server" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>Live Server</strong> es una extensi&oacute;n de VS Code que crea un servidor de desarrollo local con recarga autom&aacute;tica (hot reload). Cuando guard&aacute;s un archivo HTML, CSS o JS, el navegador se actualiza instant&aacute;neamente para reflejar los cambios, sin que tengas que recargar manualmente. Esto parece un detalle menor, pero cuando est&aacute;s iterando sobre el dise&ntilde;o de un componente o ajustando un estilo, guardar y ver el cambio en menos de un segundo cambia por completo tu flujo de trabajo. Ya no hay que alternar entre el editor y el navegador presionando F5 o Ctrl+R: simplemente guard&aacute;s (Ctrl+S) y el cambio aparece m&aacute;gicamente.
+                </p>
+
+                <p>
+                    Para usarlo, instal&aacute; la extensi&oacute;n "Live Server" de Ritwick Dey, hac&eacute; click derecho en tu archivo HTML y eleg&iacute; "Open with Live Server". Se abrir&aacute; tu navegador en <code>http://127.0.0.1:5500</code> con tu p&aacute;gina. A partir de ah&iacute;, cada vez que guardes cualquier archivo del proyecto, el navegador se recarga autom&aacute;ticamente. Tambi&eacute;n soporta detecci&oacute;n de cambios en archivos CSS inyect&aacute;ndolos sin recarga completa (lo que preserva el estado de la p&aacute;gina, como valores de formularios o posici&oacute;n de scroll).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 18H8"/><path d="M16 18h-2"/><path d="M12 12h2"/></svg>
+                            JSON &mdash; Configuraci&oacute;n de Live Server (opcional)
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-json">// En settings.json o .vscode/settings.json
+{
+    // Puerto personalizado (default es 5500)
+    "liveServer.settings.port": 8080,
+
+    // No abrir el navegador autom&aacute;ticamente
+    "liveServer.settings.openBrowser": false,
+
+    // Recargar solo CSS inyect&aacute;ndolo (sin recarga completa)
+    "liveServer.settings.NoBrowser": false,
+
+    // Ignorar archivos/carpetas para el watch
+    "liveServer.settings.ignoreFiles": [
+        ".vscode/**",
+        "node_modules/**"
+    ],
+
+    // Usar HTTPS en lugar de HTTP
+    "liveServer.settings.https": {
+        "enable": false,
+        "cert": "/ruta/a/cert.pem",
+        "key": "/ruta/a/key.pem"
+    }
+}</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Alternativa: la extensi&oacute;n "Live Preview" de Microsoft</p>
+                        <p>Microsoft lanz&oacute; una extensi&oacute;n oficial llamada <strong>Live Preview</strong> que hace lo mismo que Live Server pero integrada nativamente en VS Code (incluso muestra el preview dentro del editor en un panel lateral). Si us&aacute;s VS Code reciente, prob&aacute;la desde la pesta&ntilde;a de extensiones. Funciona igual: click derecho en el HTML y "Show Preview".</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== DEVTOOLS ===================== -->
+            <section class="sub-section animate-on-scroll" id="devtools">
+                <h2>
+                    Chrome DevTools
+                    <a href="#devtools" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las <strong>DevTools</strong> (Herramientas de Desarrollo) son el swiss army knife del desarrollador web. Viene integrada en Chrome, Edge, Firefox y Safari, y te permite inspeccionar y modificar el HTML y CSS de cualquier p&aacute;gina en tiempo real, depurar JavaScript paso a paso, analizar el rendimiento de carga, monitorear peticiones de red, y mucho m&aacute;s. Es la herramienta que m&aacute;s vas a usar despu&eacute;s de tu editor de c&oacute;digo, y dominarla te ahorra incontables horas de frustraci&oacute;n. Se abre con <code>F12</code> o <code>Ctrl+Shift+I</code> (o <code>Cmd+Option+I</code> en Mac).
+                </p>
+
+                <h3>Panel Elements</h3>
+
+                <p>
+                    El panel Elements es tu arma principal para trabajar con HTML y CSS. Muestra el &aacute;rbol DOM completo de la p&aacute;gina, y pod&eacute;s hacer click en cualquier elemento para ver sus estilos computados, modificarlos en vivo, agregar o quitar clases, y ver c&oacute;mo afecta al layout. Los cambios que hac&eacute;s ac&aacute; son temporales (se pierden al recargar), pero son perfectos para experimentar antes de escribir el c&oacute;digo definitivo en tu editor. Pod&eacute;s incluso editar el HTML directamente haciendo doble click en un elemento, y usar el bot&oacute;n "+" para crear nuevos nodos.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            Features del panel Elements
+                        </span>
+                    </div>
+                    <pre><code class="language-plaintext">| Feature                         | C&oacute;mo usarla                              |
+|---------------------------------|---------------------------------------------|
+| Inspeccionar elemento           | Click derecho &rarr; Inspeccionar (o Ctrl+Shift+C) |
+| Editar HTML in-situ             | Doble click en el elemento en el &aacute;rbol DOM   |
+| Editar atributos                | Doble click en un atributo                   |
+| Toggle clases                   | Icono .cls para agregar/quitar clases        |
+| Editar estilos en vivo          | Panel Styles a la derecha                     |
+| Forzar estados (:hover, etc)   | :hov para simular pseudo-classes             |
+| Box Model visual                | Diagrama visual de margin/border/padding      |
+| Computed styles                 | Ver el valor final computado de cada prop    |
+| Layout / Grid                   | Inspeccionar grids y flexbox visualmente     |
+| Copy element                    | Click derecho &rarr; Copy &rarr; Copy element  |
+| Capture node screenshot         | Click derecho &rarr; Capture node screenshot |</code></pre>
+                </div>
+
+                <h3>Panel Console</h3>
+
+                <p>
+                    La Console es donde ves todos los <code>console.log()</code>, errores, warnings y mensajes del navegador. Pero no es solo un visor de logs: es un REPL (Read-Eval-Print Loop) donde pod&eacute;s ejecutar c&oacute;digo JavaScript arbitrario en el contexto de la p&aacute;gina actual. Esto es incre&iacute;blemente &uacute;til para probar r&aacute;pidamente una funci&oacute;n, seleccionar elementos con <code>document.querySelector()</code>, o inspeccionar el valor de una variable sin modificar tu c&oacute;digo fuente. Adem&aacute;s, soporta autocompletado con Tab, y pod&eacute;s referenciar el &uacute;ltimo resultado con <code>$_</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript &mdash; Trucos en la consola
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Ejecutar en la consola del navegador ===
+
+// Seleccionar y explorar elementos
+const header = document.querySelector("header");
+header.classList;           // ver clases
+header.getBoundingClientRect(); // ver posici&oacute;n y tama&ntilde;o
+
+// Medir performance de una operaci&oacute;n
+console.time("render");
+// ... operaci&oacute;n que quer&eacute;s medir ...
+console.timeEnd("render"); // "render: 12.345ms"
+
+// Log con estilo (colores, fuente grande, etc)
+console.log("%cWebForge", "font-size: 24px; color: #58a6ff; font-weight: bold");
+console.log("%cError cr&iacute;tico!", "color: #ff6b6b; font-weight: bold");
+
+// $0 y $$ : referenciar elementos seleccionados
+// $0 = el elemento actualmente seleccionado en Elements
+$0.style.color = "red";    // cambia el color del elemento seleccionado
+$$("p");                   // querySelectorAll abreviado
+
+// copy() : copiar al portapapeles
+copy($0.outerHTML);        // copia el HTML del elemento seleccionado
+
+// monitor() : log autom&aacute;tico cuando una funci&oacute;n es llamada
+monitor(document.addEventListener);
+
+// table() : mostrar arrays/objetos como tabla
+table([{ nombre: "Ana", edad: 28 }, { nombre: "Carlos", edad: 32 }]);</code></pre>
+                </div>
+
+                <h3>Panel Network</h3>
+
+                <p>
+                    El panel Network muestra todas las peticiones HTTP que hace la p&aacute;gina: archivos HTML, CSS, JS, im&aacute;genes, fuentes, llamadas a APIs (fetch/XHR), y m&aacute;s. Para cada petici&oacute;n pod&eacute;s ver la URL, el m&eacute;todo (GET/POST), el c&oacute;digo de estado (200, 404, 500), el tama&ntilde;o de la respuesta, y el tiempo que tard&oacute;. Esto es fundamental para detectar archivos que no cargan, APIs que fallan, im&aacute;genes pesadas, y cuellos de botella en la carga. Pod&eacute;s filtrar por tipo de recurso (solo XHR, solo im&aacute;genes), activar el throttling para simular conexiones lentas (3G, 4G, offline), y ver el waterfall visual de c&oacute;mo se cargan los recursos en paralelo o en bloque.
+                </p>
+
+                <h3>Panel Sources &amp; Debugger</h3>
+
+                <p>
+                    El panel Sources es donde depur&aacute;s JavaScript paso a paso. Pod&eacute;s poner breakpoints (puntos de interrupci&oacute;n) haciendo click en los n&uacute;meros de l&iacute;nea del c&oacute;digo, y la ejecuci&oacute;n se pausar&aacute; en ese punto para que inspecciones el valor de las variables, el call stack, y ejecutes c&oacute;digo l&iacute;nea por l&iacute;nea. Tambi&eacute;n soporta conditional breakpoints (se pausan solo si se cumple una condici&oacute;n), logpoints (agregan un log sin pausar), y watch expressions (expresiones que monitore&aacute;s en tiempo real). Es la herramienta que us&aacute;s cuando algo "no funciona" y necesit&aacute;s entender exactamente qu&eacute; est&aacute; pasando.
+                </p>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">DevTips: la consola tambi&eacute;n entiende XPATH y selectores CSS</p>
+                        <p>En el panel Elements, pod&eacute;s presionar <code>Ctrl+F</code> y buscar con selectores CSS (por ejemplo <code>.card &gt; h3</code>) o con XPath (por ejemplo <code>//div[@class="card"]/h3</code>). Esto es mucho m&aacute;s potente que buscar texto plano, porque te permite encontrar elementos por su estructura, no solo por su contenido.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== PRETTIER ===================== -->
+            <section class="sub-section animate-on-scroll" id="prettier">
+                <h2>
+                    Prettier
+                    <a href="#prettier" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>Prettier</strong> es un formateador de c&oacute;digo opinativo (opinionated formatter). Esto significa que no le ped&iacute;s c&oacute;mo quieras formatear el c&oacute;digo: &eacute;l ya tiene reglas predefinidas y las aplica. La filosof&iacute;a es simple: en lugar de discutir con tu equipo sobre si usar tabs o espacios, si poner la llave en la misma l&iacute;nea o en la siguiente, o cu&aacute;nto indentar, Prettier toma todas esas decisiones por vos. Con <code>"editor.formatOnSave": true</code> en VS Code, cada vez que guard&aacute;s un archivo se formatea autom&aacute;ticamente. Si trabaj&aacute;s en equipo, todos tienen el mismo formato sin esfuerzo. Soporta HTML, CSS, JS/TS, JSON, Markdown, YAML y m&aacute;s.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 18H8"/><path d="M16 18h-2"/><path d="M12 12h2"/></svg>
+                            JSON &mdash; .prettierrc (configuraci&oacute;n)
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-json">{
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "useTabs": false,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "htmlWhitespaceSensitivity": "css",
+    "endOfLine": "lf"
+}</code></pre>
+                </div>
+
+                <p>
+                    Estas son las opciones que probablemente vas a querer ajustar. <code>"semi": true</code> agrega punto y coma al final de cada statement. <code>"singleQuote": true</code> usa comillas simples en JS (m&aacute;s com&uacute;n en la comunidad). <code>"tabWidth": 4</code> coincide con la convenci&oacute;n de 4 espacios de este proyecto. <code>"trailingComma": "es5"</code> agrega comas al final en arrays y objetos donde sea seguro (evita conflictos en Git cuando se agrega un elemento nuevo). <code>"printWidth": 100</code> es el l&iacute;mite de caracteres por l&iacute;nea antes de que Prettier haga wrap autom&aacute;tico. El resto de las opciones se pueden dejar en sus valores por defecto, que ya son excelentes.
+                </p>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Prettier vs ESLint: no son lo mismo</p>
+                        <p><strong>Prettier</strong> se ocupa del <em>formato</em> (espacios, comillas, punto y coma, saltos de l&iacute;nea). <strong>ESLint</strong> se ocupa de la <em>calidad del c&oacute;digo</em> (variables no usadas, errores l&oacute;gicos, malas pr&aacute;cticas). No compiten: se complementan. En proyectos profesionales se usan los dos juntos. Prettier formatea, ESLint revisa. La extensi&oacute;n de VS Code "ESLint" se puede configurar para que corrija autom&aacute;ticamente los problemas al guardar, junto con Prettier.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== EMMET ===================== -->
+            <section class="sub-section animate-on-scroll" id="emmet">
+                <h2>
+                    Emmet
+                    <a href="#emmet" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>Emmet</strong> es un sistema de abreviaciones que viene integrado en VS Code (y en la mayor&iacute;a de editores modernos). Te permite escribir HTML y CSS con abreviaturas cortas que se expanden a c&oacute;digo completo con solo presionar <code>Tab</code> o <code>Enter</code>. Lo que normalmente te llevar&iacute;a 20 l&iacute;neas de HTML tipe&aacute;ndolo a mano, con Emmet lo escrib&iacute;s en una sola l&iacute;nea y se expande instant&aacute;neamente. Una vez que te acostumbr&aacute;s, no pod&eacute;s volver a escribir HTML sin Emmet: es como pasar de caminar a andar en bicicleta.
+                </p>
+
+                <h3>Abreviaciones HTML esenciales</h3>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html"><!-- Escribe esto:                Se expande a esto: -->
+
+!                               &lt;!DOCTYPE html&gt;&lt;html lang="en"&gt;&lt;head&gt;...&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;
+
+div                             &lt;div&gt;&lt;/div&gt;
+div#app                         &lt;div id="app"&gt;&lt;/div&gt;
+div.card                        &lt;div class="card"&gt;&lt;/div&gt;
+div.card.active                 &lt;div class="card active"&gt;&lt;/div&gt;
+
+p>span                          &lt;p&gt;&lt;span&gt;&lt;/span&gt;&lt;/p&gt;
+ul>li*3                         &lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;
+nav>ul>li*5>a                   &lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=""&gt;&lt;/a&gt;&lt;/li&gt;...x5&lt;/ul&gt;&lt;/nav&gt;
+
+div+article+aside               &lt;div&gt;&lt;/div&gt;  &lt;article&gt;&lt;/article&gt;  &lt;aside&gt;&lt;/aside&gt;
+
+div.header+div.main+div.footer  3 divs hermanos con esas clases
+
+div>p*2>span                    &lt;div&gt;&lt;p&gt;&lt;span&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span&gt;&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;
+
+div>(header>h1)+section*2        div con header>h1 y 2 sections adentro
+
+<!-- Con texto y atributos -->
+a{Click aqu&iacute;}               &lt;a href=""&gt;Click aqu&iacute;&lt;/a&gt;
+button.btn{Enviar}[type=submit]  &lt;button class="btn" type="submit"&gt;Enviar&lt;/button&gt;
+img[src="foto.jpg"][alt="paisaje"]  &lt;img src="foto.jpg" alt="paisaje"&gt;
+
+<!-- Numeraci&oacute;n autom&aacute;tica -->
+ul>li.item${Texto $}*3        &lt;ul&gt;
+                                  &lt;li class="item1"&gt;Texto 1&lt;/li&gt;
+                                  &lt;li class="item2"&gt;Texto 2&lt;/li&gt;
+                                  &lt;li class="item3"&gt;Texto 3&lt;/li&gt;
+                                &lt;/ul&gt;
+
+<!-- Lorem ipsum -->
+lorem                           Genera 30 palabras de texto placeholder
+lorem5                          Genera 5 palabras
+lorem*3                         Genera 3 p&aacute;rrafos</code></pre>
+                </div>
+
+                <h3>Abreviaciones CSS esenciales</h3>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Escribe esto:     Se expande a esto: */
+
+df               display: flex;
+dfc              display: flex; align-items: center; justify-content: center;
+fdc              display: flex; flex-direction: column;
+dg               display: grid;
+dib              display: inline-block;
+dn               display: none;
+
+p10              padding: 10px;
+p20              padding: 20px;
+pt10             padding-top: 10px;
+px20             padding-left: 20px; padding-right: 20px;
+py10             padding-top: 10px; padding-bottom: 10px;
+m0               margin: 0;
+ma               margin: auto;
+mt10             margin-top: 10px;
+mx-auto          margin-left: auto; margin-right: auto;
+
+w100             width: 100px;
+w100p            width: 100%;
+h100vh           height: 100vh;
+mw100            max-width: 100px;
+mnh              min-height: 0;
+
+bgc              background-color: #fff;
+bg               background: #000;
+bg-img           background-image: url();
+
+c                color: #000;
+c:red            color: red;
+opa50            opacity: 0.5;
+
+fs20             font-size: 20px;
+fw700            font-weight: 700;
+fsti             font-style: italic;
+ttc              text-transform: capitalize;
+tac              text-align: center;
+tal              text-align: left;
+tdn              text-decoration: none;
+
+brad             border-radius: 5px;
+brad50p          border-radius: 50%;
+bd1              border: 1px solid #000;
+bdn              border: none;
+
+posr             position: relative;
+posa             position: absolute;
+posf             position: fixed;
+poss             position: sticky;
+t0               top: 0;
+l0               left: 0;
+r0               right: 0;
+b0               bottom: 0;
+zi10             z-index: 10;
+
+ovh              overflow: hidden;
+ovs              overflow: scroll;
+ova              overflow: auto;
+
+curp             cursor: pointer;
+usn              user-select: none;
+trf              transform: translateX(-50%);
+
+!important       !important (se agrega al final de cualquier propiedad)
+bdi+bdn          border: 1px solid #000; border: none; (valores fuzz)</code></pre>
+                </div>
+
+                <p>
+                    Las abreviaciones CSS de Emmet usan un sistema de prefijos cortos derivados de las iniciales de la propiedad. <code>df</code> = display flex, <code>p</code> = padding, <code>m</code> = margin, <code>bg</code> = background, <code>c</code> = color, <code>fs</code> = font-size, <code>fw</code> = font-weight. Los n&uacute;meros se interpretan como p&iacute;xeles (<code>p10</code> = 10px), y si agreg&aacute;s una "p" se convierte en porcentaje (<code>w100p</code> = width: 100%). Con <code>-</code> se generan valores negativos. No necesit&aacute;s memorizarlas todas: empez&aacute; con las que m&aacute;s us&aacute;s (display, flex, padding, margin, color, font-size) y las dem&aacute;s se van aprendiendo naturalmente.
+                </p>
+            </section>
+
+            <!-- ===================== GIT GUI ===================== -->
+            <section class="sub-section animate-on-scroll" id="git-gui">
+                <h2>
+                    Git: Editor + GUI
+                    <a href="#git-gui" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Ya cubrimos Git en detalle en la secci&oacute;n dedicada, pero aqu&iacute; vamos a enfocarnos en las herramientas visuales para usar Git sin salir de tu flujo de trabajo. VS Code tiene integraci&oacute;n Git nativa muy potente que cubre el 90% de lo que necesit&aacute;s en el d&iacute;a a d&iacute;a: ver cambios, hacer stage/unstage, commitear, ver el historial, crear ramas y resolver conflictos b&aacute;sicos. Todo desde la sidebar con una interfaz visual que muestra los archivos modificados en verde/rojo con un diff inline. Para quienes prefieren una interfaz gr&aacute;fica m&aacute;s completa, existen opciones dedicadas como GitHub Desktop y GitKraken.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Comparativa de herramientas Git
+                        </span>
+                    </div>
+                    <pre><code class="language-plaintext">| Herramienta       | Tipo        | Ventajas                                    | Ideal para          |
+|-------------------|-------------|---------------------------------------------|---------------------|
+| VS Code Git       | Integrada   | Ya la ten&eacute;s, zero setup, diff visual        | 90% de los d&iacute;as     |
+| GitHub Desktop    | App gratis  | Interfaz limpia, ideal para principiantes    | Open source, PRs     |
+| GitLens (ext.)    | Extensi&oacute;n  | Blame inline, historial por l&iacute;nea           | Revisar cambios      |
+| GitKraken         | App freemium| Grafo de branches visual, merge drag&drop   | Proyectos complejos  |
+| Tower             | App de pago | Potente, well designed                      | Teams profesionales  |
+| Terminal (CLI)    | Nativa      | Poder total, scripts, autom&aacute;tico          | Todo                 |
+
+La recomendaci&oacute;n: us&aacute; VS Code Git como tu herramienta principal.
+Agreg&aacute; GitLens para ver qui&eacute;n cambi&oacute; qu&eacute;.
+Y cuando necesites algo m&aacute;s visual (merge conflicts, rebase), GitHub Desktop.</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">No evites la terminal para siempre</p>
+                        <p>Las GUIs son geniales para el d&iacute;a a d&iacute;a, pero hay operaciones que son m&aacute;s r&aacute;pidas y potentes en la terminal: <code>git rebase -i</code>, <code>git stash</code>, <code>git cherry-pick</code>, y scripts de automatizaci&oacute;n. Lo ideal es ser c&oacute;modo con ambos mundos: GUI para lo visual y r&aacute;pido, terminal para lo avanzado y repetitivo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== BROWSER COMPAT ===================== -->
+            <section class="sub-section animate-on-scroll" id="compatibilidad">
+                <h2>
+                    Compatibilidad de Navegadores
+                    <a href="#compatibilidad" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    No todos los navegadores implementan las mismas funcionalidades al mismo tiempo. Una propiedad CSS que funciona perfectamente en Chrome puede no estar disponible en Safari, o una API de JavaScript puede tener un comportamiento ligeramente diferente en Firefox. Como desarrollador web, necesit&aacute;s saber qu&eacute; pod&eacute;s usar con seguridad y qu&eacute; necesita un fallback o una alternativa. Para eso existen herramientas de referencia que te permiten verificar la compatibilidad de cualquier feature en segundos.
+                </p>
+
+                <h3>Can I Use (caniuse.com)</h3>
+
+                <p>
+                    <strong>Can I Use</strong> es el sitio de referencia para verificar compatibilidad de features web. Ingres&aacute;s una propiedad CSS, una API de JavaScript o una feature de HTML, y te muestra una tabla con el soporte en cada versi&oacute;n de cada navegador (Chrome, Firefox, Safari, Edge, Opera, iOS Safari, Android Browser). Los porcentajes de soporte global te dan una idea r&aacute;pida de si es seguro usar esa feature. La regla general es: si tiene m&aacute;s del 95% de soporte global, pod&eacute;s usarla tranquilamente. Si est&aacute; entre 85% y 95%, evalu&aacute; si tus usuarios usan los navegadores sin soporte. Si est&aacute; por debajo del 85%, probablemente necesites un fallback o no usarla.
+                </p>
+
+                <h3>MDN Web Docs (developer.mozilla.org)</h3>
+
+                <p>
+                    <strong>MDN Web Docs</strong> es la documentaci&oacute;n oficial y m&aacute;s completa sobre desarrollo web. Mantenida por Mozilla, cubre HTML, CSS, JavaScript, Web APIs, y m&aacute;s, con explicaciones detalladas, ejemplos interactivos, y tablas de compatibilidad. Cada p&aacute;gina de una propiedad o m&eacute;todo tiene una secci&oacute;n "Browser compatibility" que muestra el soporte exacto por versi&oacute;n de navegador, incluyendo notas sobre peculiaridades o bugs conocidos. Es tu primera parada cuando necesit&aacute;s entender c&oacute;mo funciona algo o verificar su compatibilidad. Si ten&eacute;s una duda sobre cualquier API o propiedad, MDN tiene la respuesta.
+                </p>
+
+                <h3>Estrategias de compatibilidad</h3>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            CSS &mdash; Feature queries y fallbacks
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* === Estrategia 1: Fallback simple === */
+/* El navegador usa la &uacute;ltima que entiende */
+.card {
+    display: block;           /* fallback para navegadores viejos */
+    display: flex;            /* navegadores modernos sobreescriben */
+}
+
+/* === Estrategia 2: @supports (feature query) === */
+/* Aplica estilos solo si el navegador soporta la feature */
+.container {
+    display: block;
+}
+
+@supports (display: grid) {
+    .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+}
+
+@supports not (display: grid) {
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .container > * {
+        flex: 1 1 300px;
+        margin: 0.5rem;
+    }
+}
+
+/* === Estrategia 3: Progressive enhancement con clamp() === */
+/* Si clamp() no funciona, el navegador ignora la l&iacute;nea */
+h1 {
+    font-size: 16px;          /* fallback m&iacute;nimo */
+    font-size: clamp(1.5rem, 4vw, 3rem);  /* fluido en navegadores modernos */
+}
+
+/* === Estrategia 4: Prefijos vendor (hoy casi innecesarios) === */
+.element {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript &mdash; Detecci&oacute;n de features
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Detectar si una API existe antes de usarla ===
+
+// IntersectionObserver (animaciones on-scroll)
+if ("IntersectionObserver" in window) {
+    // El navegador soporta IntersectionObserver
+    const observer = new IntersectionObserver(callback);
+    observer.observe(elemento);
+} else {
+    // Fallback: mostrar todo directamente sin animaci&oacute;n
+    elemento.classList.add("visible");
+}
+
+// localStorage
+if (typeof localStorage !== "undefined") {
+    localStorage.setItem("clave", "valor");
+}
+
+// fetch API
+if (window.fetch) {
+    fetch("/api/datos").then(r => r.json());
+} else {
+    // Fallback con XMLHttpRequest (muy raro hoy en d&iacute;a)
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/api/datos");
+    xhr.onload = () => JSON.parse(xhr.responseText);
+    xhr.send();
+}
+
+// Optional chaining (?.) - esto es de sintaxis, no se puede detectar
+// con if. Para esto se usa Babel o se evita la sintaxis si
+// necesit&aacute;s soportar navegadores muy viejos.
+
+// CSS.supports() - detectar soporte CSS desde JavaScript
+if (CSS.supports("display", "grid")) {
+    console.log("Este navegador soporta CSS Grid");
+}
+
+if (CSS.supports("color: oklch(0.7 0.15 200)")) {
+    console.log("Este navegador soporta OKLCH colors");
+}</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">&iquest;Navegadores viejos en 2026?</p>
+                        <p>Hoy en d&iacute;a, el soporte de features modernas (CSS Grid, Flexbox, ES6+, fetch, IntersectionObserver, Custom Properties) es superior al 95% global. A menos que tengas un requisito espec&iacute;fico de soportar navegadores muy viejos (como IE11 en empresas), pod&eacute;s usar features modernas con confianza. La regla pr&aacute;ctica es: verific&aacute; en Can I Use, y si es &gt;95%, us&aacute;lo directamente con un fallback simple.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== DEPLOY ===================== -->
+            <section class="sub-section animate-on-scroll" id="deploy">
+                <h2>
+                    Deploy: Publicar tu Sitio
+                    <a href="#deploy" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Lleg&oacute; el momento de mostrar tu trabajo al mundo. Desplegar (hacer deploy) significa subir tu c&oacute;digo a un servidor para que sea accesible desde internet. Para sitios est&aacute;ticos (HTML, CSS, JS sin backend) como los que ven&iacute;s construyendo en este proyecto, existen varias plataformas gratuitas que hacen el deploy autom&aacute;tico: conect&aacute;s tu repo de GitHub y cada vez que hac&eacute;s push, la plataforma reconstruye y publica tu sitio. No necesit&aacute;s configurar servidores, instalar nada ni saber de infraestructura: solo conect&aacute;s y listo.
+                </p>
+
+                <h3>GitHub Pages</h3>
+
+                <p>
+                    <strong>GitHub Pages</strong> es la opci&oacute;n m&aacute;s natural si ya ten&eacute;s tu c&oacute;digo en GitHub. Es gratuito, soporta dominios custom, y se configura en menos de 5 minutos desde la secci&oacute;n "Pages" de tu repo. Soporta sitios est&aacute;ticos (HTML/CSS/JS) y tambi&eacute;n Jekyll (un generador de sitios est&aacute;ticos en Ruby). El deploy se puede hacer desde la rama <code>main</code> (todo el repo) o desde una rama <code>gh-pages</code> (solo el sitio). Para proyectos como WebForge, donde el sitio est&aacute; en la ra&iacute;z del repo, se configura apuntando a la rama <code>main</code> y carpeta <code>/ (root)</code>. Cada push a main dispara el deploy autom&aacute;tico, y tu sitio queda en <code>https://tusuario.github.io/tu-repo/</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Comparativa de plataformas de deploy
+                        </span>
+                    </div>
+                    <pre><code class="language-plaintext">| Plataforma      | Gratuito | Deploy auto | Custom domain | SSL | Build |
+|-----------------|----------|-------------|---------------|-----|-------|
+| GitHub Pages    | Si       | Si (push)   | Si            | Si  | No    |
+| Netlify         | Si       | Si (push)   | Si            | Si  | Si    |
+| Vercel          | Si       | Si (push)   | Si            | Si  | Si    |
+| Cloudflare Pages| Si       | Si (push)   | Si            | Si  | Si    |
+| GitLab Pages    | Si       | Si (push)   | Si            | Si  | Si    |
+| Surge.sh        | Si       | CLI         | Si            | Si  | No    |
+
+Para sitios est&aacute;ticos puros (como WebForge), cualquier plataforma funciona.
+GitHub Pages es el m&aacute;s simple si ya us&aacute;s GitHub.
+Netlify y Vercel agregan: redirects, headers custom, form handling, split testing.
+Cloudflare Pages es el m&aacute;s r&aacute;pido (CDN global de Cloudflare).</code></pre>
+                </div>
+
+                <h3>Flujo de deploy t&iacute;pico</h3>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+                            Bash
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-bash"># === Flujo b&aacute;sico de trabajo con deploy autom&aacute;tico ===
+
+# 1. Hac&eacute;s cambios en tu c&oacute;digo local
+# 2. Prob&aacute;s localmente con Live Server
+# 3. Agreg&aacute;s los cambios a Git
+git add .
+
+# 4. Commite&aacute;s con un mensaje descriptivo
+git commit -m "feat: agregar secci&oacute;n de herramientas y workflow"
+
+# 5. Sub&iacute;s a GitHub
+git push origin main
+
+# 6. La plataforma detecta el push y hace deploy autom&aacute;tico
+#    Tu sitio se actualiza en 1-3 minutos
+
+# === Ver el estado del deploy en GitHub Pages ===
+# Ir a: Settings &rarr; Pages &rarr; ver el indicator "Your site is live"
+
+# === Si us&aacute;s Netlify CLI ===
+# npm install -g netlify-cli
+# netlify deploy --prod --dir=.
+
+# === Si us&aacute;s Vercel CLI ===
+# npm install -g vercel
+# vercel --prod</code></pre>
+                </div>
+
+                <h3>Dominios custom y HTTPS</h3>
+
+                <p>
+                    Todas las plataformas mencionadas soportan conectar un dominio propio (por ejemplo, <code>mi-sitio.com</code>) en lugar de usar el subdominio por defecto de la plataforma. El proceso general es: (1) compr&aacute;s el dominio en un registrador como Namecheap, Google Domains o Porkbun, (2) configur&aacute;s un registro DNS CNAME apuntando a la plataforma, (3) en la configuraci&oacute;n de la plataforma agreg&aacute;s tu dominio custom. El certificado SSL (HTTPS) se genera autom&aacute;ticamente y gratis mediante Let's Encrypt en todas las plataformas. Tu sitio queda accesible tanto con <code>https://mi-sitio.com</code> como con <code>https://www.mi-sitio.com</code> sin que tengas que configurar nada extra de seguridad.
+                </p>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">GitHub Pages: tip sobre rutas relativas</p>
+                        <p>Si tu sitio est&aacute; en <code>https://usuario.github.io/mi-repo/</code> (con subdirectorio), todos los links internos, im&aacute;genes y CSS deben usar rutas relativas (sin <code>/</code> al inicio) o el prefijo <code>/mi-repo/</code>. Este proyecto (WebForge) est&aacute; en <code>/WebForge/</code>, as&iacute; que todos los <code>href</code> y <code>src</code> usan <code>../</code> para navegar correctamente desde <code>sections/</code> y <code>cheatsheets/</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== WORKFLOW ===================== -->
+            <section class="sub-section animate-on-scroll" id="workflow">
+                <h2>
+                    Workflow Recomendado
+                    <a href="#workflow" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Con todo lo que cubrimos en esta secci&oacute;n, tu flujo de trabajo ideal para desarrollar sitios web se ve as&iacute;. No es la &uacute;nica forma de trabajar, pero es una que funciona bien, es escalable, y te prepara para trabajar en equipo o en proyectos m&aacute;s grandes. Lo importante es que sea consistente: siempre us&aacute; el mismo flujo para que se vuelva autom&aacute;tico y no tengas que pensar en "qu&eacute; hago ahora" mientras trabaj&aacute;s.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Workflow completo
+                        </span>
+                    </div>
+                    <pre><code class="language-plaintext">1. PLANIFICAR
+   └─ Definir qu&eacute; vas a construir (secci&oacute;n, componente, feature)
+   └─ Revisar el PRD o la issue correspondiente
+   └─ Pensar la estructura HTML antes de escribir c&oacute;digo
+
+2. DESARROLLAR
+   └─ Abrir el proyecto en VS Code
+   └─ Crear rama de trabajo: git checkout -b feat/nombre-seccion
+   └─ Abrir Live Server para preview en tiempo real
+   └─ Escribir HTML con Emmet (abreviaciones r&aacute;pidas)
+   └─ Estilar con CSS (variables, mobile-first)
+   └─ Agregar interactividad con JavaScript
+   └─ Prettier formatea al guardar autom&aacute;ticamente
+
+3. PROBAR
+   └─ Probar en el navegador con Live Server
+   └─ Revisar responsivo: DevTools &rarr; Toggle device toolbar (Ctrl+Shift+M)
+   └─ Verificar que no haya errores en la Console
+   └─ Revisar Network para ver que todo cargue correctamente
+   └─ Probar en Chrome y Firefox al menos
+
+4. VERSIONAR
+   └─ git add . (o archivos espec&iacute;ficos)
+   └─ git commit -m "feat: descripci&oacute;n del cambio"
+   └─ git push origin feat/nombre-seccion
+
+5. DEPLOYAR
+   └─ Merge a main (via PR en GitHub o local)
+   └─ Push a main &rarr; deploy autom&aacute;tico
+   └─ Verificar el sitio en producci&oacute;n
+   └─ Revisar con Lighthouse (auditor&iacute;a de performance/SEO)</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">La regla de los commits peque&ntilde;os</p>
+                        <p>Hac&eacute; commits peque&ntilde;os y frecuentes en lugar de un commit gigante al final del d&iacute;a. Cada commit deber&iacute;a representar un cambio l&oacute;gico: "agregar secci&oacute;n X", "corregir bug en Y", "mejorar estilos de Z". Esto hace que sea f&aacute;cil revertir un cambio espec&iacute;fico si algo se rompe, y el historial de Git cuenta una historia clara de c&oacute;mo fue evolucionando el proyecto.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== NAV ===================== -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/js-almacenamiento.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Almacenamiento
+                </a>
+                <a href="../sections/seo-performance.html" class="btn btn-secondary">
+                    SEO &amp; Performance
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>

@@ -667,7 +667,7 @@ Las cheatsheets son secciones dedicadas con formato de **referencia rápida**. T
 - [x] Escribir `cheatsheets/js-cheatsheet.html`
 
 ### Fase 8: Contenido — Extras
-- [ ] Escribir `sections/herramientas-workflow.html`
+- [x] Escribir `sections/herramientas-workflow.html`
 - [ ] Escribir `sections/seo-performance.html`
 - [ ] Escribir `cheatsheets/seo-cheatsheet.html`
 
