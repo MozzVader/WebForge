@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesibilidad (a11y) — WebForge</title>
+    <meta name="description" content="Aprende accesibilidad web: principios WCAG, atributos ARIA, contraste, navegaci&oacute;n por teclado, screen readers y herramientas de testing.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>HTML</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Accesibilidad</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Accesibilidad (a11y)</h1>
+                <p>La accesibilidad web significa que personas con discapacidades puedan percibir, entender, navegar e interactuar con la web. No es un "nice-to-have" ni un feature opcional: es un requisito fundamental que beneficia a todos. Las buenas pr&aacute;cticas de accesibilidad mejoran el SEO, la usabilidad en m&oacute;vil, la experiencia para usuarios con conexi&oacute;n lenta y la calidad general de tu c&oacute;digo. Escribir HTML accesible simplemente significa escribir HTML correcto.</p>
+            </div>
+
+            <!-- Sub-section: Principios WCAG -->
+            <section class="sub-section animate-on-scroll" id="wcag">
+                <h2>
+                    Principios WCAG
+                    <a href="#wcag" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las <strong>WCAG</strong> (Web Content Accessibility Guidelines) son el est&aacute;ndar internacional de accesibilidad web, publicadas por el W3C. Est&aacute;n organizadas en torno a cuatro principios fundamentales, conocidos como <strong>POUR</strong>. Cada principio agrupa pautas que aseguran que el contenido web sea accesible para la mayor cantidad de personas posible, independientemente de sus capacidades f&iacute;sicas, cognitivas o tecnol&oacute;gicas. Las WCAG tienen tres niveles de conformidad: A (m&iacute;nimo), AA (recomendado, el est&aacute;ndar que la mayor&iacute;a de las leyes exigen) y AAA (el m&aacute;s alto).
+                </p>
+
+                <div class="content-grid animate-on-scroll">
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <h3>Perceptible</h3>
+                        </div>
+                        <p>La informaci&oacute;n y los componentes de la interfaz deben ser presentables de forma que los usuarios puedan percibirlos. Texto alternativo en im&aacute;genes, subt&iacute;tulos en video, suficiente contraste de colores, contenido adaptable a diferentes presentaciones (audio, braille, texto grande). Si un usuario no puede ver, tiene que poder escuchar o leer el contenido por otro medio.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                            <h3>Operable</h3>
+                        </div>
+                        <p>Los componentes de la interfaz y la navegaci&oacute;n deben ser operables. Esto significa que todo debe poder usarse con teclado, que haya suficiente tiempo para leer y usar el contenido, que no haya contenido que cause seizures (flashes), y que los usuarios puedan navegar y encontrar contenido. Si un usuario no puede usar un mouse, tiene que poder hacer todo con el teclado.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                            <h3>Comprensible</h3>
+                        </div>
+                        <p>La informaci&oacute;n y la operaci&oacute;n de la interfaz deben ser comprensibles. El lenguaje debe ser claro y predecible, la funcionalidad debe ser consistente (no cambies el comportamiento de un bot&oacute;n seg&uacute;n el contexto), y los errores deben ser detectados y explicados de forma clara. Los formularios deben tener labels, las instrucciones deben ser expl&iacute;citas y el idioma del contenido debe ser identificable.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            <h3>Robusto</h3>
+                        </div>
+                        <p>El contenido debe ser lo suficientemente robusto como para ser interpretado por una amplia variedad de agentes de usuario, incluyendo tecnolog&iacute;as assistivas. HTML sem&aacute;ntico, atributos ARIA correctos, compatibilidad con lectores de pantalla (NVDA, JAWS, VoiceOver), y manejo de errores graceful (el sitio no se rompe si un script falla). El contenido debe funcionar tanto en Chrome como en un lector de pantalla.</p>
+                    </div>
+                </div>
+
+                <table class="styled-table animate-on-scroll">
+                    <thead>
+                        <tr>
+                            <th>Nivel</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Ejemplos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>A</strong></td>
+                            <td>M&iacute;nimo indispensable</td>
+                            <td>Texto alternativo en im&aacute;genes, labels en formularios, navegaci&oacute;n por teclado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AA</strong></td>
+                            <td>Est&aacute;ndar recomendado (legalmente requerido en muchos pa&iacute;ses)</td>
+                            <td>Contraste 4.5:1, resize de texto hasta 200%, sin traps de teclado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AAA</strong></td>
+                            <td>Nivel m&aacute;ximo de accesibilidad</td>
+                            <td>Contraste 7:1, sign language en video, ubicaci&oacute;n del focus visible</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: ARIA -->
+            <section class="sub-section animate-on-scroll" id="aria">
+                <h2>
+                    Atributos ARIA
+                    <a href="#aria" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>ARIA</strong> (Accessible Rich Internet Applications) es un conjunto de atributos HTML que complementan la sem&aacute;ntica nativa cuando HTML no es suficiente. Se usa cuando creas componentes custom (un modal, un tabs, un accordion, un dropdown) que no tienen una etiqueta HTML nativa equivalente. ARIA no agrega funcionalidad: solo le dice a las tecnolog&iacute;as assistivas qu&eacute; es cada elemento, qu&eacute; estado tiene y c&oacute;mo se relaciona con otros. Es el puente entre tu JavaScript interactivo y el lector de pantalla.
+                </p>
+
+                <p>
+                    La regla de oro de ARIA es: <strong>"No uses ARIA si puedes usar HTML sem&aacute;ntico"</strong>. Un <code>&lt;button&gt;</code> nativo ya tiene el role "button", maneja focus, responde a Enter y Space, y los lectores de pantalla lo anuncian correctamente. Si creas un <code>&lt;div onclick="..."&gt;</code> y le agregas <code>role="button"</code>, todav&iacute;a necesitas agregar <code>tabindex="0"</code> y manejar Enter/Space con JavaScript. Usar el <code>&lt;button&gt;</code> nativo es infinitamente m&aacute;s simple y correcto.
+                </p>
+
+                <h3>Roles, estados y propiedades</h3>
+
+                <p>
+                    Los atributos ARIA se dividen en tres categor&iacute;as. Los <strong>roles</strong> (<code>role="..."</code>) definen qu&eacute; es un elemento (banner, navigation, dialog, alert, tablist, tree). Los <strong>estados</strong> (<code>aria-checked</code>, <code>aria-expanded</code>, <code>aria-disabled</code>, <code>aria-hidden</code>) describen la condici&oacute;n actual del elemento y cambian din&aacute;micamente con JavaScript. Las <strong>propiedades</strong> (<code>aria-label</code>, <code>aria-labelledby</code>, <code>aria-describedby</code>, <code>aria-live</code>) relacionan el elemento con otros nodos del DOM o proporcionan texto descriptivo.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- aria-label: texto descriptivo para elementos sin texto visible --&gt;
+&lt;button aria-label="Cerrar di&aacute;logo"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- aria-labelledby: referencia a otro elemento como label --&gt;
+&lt;section aria-labelledby="titulo-seccion"&gt;
+    &lt;h2 id="titulo-seccion"&gt;Novedades&lt;/h2&gt;
+    &lt;p&gt;Contenido de novedades...&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;!-- aria-describedby: texto de ayuda adicional --&gt;
+&lt;input type="email" aria-describedby="email-help"&gt;
+&lt;small id="email-help"&gt;Tu email no ser&aacute; compartido&lt;/small&gt;
+
+&lt;!-- aria-expanded: para acordeones y dropdowns --&gt;
+&lt;button aria-expanded="false" aria-controls="menu-id"&gt;
+    Men&uacute;
+&lt;/button&gt;
+&lt;div id="menu-id" role="menu" hidden&gt;...&lt;/div&gt;
+
+&lt;!-- aria-hidden: ocultar contenido decorativo de lectores --&gt;
+&lt;span class="icono" aria-hidden="true"&gt;&amp;#x2b;&lt;/span&gt;
+&lt;span class="sr-only"&gt;Agregar item&lt;/span&gt;
+
+&lt;!-- aria-live: anunciar cambios din&aacute;micos --&gt;
+&lt;div aria-live="polite" aria-atomic="true"&gt;
+    3 resultados encontrados.
+&lt;/div&gt;
+
+&lt;!-- Roles para componentes custom --&gt;
+&lt;div role="dialog" aria-modal="true" aria-labelledby="dialog-title"&gt;
+    &lt;h2 id="dialog-title"&gt;Confirmar acci&oacute;n&lt;/h2&gt;
+    &lt;p&gt;&iquest;Est&aacute;s seguro?&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Tabs accesibles --&gt;
+&lt;div role="tablist"&gt;
+    &lt;button role="tab" aria-selected="true"
+            aria-controls="panel-1" id="tab-1"&gt;
+        Tab 1
+    &lt;/button&gt;
+    &lt;button role="tab" aria-selected="false"
+            aria-controls="panel-2" id="tab-2"&gt;
+        Tab 2
+    &lt;/button&gt;
+&lt;/div&gt;
+&lt;div role="tabpanel" id="panel-1"
+     aria-labelledby="tab-1"&gt;Contenido 1&lt;/div&gt;
+&lt;div role="tabpanel" id="panel-2"
+     aria-labelledby="tab-2" hidden&gt;Contenido 2&lt;/div&gt;</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Atributo ARIA</th>
+                            <th>Categor&iacute;a</th>
+                            <th>Prop&oacute;sito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>role</code></td>
+                            <td>Rol</td>
+                            <td>Define qu&eacute; es el elemento (button, dialog, navigation, tablist)</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-label</code></td>
+                            <td>Propiedad</td>
+                            <td>Texto descriptivo cuando no hay texto visible en el elemento</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-labelledby</code></td>
+                            <td>Propiedad</td>
+                            <td>Apunta al ID de otro elemento que funciona como label</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-describedby</code></td>
+                            <td>Propiedad</td>
+                            <td>Apunta al ID de un elemento con descripci&oacute;n adicional</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-expanded</code></td>
+                            <td>Estado</td>
+                            <td>Indica si un elemento est&aacute; abierto o cerrado (true/false)</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-hidden</code></td>
+                            <td>Estado</td>
+                            <td>Oculta el elemento de las tecnolog&iacute;as assistivas</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-live</code></td>
+                            <td>Propiedad</td>
+                            <td>Anuncia cambios din&aacute;micos (off, polite, assertive)</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-selected</code></td>
+                            <td>Estado</td>
+                            <td>Indica si un item est&aacute; seleccionado (tabs, listbox)</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-controls</code></td>
+                            <td>Propiedad</td>
+                            <td>Apunta al ID del elemento que controla este bot&oacute;n</td>
+                        </tr>
+                        <tr>
+                            <td><code>aria-modal</code></td>
+                            <td>Estado</td>
+                            <td>Indica si un dialog es modal (bloquea el resto de la p&aacute;gina)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">La regla de los 5 ARIA: First Rule of ARIA</p>
+                        <p><strong>Si puedes usar un elemento HTML nativo con la sem&aacute;ntica y el comportamiento incorporados, us&aacute;lo en lugar de ARIA.</strong> Un <code>&lt;button&gt;</code> nativo ya es accesible. Un <code>&lt;nav&gt;</code> ya tiene role "navigation". Un <code>&lt;input type="checkbox"&gt;</code> ya tiene role "checkbox" y estado toggleable. Solo usa ARIA cuando no existe una etiqueta HTML nativa para lo que necesit&aacute;s (menus custom, dialogs, tooltips, sliders personalizados).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Contraste y tipografia -->
+            <section class="sub-section animate-on-scroll" id="contraste">
+                <h2>
+                    Contraste y tipograf&iacute;a
+                    <a href="#contraste" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El contraste de colores es probablemente el aspecto de accesibilidad m&aacute;s visible y f&aacute;cil de verificar. Las WCAG especifican ratios m&iacute;nimos de contraste entre el texto y su fondo para asegurar legibilidad. El ratio se mide con la f&oacute;rmula de luminancia relativa (WCAG 2.x) y va de 1:1 (sin contraste, mismo color) a 21:1 (contraste m&aacute;ximo, negro sobre blanco). Las personas con baja visi&oacute;n, daltonismo o que leen en pantallas con brillo (al aire libre, bajo la luz del sol) dependen directamente de un buen contraste.
+                </p>
+
+                <p>
+                    Para nivel AA: el texto normal necesita un ratio m&iacute;nimo de <strong>4.5:1</strong> y el texto grande (18px+ o 14px+ en bold) necesita <strong>3:1</strong>. Para nivel AAA: el texto normal necesita <strong>7:1</strong> y el texto grande <strong>4.5:1</strong>. Para elementos de interfaz (bordes, iconos, focus indicators) el m&iacute;nimo es <strong>3:1</strong>. Un gris claro sobre blanco (#999 sobre #fff) tiene un ratio de solo 2.85:1 y <strong>no cumple</strong> AA para texto. El gris de WebForge (#8b949e sobre #0d1117) tiene un ratio de 4.68:1, que cumple AA.
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Elemento</th>
+                            <th>Nivel AA</th>
+                            <th>Nivel AAA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Texto normal (&lt;18px)</td>
+                            <td>4.5:1</td>
+                            <td>7:1</td>
+                        </tr>
+                        <tr>
+                            <td>Texto grande (18px+ o 14px bold)</td>
+                            <td>3:1</td>
+                            <td>4.5:1</td>
+                        </tr>
+                        <tr>
+                            <td>Elementos de UI (bordes, iconos)</td>
+                            <td>3:1</td>
+                            <td>No aplica</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Buena practica: tipografia escalable */
+html {
+    /* Permite que el usuario ajuste el tama&ntilde;o */
+    font-size: 100%; /* 16px por defecto */
+}
+
+/* Usa rem, nunca px fijo para texto */
+p, span, a {
+    font-size: 1rem;    /* 16px relativo al root */
+    line-height: 1.6;   /* Espaciado generoso */
+}
+
+/* Texto grande con buen contraste */
+h1 {
+    font-size: 2.5rem;
+    color: var(--text-primary); /* Asegurar contraste 3:1+ */
+}
+
+/* Nunca uses text-decoration con color sin contraste */
+a {
+    color: var(--accent-blue);
+    text-decoration: underline; /* Ayuda a identificar links */
+}
+
+/* Focus visible claro para navegacion por teclado */
+*:focus-visible {
+    outline: 3px solid var(--accent-cyan);
+    outline-offset: 2px;
+}
+
+/* Remover outline solo con :focus (no :focus-visible) es mala practica */
+/* MAL:  *:focus { outline: none; } */
+/* BIEN: *:focus:not(:focus-visible) { outline: none; } */</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Herramientas para verificar contraste</p>
+                        <p>Usa <strong>WebAIM Contrast Checker</strong> (webaim.org/resources/contrastchecker) para verificar tus combinaciones de color. <strong>Chrome DevTools</strong> tiene un checker integrado: selecciona un elemento, ve a Color Picker y muestra el ratio. <strong>Stark</strong> es un plugin de Figma que verifica contraste en tiempo real. <strong>Axe DevTools</strong> (extensi&oacute;n de Chrome) audita contraste autom&aacute;ticamente junto con otros problemas de accesibilidad.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Navegacion por teclado -->
+            <section class="sub-section animate-on-scroll" id="teclado">
+                <h2>
+                    Navegaci&oacute;n por teclado
+                    <a href="#teclado" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Muchas personas no pueden usar un mouse: usuarios con discapacidades motoras, usuarios de screen readers que navegan secuencialmente, personas con RSI (lesiones por esfuerzo repetitivo), desarrolladores power users, y simplemente cualquiera que prefiera el teclado. La navegaci&oacute;n por teclado no es un feature opcional: es la base de la accesibilidad operable. Si algo no funciona con teclado, no es accesible, punto.
+                </p>
+
+                <p>
+                    Los elementos interactivos nativos (<code>&lt;a&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code>) son focusable por defecto y responden a teclas correctas. El problema surge cuando creas componentes custom con <code>&lt;div&gt;</code> o <code>&lt;span&gt;</code>: un <code>&lt;div onclick="..."&gt;</code> no es focusable, no responde a Enter ni Space, y los lectores de pantalla no lo anuncian como interactivo. Para estos casos, necesitas <code>tabindex</code> y JavaScript para simular el comportamiento nativo.
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Tecla</th>
+                            <th>Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><kbd>Tab</kbd></td>
+                            <td>Moverse al siguiente elemento focusable</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Shift + Tab</kbd></td>
+                            <td>Moverse al elemento focusable anterior</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Enter</kbd></td>
+                            <td>Activar links y botones</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Space</kbd></td>
+                            <td>Activar botones, toggle checkboxes</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Escape</kbd></td>
+                            <td>Cerrar modals, dropdowns, menus</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Flechas</kbd></td>
+                            <td>Navegar dentro de tabs, menus, radios</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Home / End</kbd></td>
+                            <td>Ir al primero/&uacute;ltimo item de una lista</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML + JS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- MAL: div como boton (no focusable, no responde a teclado) --&gt;
+&lt;div class="btn" onclick="abrirModal()"&gt;Abrir&lt;/div&gt;
+
+&lt;!-- BIEN: button nativo (focusable, Enter/Space, lector de pantalla) --&gt;
+&lt;button onclick="abrirModal()"&gt;Abrir&lt;/button&gt;
+
+&lt;!-- SI NECESITAS un div como boton (evitar si es posible) --&gt;
+&lt;div tabindex="0" role="button"
+     onclick="abrirModal()"
+     onkeydown="if(event.key==='Enter'||event.key===' ')
+                   {event.preventDefault();abrirModal()}"&gt;
+    Abrir
+&lt;/div&gt;
+
+&lt;!-- tabindex valores --&gt;
+&lt;!-- tabindex="-1": focusable via JS (programmatic), no via Tab --&gt;
+&lt;!-- tabindex="0":  focusable, se agrega al orden natural del tab --&gt;
+&lt;!-- tabindex="5":  focusable, orden personalizado (EVITAR) --&gt;
+
+&lt;!-- Skip link: permite saltar al contenido principal --&gt;
+&lt;a href="#main-content" class="skip-link"&gt;
+    Saltar al contenido principal
+&lt;/a&gt;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Skip link: visible solo con teclado */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--accent-blue);
+    color: white;
+    padding: 8px 16px;
+    z-index: 100;
+    font-weight: 600;
+}
+
+.skip-link:focus {
+    top: 0; /* Aparece cuando recibe foco */
+}
+
+/* Focus visible: mostrar outline solo con teclado */
+/* Esto oculta el outline en clicks de mouse
+   pero lo mantiene con teclado */
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 3px solid var(--accent-cyan);
+    outline-offset: 2px;
+}
+
+/* Evitar tabindex > 0: rompe el orden natural */
+/* MAL:  tabindex="5" */
+/* El orden del tab debe ser l&oacute;gico y natural,
+   siguiendo el orden visual del contenido */</code></pre>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Nunca uses tabindex mayor a 0</p>
+                        <p>Usar <code>tabindex="3"</code> o cualquier valor positivo fuerza un orden de tabulaci&oacute;n que no necesariamente coincide con el orden visual. Si reordenas elementos visualmente con CSS, el tabindex se desincroniza. Adem&aacute;s, los valores positivos interrumpen el flujo natural del tab para TODOS los elementos que le siguen. Si necesitas cambiar el orden, reordena el HTML. Solo usa <code>tabindex="0"</code> (agregar al flujo natural) y <code>tabindex="-1"</code> (foco program&aacute;tico con JavaScript, no incluido en el tab).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Screen readers y sr-only -->
+            <section class="sub-section animate-on-scroll" id="screen-readers">
+                <h2>
+                    Screen readers y contenido oculto
+                    <a href="#screen-readers" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Los <strong>screen readers</strong> son software que lee el contenido de la pantalla en voz alta o lo convierte a braille. Los m&aacute;s usados son <strong>NVDA</strong> (Windows, gratis, open source), <strong>JAWS</strong> (Windows, pago, el m&aacute;s usado en empresas), <strong>VoiceOver</strong> (macOS e iOS, integrado en el sistema) y <strong>TalkBack</strong> (Android, integrado). Cada uno tiene sus particularidades, pero todos se basan en el mismo DOM y los mismos atributos ARIA. Si tu HTML es sem&aacute;ntico, todos los screen readers lo manejan bien sin ARIA adicional.
+                </p>
+
+                <p>
+                    Un patr&oacute;n fundamental es el <strong>contenido visible solo para lectores de pantalla</strong>, usando la clase <code>.sr-only</code> (screen reader only) o <code>.visually-hidden</code>. Esto es texto que existe en el DOM y los lectores lo anuncian, pero est&aacute; oculto visualmente con CSS. Se usa para: dar contexto a iconos solos ("&times;" para cerrar necesita un "Cerrar" textual), anunciar estados ("2 de 5", "Cargando..."), labels cortos ("Buscar" en un bot&oacute;n que solo tiene un icono de lupa), y textos auxiliares que no tienen cabida visual pero que son necesarios para entender el contexto.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Clase sr-only: visible para lectores, oculto visualmente */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Variante: sr-only que se vuelve visible con foco
+   (para skip links, por ejemplo) */
+.sr-only-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Icono con texto para lectores de pantalla --&gt;
+&lt;button type="button"&gt;
+    &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+    &lt;span class="sr-only"&gt;Buscar&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Icono + texto visible + texto auxiliar oculto --&gt;
+&lt;div&gt;
+    &lt;span&gt;Precio:&lt;/span&gt;
+    &lt;strong&gt;$1.500&lt;/strong&gt;
+    &lt;span class="sr-only"&gt;por mes&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado de una notificacion --&gt;
+&lt;div class="notification"&gt;
+    &lt;span class="badge"&gt;3&lt;/span&gt;
+    &lt;span class="sr-only"&gt;mensajes nuevos&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- aria-hidden vs sr-only --&gt;
+&lt;!-- aria-hidden: OCULTA del lector (iconos decorativos) --&gt;
+&lt;!-- sr-only: MUESTRA al lector, oculta visualmente --&gt;
+&lt;!-- No uses aria-hidden="true" en texto real --&gt;
+&lt;!-- No uses display:none para sr-only (lo saca del DOM) --&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">display: none vs visibility: hidden vs sr-only</p>
+                        <p><code>display: none</code> y <code>visibility: hidden</code> sacan el elemento completamente del flujo y los lectores de pantalla <strong>no lo leen</strong>. Son para contenido que nadie debe ver ni o&iacute;r. <code>.sr-only</code> mantiene el elemento en el DOM (los lectores lo leen) pero lo oculta visualmente. <code>aria-hidden="true"</code> oculta solo para lectores de pantalla pero sigue visible visualmente. Son herramientas diferentes para prop&oacute;sitos diferentes: no las mezcles.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Imagenes accesibles -->
+            <section class="sub-section animate-on-scroll" id="img-a11y">
+                <h2>
+                    Im&aacute;genes accesibles
+                    <a href="#img-a11y" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las im&aacute;genes son uno de los aspectos m&aacute;s cr&iacute;ticos de la accesibilidad. Cada <code>&lt;img&gt;</code> debe tener un atributo <code>alt</code> que describa su contenido. La pregunta clave es: "si esta imagen no cargara, &iquest;qu&eacute; texto necesitar&iacute;a el usuario para no perder informaci&oacute;n?". El <code>alt</code> no es "SEO text" ni una descripci&oacute;n del archivo: es la informaci&oacute;n que la imagen transmite. Una foto de un equipo de trabajo en la secci&oacute;n "Sobre nosotros" necesita un alt descriptivo. Un &iacute;cono decorativo de una flecha necesita <code>alt=""</code> (alt vac&iacute;o) para que el lector lo salte.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- BIEN: imagen informativa con alt descriptivo --&gt;
+&lt;img src="equipo.jpg"
+     alt="Equipo de desarrollo trabajando en la oficina,
+          tres personas frente a monitores con c&oacute;digo"&gt;
+
+&lt;!-- BIEN: imagen decorativa con alt vacio --&gt;
+&lt;img src="divider.png" alt="" role="presentation"&gt;
+
+&lt;!-- BIEN: logo que linkea al inicio --&gt;
+&lt;a href="/"&gt;
+    &lt;img src="logo.svg" alt="WebForge - Inicio"&gt;
+&lt;/a&gt;
+
+&lt;!-- BIEN: imagen con texto largo: usa figure + figcaption --&gt;
+&lt;figure&gt;
+    &lt;img src="arquitectura.png"
+         alt="Diagrama de la arquitectura MVC:
+              Modelo, Vista y Controlador separados"&gt;
+    &lt;figcaption&gt;
+        Figura 1: Arquitectura MVC cl&aacute;sica.
+        El Controller recibe requests, actualiza el Model
+        y la View renderiza la respuesta.
+    &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- MAL: alt que dice "imagen" o "foto" (no aporta info) --&gt;
+&lt;img src="gato.jpg" alt="imagen de un gato"&gt;
+
+&lt;!-- MAL: alt con keywords para SEO --&gt;
+&lt;img src="gato.jpg"
+     alt="gato bonito gatito mascot felino adorable"&gt;
+
+&lt;!-- MAL: omitir alt completamente --&gt;
+&lt;img src="gato.jpg"&gt;</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo de imagen</th>
+                            <th>Alt</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Informativa (foto, diagrama)</td>
+                            <td>Descripci&oacute;n del contenido</td>
+                            <td><code>alt="Mapa de red con 3 servidores conectados"</code></td>
+                        </tr>
+                        <tr>
+                            <td>Decorativa (dividers, fondos)</td>
+                            <td><code>alt=""</code> (vac&iacute;o)</td>
+                            <td><code>alt=""</code></td>
+                        </tr>
+                        <tr>
+                            <td>Funcional (bot&oacute;n con imagen)</td>
+                            <td>Acci&oacute;n que realiza</td>
+                            <td><code>alt="Enviar formulario"</code></td>
+                        </tr>
+                        <tr>
+                            <td>Con texto dentro (captura, meme)</td>
+                            <td>Reproducir el texto de la imagen</td>
+                            <td><code>alt="Error 404: P&aacute;gina no encontrada"</code></td>
+                        </tr>
+                        <tr>
+                            <td>Compleja (gr&aacute;fico, infograf&iacute;a)</td>
+                            <td>Resumen + figcaption detallada</td>
+                            <td><code>alt="Gr&aacute;fico de ventas 2024"</code> + figcaption</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: Herramientas de testing -->
+            <section class="sub-section animate-on-scroll" id="herramientas">
+                <h2>
+                    Herramientas de testing
+                    <a href="#herramientas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    No puedes mejorar lo que no puedes medir. Las herramientas de testing de accesibilidad te permiten detectar problemas autom&aacute;ticamente, auditar tu c&oacute;dido de forma continua e integrar la accesibilidad en tu flujo de trabajo. Es importante entender que ninguna herramienta automatizada detecta el 100% de los problemas de accesibilidad: una herramienta puede verificar que tienes <code>alt</code> en las im&aacute;genes, pero no puede decirte si el texto del alt es descriptivo o si es "image.jpg". El testing manual con un lector de pantalla sigue siendo insustituible.
+                </p>
+
+                <div class="content-grid animate-on-scroll">
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                            <h3>Lighthouse</h3>
+                        </div>
+                        <p>Integrado en Chrome DevTools (tab Lighthouse). Audita accesibilidad junto con performance, SEO y best practices. Genera un score de 0-100 con problemas espec&iacute;ficos y recomendaciones. Ideal para audits r&aacute;pidos y checkpoints en tu desarrollo. Se ejecuta con Ctrl+Shift+I &rarr; Lighthouse &rarr; Generar reporte.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                            <h3>Axe DevTools</h3>
+                        </div>
+                        <p>Extensi&oacute;n de Chrome/Edge de Deque. Escanea autom&aacute;ticamente la p&aacute;gina y lista problemas de accesibilidad por severidad (critical, serious, moderate, minor). Tambi&eacute;n disponible como plugin de VS Code, integraci&oacute;n con CI/CD, y API para testing automatizado. Es la herramienta m&aacute;s completa para testing manual guiado.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <h3>WAVE</h3>
+                        </div>
+                        <p>Herramienta online (wave.webaim.org) o extensi&oacute;n de navegador. Analiza cualquier p&aacute;gina y visualiza los errores directamente sobre la p&aacute;gina con iconos rojos (errores), amarillos (advertencias) y verdes (features accesibles). Es visualmente intuitivo y perfecto para entender d&oacute;nde est&aacute;n los problemas en tu layout real.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <h3>VoiceOver / NVDA</h3>
+                        </div>
+                        <p>Testing manual con lectores de pantalla reales. En macOS: Cmd+F5 para activar VoiceOver. En Windows: descargar NVDA gratis. Navega tu sitio usando solo teclado y escucha c&oacute;mo el lector anuncia cada elemento. Es la &uacute;nica forma de detectar problemas de flujo, contexto y experiencia real que las herramientas automatizadas no pueden encontrar.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Checklist r&aacute;pido de accesibilidad</p>
+                        <p>Antes de entregar cualquier p&aacute;gina, verifica: (1) Todas las im&aacute;genes tienen <code>alt</code> descriptivo o <code>alt=""</code> si son decorativas. (2) Todo se puede operar con solo teclado (Tab, Enter, Escape). (3) Los colores tienen contraste m&iacute;nimo 4.5:1 para texto normal. (4) Los formularios tienen <code>&lt;label&gt;</code> con <code>for</code>. (5) Hay un skip link al contenido principal. (6) Los modals atrapan el foco y se cierran con Escape. (7) <code>lang</code> est&aacute; seteado en el <code>&lt;html&gt;</code>. (8) El heading hierarchy es l&oacute;gico (H1 &rarr; H2 &rarr; H3, sin saltar niveles).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation between sections -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/html-multimedia.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Multimedia &amp; Gr&aacute;ficos
+                </a>
+                <a href="../sections/css-basico.html" class="btn btn-secondary">
+                    CSS B&aacute;sico
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>

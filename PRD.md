@@ -639,10 +639,10 @@ Las cheatsheets son secciones dedicadas con formato de **referencia rápida**. T
 
 ### Fase 5: Contenido — HTML
 - [x] Escribir `sections/html-basico.html`
-- [ ] Escribir `sections/html-semantico.html`
-- [ ] Escribir `sections/html-formularios.html`
-- [ ] Escribir `sections/html-multimedia.html`
-- [ ] Escribir `sections/html-accesibilidad.html`
+- [x] Escribir `sections/html-semantico.html`
+- [x] Escribir `sections/html-formularios.html`
+- [x] Escribir `sections/html-multimedia.html`
+- [x] Escribir `sections/html-accesibilidad.html`
 - [ ] Escribir `cheatsheets/html-cheatsheet.html`
 
 ### Fase 6: Contenido — CSS
