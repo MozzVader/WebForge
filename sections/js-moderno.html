@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6+ Moderno — WebForge</title>
+    <meta name="description" content="JavaScript moderno: arrow functions, template literals, destructuring, spread/rest, optional chaining, metodos de array y objeto, y modulos ES.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>JavaScript</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>ES6+ / JavaScript Moderno</h1>
+                <p>Las features que cambiaron JavaScript para siempre. Desde arrow functions hasta modulos, todo lo que necesitas para escribir codigo JS actual, limpio y expresivo.</p>
+            </div>
+
+            <!-- ===================== ARROW FUNCTIONS ===================== -->
+            <section class="sub-section animate-on-scroll" id="arrow-functions">
+                <h2>
+                    Arrow functions
+                    <a href="#arrow-functions" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las arrow functions (<code>=&gt;</code>) son la forma moderna y concisa de escribir funciones. Son mas cortas, mas legibles en la mayoria de los casos, y tienen una diferencia clave con las funciones clasicas: <strong>no tienen su propio <code>this</code></strong>, sino que heredan el <code>this</code> del scope donde fueron definidas (lexical this). Esto las ideales para callbacks y metodos funcionales como <code>map</code> y <code>filter</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Sintaxis completa
+const sumar = (a, b) => {
+    return a + b;
+};
+
+// Return implicito — si es una sola expresion, no necesitás {}
+const duplicar = n => n * 2;       // un parametro: sin parentesis
+const sumar2 = (a, b) => a + b;   // varios parametros: con parentesis
+
+// Devolver un objeto — necesitás parentesis alrededor
+const crearUser = (nombre, edad) => ({ nombre, edad });
+// Sin parentesis {} se lee como bloque de codigo, no como objeto
+
+// Arrow como callback (el uso mas comun)
+const numeros = [1, 2, 3, 4, 5];
+const pares = numeros.filter(n => n % 2 === 0);  // [2, 4]
+const dobles = numeros.map(n => n * 2);           // [2, 4, 6, 8, 10]
+
+// Sin cuerpo (para efectos secundarios)
+numeros.forEach(n => console.log(n));
+
+// Arrow vs funcion clasica para this
+const usuario = {
+    nombre: "Ana",
+    saludos: ["hola", "que tal"],
+    // Funcion clasica: this depende de COMO se llama
+    mostrarClasico: function() {
+        this.saludos.forEach(function(saludo) {
+            // this es undefined (o Window en modo no-estricto)
+            // console.log(this.nombre); // ERROR
+        });
+    },
+    // Arrow: this se hereda del scope padre (usuario)
+    mostrarModerno() {
+        this.saludos.forEach(saludo => {
+            console.log(`${this.nombre}: ${saludo}`); // OK!
+        });
+    }
+};</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Cuando NO usar arrow functions</p>
+                        <p>No us&eacute;s arrow functions cuando necesites tu propio <code>this</code>: m&eacute;todos de objetos, constructores o manejadores de eventos donde <code>this</code> deba referirse al elemento del DOM. Tampoco sirven como m&eacute;todos de prototipo. Para esos casos us&aacute; funciones cl&aacute;sicas o shorthand de m&eacute;todo (<code>nombre() {}</code>).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== TEMPLATE LITERALS ===================== -->
+            <section class="sub-section animate-on-scroll" id="template-literals">
+                <h2>
+                    Template literals
+                    <a href="#template-literals" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Los template literals usan backticks (`` ` ``) en vez de comillas y permiten tres cosas que las cadenas normales no pueden: <strong>interpolaci&oacute;n de expresiones</strong> con <code>${}</code>, <strong>m&uacute;ltiples l&iacute;neas</strong> sin concatenar, y la posibilidad de aplicarles <strong>funciones de etiquetado</strong> (tagged templates). Son la forma est&aacute;ndar de trabajar con strings en JavaScript moderno, reemplazando completamente la concatenaci&oacute;n con <code>+</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const nombre = "Mundo";
+const edad = 25;
+
+// Interpolacion de expresiones
+const saludo = `Hola, ${nombre}!`;           // "Hola, Mundo!"
+const info = `Tenés ${edad} años`;            // "Tenés 25 años"
+
+// Cualquier expresion dentro de ${}
+const calculo = `El doble es ${edad * 2}`;    // "El doble es 50"
+const ternario = `${edad >= 18 ? "mayor" : "menor"}`; // "mayor"
+
+// Multilinea (conserva los saltos de linea)
+const html = `
+&lt;div class="card"&gt;
+    &lt;h2&gt;${nombre}&lt;/h2&gt;
+    &lt;p&gt;Edad: ${edad}&lt;/p&gt;
+&lt;/div&gt;
+`;
+
+// Expresiones complejas
+const usuario = { nombre: "Ana", rol: "admin" };
+const badge = `${usuario.rol === "admin"
+    ? '&lt;span class="badge-admin"&gt;Admin&lt;/span&gt;'
+    : ''}`;
+
+// Llamadas a funciones dentro de templates
+function formatear(precio) {
+    return `$${precio.toFixed(2)}`;
+}
+const item = `Total: ${formatear(99.5)}`; // "Total: $99.50"</code></pre>
+                </div>
+            </section>
+
+            <!-- ===================== DESTRUCTURING ===================== -->
+            <section class="sub-section animate-on-scroll" id="destructuring">
+                <h2>
+                    Destructuring
+                    <a href="#destructuring" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El destructuring permite extraer valores de objetos y arrays y asignarlos a variables en una sola linea. Es una de las features m&aacute;s usadas de ES6 porque hace el c&oacute;digo mucho m&aacute;s legible, especialmente cuando trabaj&aacute;s con funciones que reciben objetos con muchas propiedades, respuestas de APIs, o cuando intercambi&aacute;s valores entre variables.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === Destructuring de objetos ===
+const usuario = {
+    nombre: "Ana",
+    edad: 25,
+    email: "ana@mail.com",
+    direccion: { ciudad: "BA", pais: "Argentina" }
+};
+
+// Basico
+const { nombre, edad } = usuario;
+console.log(nombre); // "Ana"
+console.log(edad);   // 25
+
+// Renombrar variables
+const { nombre: userName, edad: userAge } = usuario;
+console.log(userName); // "Ana"
+
+// Valores por defecto
+const { nombre: n, telefono = "no tiene" } = usuario;
+console.log(telefono); // "no tiene"
+
+// Destructuring anidado
+const { direccion: { ciudad } } = usuario;
+console.log(ciudad); // "BA"
+
+// En parametros de funcion (super usado)
+function mostrar({ nombre, edad, rol = "user" }) {
+    console.log(`${nombre} (${edad}) — ${rol}`);
+}
+mostrar({ nombre: "Ana", edad: 25 }); // "Ana (25) — user"
+
+// === Destructuring de arrays ===
+const colores = ["rojo", "verde", "azul", "amarillo"];
+
+// Por posicion
+const [primero, segundo] = colores;
+console.log(primero);  // "rojo"
+console.log(segundo);  // "verde"
+
+// Saltar elementos
+const [uno, , tres] = colores;
+console.log(tres); // "azul"
+
+// Con Rest — el resto en un array
+const [rojo, verde, ...resto] = colores;
+console.log(resto); // ["azul", "amarillo"]
+
+// Intercambiar variables (swap)
+let a = 1, b = 2;
+[b, a] = [a, b];
+console.log(a, b); // 2 1
+
+// Destructuring en loops
+const usuarios = [
+    { nombre: "Ana", edad: 25 },
+    { nombre: "Carlos", edad: 30 }
+];
+for (const { nombre, edad } of usuarios) {
+    console.log(`${nombre}: ${edad}`);
+}</code></pre>
+                </div>
+
+                <p>
+                    En la practica, el destructuring de objetos en par&aacute;metros de funci&oacute;n es probablemente el uso m&aacute;s frecuente. Te permite que las funciones reciban un solo objeto con opciones en vez de muchos par&aacute;metros individuales (lo que se conoce como el <em>options object pattern</em>), y adem&aacute;s hace que el c&oacute;digo se autodocumente porque los nombres de las propiedades quedan visibles en la firma de la funci&oacute;n.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Options object pattern con destructuring
+function crearFetch({ url, method = "GET", headers = {}, body = null }) {
+    console.log(`${method} ${url}`, headers, body);
+}
+
+crearFetch({
+    url: "/api/users",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nombre: "Ana" })
+});
+
+// Mucho mejor que:
+// function crearFetch(url, method, headers, body) { ... }
+// crearFetch("/api/users", "POST", {...}, "..."); // que es cada arg?</code></pre>
+                </div>
+            </section>
+
+            <!-- ===================== SPREAD & REST ===================== -->
+            <section class="sub-section animate-on-scroll" id="spread-rest">
+                <h2>
+                    Spread y Rest
+                    <a href="#spread-rest" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El operador spread (<code>...</code>) y el operador rest usan la misma sintaxis (<code>...</code>) pero hacen cosas opuestas. El <strong>spread</strong> "desarma" un array u objeto en elementos individuales. El <strong>rest</strong> agrupa elementos individuales en un array u objeto. La diferencia est&aacute; en el contexto: spread aparece donde se esperan elementos (en una asignacion o llamado a funcion), y rest aparece donde se declaran parametros.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === SPREAD — expande elementos ===
+
+// Copiar arrays
+const original = [1, 2, 3];
+const copia = [...original];         // [1, 2, 3]
+console.log(original === copia);     // false (nuevo array)
+
+// Concatenar arrays
+const a = [1, 2];
+const b = [3, 4];
+const combinado = [...a, ...b];      // [1, 2, 3, 4]
+
+// Agregar elementos
+const conExtra = [0, ...a, 99];     // [0, 1, 2, 99]
+
+// Convertir iterable a array
+const chars = [..."hola"];          // ["h", "o", "l", "a"]
+const setArr = [...new Set([1,2,2,3])]; // [1, 2, 3]
+
+// Pasar elementos como argumentos
+const nums = [5, 2, 8, 1, 9];
+const maximo = Math.max(...nums);    // 9
+
+// === SPREAD en objetos (clonar y mergear) ===
+const base = { nombre: "Ana", edad: 25 };
+const clon = { ...base };                    // nuevo objeto
+const actualizado = { ...base, edad: 26 };   // sobrescribe edad
+const conExtra = { ...base, email: "a@b.c" }; // agrega propiedad
+
+// Mergear multiples objetos (el ultimo gana en conflictos)
+const defaults = { tema: "dark", lang: "es", fontSize: 16 };
+const userPrefs = { lang: "en", fontSize: 14 };
+const config = { ...defaults, ...userPrefs };
+// { tema: "dark", lang: "en", fontSize: 14 }
+
+// === REST — agrupa elementos ===
+
+// En parametros de funcion
+function sumarTodos(...numeros) {
+    return numeros.reduce((acc, n) => acc + n, 0);
+}
+sumarTodos(1, 2, 3, 4); // 10
+
+// Rest con otros parametros fijos
+function log(tipo, ...mensajes) {
+    mensajes.forEach(m => console.log(`[${tipo}] ${m}`));
+}
+log("ERROR", "archivo no encontrado", "permiso denegado");
+
+// Rest en destructuring de arrays
+const [primero, segundo, ...resto] = [1, 2, 3, 4, 5];
+console.log(resto); // [3, 4, 5]
+
+// Rest en destructuring de objetos
+const { nombre, ...datos } = { nombre: "Ana", edad: 25, pais: "AR" };
+console.log(datos); // { edad: 25, pais: "AR" }</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Spread es shallow copy</p>
+                        <p>El spread solo copia un nivel. Si el objeto tiene propiedades que son objetos o arrays anidados, esas referencias se comparten. Para una copia profunda us&aacute; <code>structuredClone(obj)</code> (nativo desde ES2022) o librer&iacute;as como Lodash (<code>_.cloneDeep()</code>).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== OPTIONAL CHAINING & NULLISH COALESCING ===================== -->
+            <section class="sub-section animate-on-scroll" id="optional-nullish">
+                <h2>
+                    Optional chaining y nullish coalescing
+                    <a href="#optional-nullish" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El <strong>optional chaining</strong> (<code>?.</code>) permite acceder a propiedades anidadas de forma segura sin que el programa crashee si alguna parte de la cadena es <code>null</code> o <code>undefined</code>. En vez de verificar cada nivel manualmente, el <code>?.</code> cortocircuita la expresion y devuelve <code>undefined</code> tan pronto como encuentra un valor nulo. Es uno de los features m&aacute;s &uacute;tiles de ES2020, especialmente cuando trabaj&aacute;s con datos de APIs que pueden tener propiedades faltantes.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Sin optional chaining (verbose y repetitivo)
+const user = { perfil: { direccion: { ciudad: "BA" } } };
+const ciudad = user
+    && user.perfil
+    && user.perfil.direccion
+    && user.perfil.direccion.ciudad; // "BA"
+
+// Con optional chaining (limpio y seguro)
+const ciudad2 = user?.perfil?.direccion?.ciudad; // "BA"
+
+// Si alguna parte es null/undefined, devuelve undefined
+const pais = user?.perfil?.direccion?.pais;       // undefined
+const tel = user?.telefono?.numero;               // undefined
+// Sin error, sin crash
+
+// Con llamadas a metodos
+const doc = document.querySelector(".no-existe");
+const texto = doc?.textContent;     // undefined (no tira error)
+
+// Con indices de arrays
+const items = [10, 20, 30];
+const tercero = items?.[2];         // 30
+const decimo = items?.[9];          // undefined
+
+// Con funciones
+const api = { fetchUsers: null };
+const users = api.fetchUsers?.();   // undefined (no llama si no existe)</code></pre>
+                </div>
+
+                <p>
+                    El <strong>nullish coalescing</strong> (<code>??</code>) devuelve el valor de la derecha solo si el de la izquierda es <code>null</code> o <code>undefined</code>. Es similar a <code>||</code>, pero con una diferencia crucial: <code>||</code> reacciona a todos los valores falsy (incluyendo <code>0</code>, <code>""</code>, y <code>false</code>), mientras que <code>??</code> solo reacciona a <code>null</code> y <code>undefined</code>. Esto lo hace perfecto para valores por defecto donde <code>0</code> o <code>""</code> son valores v&aacute;lidos que no deber&iacute;an ser reemplazados.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// || vs ??
+
+// Con || — reacciona a CUALQUIER valor falsy
+const cantidad = 0;
+const default1 = cantidad || 10;  // 10 (mal! 0 es valido)
+
+// Con ?? — solo reacciona a null y undefined
+const default2 = cantidad ?? 10;  // 0 (bien! respeta el 0)
+
+// Otros ejemplos donde || falla pero ?? no:
+"" ?? "vacio";       // "" (respeta el string vacio)
+false ?? true;       // false
+0 ?? "cero";         // 0
+null ?? "default";   // "default"
+undefined ?? "def";  // "def"
+
+// Combinacion perfecta: optional chaining + nullish coalescing
+const usuario = {
+    perfil: { nombre: "Ana", bio: null }
+};
+
+const bio = usuario?.perfil?.bio ?? "Sin biografia"; // "Sin biografia"
+const nombre = usuario?.perfil?.nombre ?? "Anonimo"; // "Ana"
+
+// En parametros de configuracion
+function crearBoton({ texto = "Click", size = "md" } = {}) {
+    const tamanio = size ?? "md";
+    const label = texto ?? "Boton";
+}
+crearBoton({ texto: "", size: null });
+// texto queda "" (vacio pero valido)
+// size usa el fallback "md" porque es null</code></pre>
+                </div>
+            </section>
+
+            <!-- ===================== ARRAY METHODS ===================== -->
+            <section class="sub-section animate-on-scroll" id="array-methods">
+                <h2>
+                    Metodos de arrays
+                    <a href="#array-methods" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Los m&eacute;todos funcionales de arrays son posiblemente lo m&aacute;s poderoso que trajo ES6+. En vez de escribir loops manuales para transformar, filtrar o buscar elementos, us&aacute;s m&eacute;todos que reciben una funci&oacute;n (callback) y devuelven un resultado. Esto produce c&oacute;digo m&aacute;s declarativo (describe <em>qu&eacute;</em> quer&eacute;s hacer, no <em>c&oacute;mo</em>), m&aacute;s f&aacute;cil de leer, y m&aacute;s f&aacute;cil de testear. Los m&aacute;s importantes son <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code>, <code>some</code>, <code>every</code> e <code>includes</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const productos = [
+    { nombre: "Mouse", precio: 25, categoria: "perifericos" },
+    { nombre: "Teclado", precio: 45, categoria: "perifericos" },
+    { nombre: "Monitor", precio: 200, categoria: "pantallas" },
+    { nombre: "Webcam", precio: 60, categoria: "perifericos" },
+    { nombre: "SSD", precio: 80, categoria: "almacenamiento" }
+];
+
+// map — transforma cada elemento, devuelve NUEVO array del mismo largo
+const nombres = productos.map(p => p.nombre);
+// ["Mouse", "Teclado", "Monitor", "Webcam", "SSD"]
+
+const conIva = productos.map(p => ({
+    ...p,
+    precioConIva: +(p.precio * 1.21).toFixed(2)
+}));
+
+// filter — devuelve nuevo array solo con los que cumplen la condicion
+const baratos = productos.filter(p => p.precio < 50);
+// [Mouse, Teclado]
+
+const perifericos = productos.filter(p => p.categoria === "perifericos");
+// [Mouse, Teclado, Webcam]
+
+// find — devuelve el PRIMER elemento que cumple la condicion (o undefined)
+const monitor = productos.find(p => p.nombre === "Monitor");
+// { nombre: "Monitor", precio: 200, categoria: "pantallas" }
+
+const caro = productos.find(p => p.precio > 100);
+// { nombre: "Monitor", ... } (solo el primero)</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// reduce — reduce el array a UN SOLO valor
+// callback recibe: acumulador, elemento actual, indice, array
+const suma = numeros.reduce((acc, n) => acc + n, 0); // 55
+
+// Contar frecuencias
+const palabras = ["hola", "mundo", "hola", "js", "mundo", "hola"];
+const conteo = palabras.reduce((acc, p) => {
+    acc[p] = (acc[p] || 0) + 1;
+    return acc;
+}, {}); // { hola: 3, mundo: 2, js: 1 }
+
+// Agrupar por propiedad
+const porCategoria = productos.reduce((acc, p) => {
+    const cat = p.categoria;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(p);
+    return acc;
+}, {});
+// { perifericos: [...], pantallas: [...], almacenamiento: [...] }
+
+// some — devuelve true si AL MENOS UNO cumple la condicion
+const hayCaro = productos.some(p => p.precio > 100);  // true
+const hayGratis = productos.some(p => p.precio === 0); // false
+
+// every — devuelve true si TODOS cumplen la condicion
+const todosTienenPrecio = productos.every(p => p.precio > 0); // true
+const todosBaratos = productos.every(p => p.precio < 50);     // false
+
+// includes — verifica si un valor EXACTO esta en el array
+const frutas = ["manzana", "banana", "naranja"];
+frutas.includes("banana");  // true
+frutas.includes("pera");    // false
+numeros.includes(5);        // true
+
+// includes con NaN (uno de los pocos casos donde funciona correctamente)
+[1, NaN, 3].includes(NaN);  // true</code></pre>
+                </div>
+
+                <p>
+                    Estos m&eacute;todos se pueden <strong>encadenar</strong> porque cada uno devuelve un nuevo array. Esto permite expresar transformaciones complejas en una cadena legible, en vez de anidar loops. El patr&oacute;n tipico es filtrar primero, luego transformar, y finalmente reducir si necesit&aacute;s un valor &uacute;nico.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// Encadenamiento de metodos (method chaining)
+// "Nombres de perifericos que cuestan menos de 100"
+const resultado = productos
+    .filter(p => p.categoria === "perifericos")  // [Mouse, Teclado, Webcam]
+    .filter(p => p.precio < 100)                // [Mouse, Teclado, Webcam]
+    .map(p => p.nombre);                       // ["Mouse", "Teclado", "Webcam"]
+console.log(resultado);
+
+// "Precio total de los perifericos"
+const totalPerifericos = productos
+    .filter(p => p.categoria === "perifericos")
+    .reduce((acc, p) => acc + p.precio, 0);
+console.log(totalPerifericos); // 130
+
+// Otros metodos utiles
+const nums = [3, 1, 4, 1, 5, 9];
+
+nums.sort((a, b) => a - b);       // [1, 1, 3, 4, 5, 9]
+nums.reverse();                    // invierte el array IN-PLACE
+nums.slice(1, 4);                  // [1, 3, 4] (no modifica original)
+nums.splice(2, 1, 99);             // elimina 1 elem desde pos 2, inserta 99
+nums.indexOf(4);                   // 3 (posicion)
+nums.findLast(n => n > 3);         // 9 (ultimo que cumple, ES2023)
+
+// flat — aplana arrays anidados
+const anidado = [1, [2, 3], [4, [5, 6]]];
+anidado.flat();       // [1, 2, 3, 4, [5, 6]]
+anidado.flat(Infinity); // [1, 2, 3, 4, 5, 6]
+
+// flatMap — map + flat en un solo paso
+const palabras = ["hola mundo", "como estas"];
+palabras.flatMap(s => s.split(" ")); // ["hola", "mundo", "como", "estas"]</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Inmutabilidad</p>
+                        <p><code>map</code>, <code>filter</code>, <code>slice</code>, <code>concat</code> y <code>flatMap</code> devuelven arrays <strong>nuevos</strong> sin modificar el original. En cambio, <code>sort</code>, <code>reverse</code> y <code>splice</code> modifican el array in-place. Para sort/reverse inmutables us&aacute; <code>[...arr].sort()</code> o <code>arr.toSorted()</code> (ES2023).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== OBJECT METHODS ===================== -->
+            <section class="sub-section animate-on-scroll" id="object-methods">
+                <h2>
+                    Metodos de objetos
+                    <a href="#object-methods" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>Object</code> tiene m&eacute;todos est&aacute;ticos que te permiten trabajar con objetos de forma funcional, similar a los m&eacute;todos de arrays. Los m&aacute;s usados son <code>Object.keys()</code>, <code>Object.values()</code> y <code>Object.entries()</code> que convierten un objeto en arrays de claves, valores o pares clave-valor respectivamente. Esto te permite usar los m&eacute;todos de arrays sobre objetos. Adem&aacute;s, <code>Object.assign()</code> y el spread operator (<code>{...obj}</code>) se usan para clonar y mergear objetos.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">const usuario = {
+    nombre: "Ana",
+    edad: 25,
+    ciudad: "Buenos Aires"
+};
+
+// Object.keys — array de claves
+Object.keys(usuario);  // ["nombre", "edad", "ciudad"]
+
+// Object.values — array de valores
+Object.values(usuario); // ["Ana", 25, "Buenos Aires"]
+
+// Object.entries — array de pares [clave, valor]
+Object.entries(usuario);
+// [["nombre", "Ana"], ["edad", 25], ["ciudad", "Buenos Aires"]]
+
+// Combinado con metodos de arrays
+// Obtener un array de strings "clave: valor"
+Object.entries(usuario)
+    .map(([k, v]) => `${k}: ${v}`);
+// ["nombre: Ana", "edad: 25", "ciudad: Buenos Aires"]
+
+// Filtrar propiedades por valor
+const adulto = Object.entries(usuario)
+    .filter(([k, v]) => typeof v === "string")
+    .reduce((obj, [k, v]) => ({ ...obj, [k]: v }), {});
+// { nombre: "Ana", ciudad: "Buenos Aires" }
+
+// Object.assign — clonar/mergear (shallow)
+const defaults = { tema: "dark", lang: "es", debug: false };
+const config = Object.assign({}, defaults, { lang: "en" });
+// { tema: "dark", lang: "en", debug: false }
+// Nota: spread ({...a, ...b}) es mas comun hoy, pero assign
+// es util cuando el target es un objeto existente
+
+// Object.fromEntries — convertir pares de vuelta a objeto
+const entries = [["a", 1], ["b", 2], ["c", 3]];
+const obj = Object.fromEntries(entries); // { a: 1, b: 2, c: 3 }
+
+// Caso practico: filtrar claves de un objeto
+const datos = { nombre: "Ana", password: "123", email: "a@b.c" };
+const publico = Object.fromEntries(
+    Object.entries(datos).filter(([k]) => k !== "password")
+); // { nombre: "Ana", email: "a@b.c" }
+
+// Object.freeze — hace el objeto inmutable
+const constante = Object.freeze({ a: 1, b: 2 });
+constante.a = 99;     // silenciosamente ignorado (en modo estricto tira error)
+Object.isFrozen(constante); // true
+
+// Object.hasOwnProperty — verificar si una propiedad es propia (no heredada)
+"nombre" in usuario;                  // true (incluye heredadas)
+usuario.hasOwnProperty("nombre");     // true (solo propias)
+usuario.hasOwnProperty("toString");   // false (es heredada de Object)</code></pre>
+                </div>
+            </section>
+
+            <!-- ===================== MODULES ===================== -->
+            <section class="sub-section animate-on-scroll" id="modules">
+                <h2>
+                    Modulos ES
+                    <a href="#modules" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Los m&oacute;dulos ES (ES Modules o ESM) son el sistema oficial de m&oacute;dulos de JavaScript. Permiten dividir tu c&oacute;digo en archivos separados, cada uno con su propio scope, y exportar/importar funcionalidades entre ellos. Antes de ES6 se usaban patrones como IIFEs, CommonJS (<code>require</code>/<code>module.exports</code>) o AMD, pero hoy ESM es el est&aacute;ndar nativo soportado por todos los navegadores modernos y por Node.js.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            JavaScript
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript">// === EXPORTAR (utils.js) ===
+
+// Export nombrado — uno por uno
+export const PI = 3.14159;
+export function sumar(a, b) { return a + b; }
+export const restar = (a, b) => a - b;
+
+// Export nombrado al final
+function multiplicar(a, b) { return a * b; }
+function dividir(a, b) { return a / b; }
+export { multiplicar, dividir };
+
+// Export por defecto — uno solo por archivo
+// Es lo que se importa si no especificás nombre
+export default function saludar(nombre) {
+    return `Hola, ${nombre}!`;
+}
+
+// Exportar un objeto/clase como default
+export default class Calculadora {
+    sumar(a, b) { return a + b; }
+}
+
+// === IMPORTAR (app.js) ===
+
+// Import por defecto (nombre libre)
+import saludar from "./utils.js";
+
+// Import nombrados (entre llaves, nombre exacto)
+import { PI, sumar, restar } from "./utils.js";
+
+// Renombrar al importar
+import { multiplicar as mult, dividir as div } from "./utils.js";
+
+// Importar todo como objeto namespace
+import * as utils from "./utils.js";
+utils.sumar(2, 3);     // 5
+utils.PI;              // 3.14159
+
+// Combinar default y nombrados
+import saludar, { PI, sumar } from "./utils.js";
+
+// Importar solo para efectos secundarios (ej: polyfills)
+import "./polyfills.js";</code></pre>
+                </div>
+
+                <p>
+                    Para usar m&oacute;dulos ES en el navegador, necesit&aacute;s agregar <code>type="module"</code> al tag <code>&lt;script&gt;</code>. Esto habilita el modo estricto autom&aacute;ticamente, hace que las variables sean locales al m&oacute;dulo (no globales), y permite que el navegador resuelva las importaciones. Los m&oacute;dulos se cargan de forma diferida (equivalente a <code>defer</code>), por lo que no necesit&aacute;s agregar ese atributo. En el proyecto WebForge, todos los archivos JS usan <code>type="module"</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Sin type="module": variables globales, sin import/export --&gt;
+&lt;script src="js/app.js"&gt;&lt;/script&gt;
+
+&lt;!-- Con type="module": scope local, import/export, modo estricto --&gt;
+&lt;script type="module" src="js/app.js"&gt;&lt;/script&gt;
+
+&lt;!-- Los modulos se cargan en diferido automaticamente --&gt;
+&lt;!-- Equivalente a: &lt;script type="module" src="app.js" defer&gt;&lt;/script&gt; --&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Consejos de modulos</p>
+                        <p>Us&aacute; <strong>export default</strong> para la funcionalidad principal del archivo (una clase, una funci&oacute;n principal, un componente). Us&aacute; <strong>export nombrados</strong> para todo lo dem&aacute;s. Manten&eacute; los imports organizados al tope del archivo. No mezcles CommonJS (<code>require</code>) con ES Modules (<code>import</code>) en el mismo archivo. En Node.js, us&aacute; <code>"type": "module"</code> en <code>package.json</code> para habilitar ESM.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation between sections -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="../sections/js-basico.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    JS B&aacute;sico
+                </a>
+                <a href="../sections/js-dom.html" class="btn btn-secondary">
+                    DOM
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
