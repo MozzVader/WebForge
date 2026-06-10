@@ -650,7 +650,7 @@ Las cheatsheets son secciones dedicadas con formato de **referencia rápida**. T
 - [x] Escribir `sections/css-variables.html`
 - [x] Escribir `sections/css-flexbox.html`
 - [x] Escribir `sections/css-grid.html`
-- [ ] Escribir `sections/css-responsive.html`
+- [x] Escribir `sections/css-responsive.html`
 - [ ] Escribir `sections/css-preprocesadores.html`
 - [ ] Escribir `sections/css-frameworks.html`
 - [ ] Escribir `sections/css-animaciones.html`

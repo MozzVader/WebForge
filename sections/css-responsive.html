@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design — WebForge</title>
+    <meta name="description" content="Domina el Responsive Design: media queries y breakpoints, enfoque mobile-first, unidades relativas (rem, em, vw, vh), tipograf&iacute;a fluida con clamp(), container queries, im&aacute;genes responsivas con picture/srcset, y media queries de preferencia del usuario.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>Responsive Design</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>Responsive Design</h1>
+                <p>Responsive Design es la pr&aacute;ctica de dise&ntilde;ar y desarrollar p&aacute;ginas web que se adaptan al dispositivo del usuario&mdash;desktop, tablet, mobile&mdash;sin necesidad de versiones separadas. En lugar de crear tres sitios distintos, escrib&iacute;s un solo HTML/CSS que reorganiza, escala y reordena los componentes seg&uacute;n el espacio disponible. Esto se logra combinando <strong>media queries</strong> (condiciones basadas en el viewport), <strong>unidades relativas</strong> (rem, em, vw, vh), <strong>layouts flexibles</strong> (Flexbox y Grid) y <strong>im&aacute;genes adaptativas</strong> (srcset, picture).</p>
+            </div>
+
+            <p>
+                El enfoque moderno es <strong>mobile-first</strong>: escrib&iacute;s los estilos base para la pantalla m&aacute;s chica, y luego us&aacute;s media queries con <code>min-width</code> para ir agregando estilos a medida que la pantalla crece. Esto tiene dos ventajas: los estilos base son m&aacute;s ligeros (mobile tiene menos funcionalidad), y las media queries son progresivas (agregan, no reescriben). El enfoque contrario (desktop-first con <code>max-width</code>) obliga a sobreescribir muchos estilos y genera CSS m&aacute;s fr&aacute;gil y dif&iacute;cil de mantener.
+            </p>
+
+            <!-- Sub-section: Media Queries -->
+            <section class="sub-section animate-on-scroll" id="media-queries">
+                <h2>
+                    Media Queries: sintaxis y breakpoints
+                    <a href="#media-queries" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las <strong>media queries</strong> son la herramienta fundamental del responsive design: permiten aplicar estilos condicionalmente seg&uacute;n caracter&iacute;sticas del dispositivo o del viewport. La sintaxis es <code>@media (condicion) { ... }</code>, donde la condici&oacute;n puede ser el ancho del viewport (<code>min-width</code>, <code>max-width</code>), la orientaci&oacute;n (<code>orientation</code>), la densidad de p&iacute;xeles (<code>resolution</code>), preferencias del usuario (<code>prefers-color-scheme</code>, <code>prefers-reduced-motion</code>), y muchas m&aacute;s. Se pueden combinar con <code>and</code>, <code>or</code> (coma) y <code>not</code>.
+                </p>
+
+                <h3>Sintaxis b&aacute;sica</h3>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   Sintaxis basica de @media
+   ============================================ */
+
+/* Estilo simple: se aplica si el ancho >= 768px */
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+}
+
+/* Combinacion con and: ancho >= 768px Y orientacion landscape */
+@media (min-width: 768px) and (orientation: landscape) {
+    .sidebar {
+        display: none;
+    }
+}
+
+/* Lista separada por comas (OR): se aplica si CUALQUIERA es true */
+@media (min-width: 1024px), (orientation: landscape) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* NOT: invierte la condicion */
+@media not (min-width: 768px) {
+    /* Solo se aplica si el ancho es MENOR a 768px */
+    .mobile-only {
+        display: block;
+    }
+}
+
+/* ============================================
+   Media query en el tag link (CSS externo)
+   ============================================ */
+/* &lt;link rel="stylesheet" href="desktop.css" media="(min-width: 768px)"&gt;
+   El navegador solo descarga desktop.css si la condicion es true.
+   Ahorra ancho de banda en mobile! */
+
+/* ============================================
+   Media query inline en style
+   ============================================ */
+/* &lt;style media="(max-width: 600px)"&gt;
+   .hide-mobile { display: none; }
+   &lt;/style&gt; */</code></pre>
+                </div>
+
+                <h3>Breakpoints comunes</h3>
+
+                <p>
+                    Los breakpoints son los puntos de corte donde el layout cambia significativamente. No hay breakpoints universales&mdash;dependen del dise&ntilde;o&mdash;pero existen convenciones basadas en los anchos de dispositivo m&aacute;s comunes. Lo importante es que los breakpoints respondan al <em>contenido</em>, no a dispositivos espec&iacute;ficos. No agregu&eacute;s un breakpoint porque "as&iacute; lo dice el iPhone", agreg&aacute;lo porque el contenido se rompe a ese ancho.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   Breakpoints del proyecto WebForge (mobile-first)
+   ============================================ */
+
+/* sm: 640px — tel&eacute;fonos grandes (landscape) */
+@media (min-width: 640px) {
+    .container { max-width: 640px; }
+}
+
+/* md: 768px — tablets portrait */
+@media (min-width: 768px) {
+    .container { max-width: 768px; }
+    .grid-2col {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* lg: 1024px — tablets landscape, laptops */
+@media (min-width: 1024px) {
+    .container { max-width: 1024px; }
+    .page-layout {
+        grid-template-columns: 250px 1fr;
+    }
+    /* Sidebar visible en desktop */
+    .site-sidebar {
+        transform: translateX(0);
+    }
+}
+
+/* xl: 1280px — desktops grandes */
+@media (min-width: 1280px) {
+    .container { max-width: 1280px; }
+}
+
+/* 2xl: 1536px — monitores widescreen */
+@media (min-width: 1536px) {
+    .container { max-width: 1536px; }
+}
+
+/* ============================================
+   Breakpoints con Custom Properties (recomendado)
+   ============================================ */
+
+:root {
+    --bp-sm: 640px;
+    --bp-md: 768px;
+    --bp-lg: 1024px;
+    --bp-xl: 1280px;
+    --bp-2xl: 1536px;
+}
+
+/* NOTA: CSS no permite var() dentro de @media todavia
+   (est&aacute; en draft). Pero pod&eacute;s usar Sass/EJS para generarlo. */</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Breakpoint</th>
+                            <th>Ancho</th>
+                            <th>Dispositivo t&iacute;pico</th>
+                            <th>Qu&eacute; cambia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Base</strong></td>
+                            <td><code>0 - 639px</code></td>
+                            <td>Mobile portrait</td>
+                            <td>Layout de 1 columna, sidebar oculto, tipograf&iacute;a chica, cards apiladas.</td>
+                        </tr>
+                        <tr>
+                            <td><code>sm</code></td>
+                            <td><code>&ge; 640px</code></td>
+                            <td>Mobile landscape</td>
+                            <td>Container m&aacute;s ancho, tipograf&iacute;a ligeramente mayor, 2 columnas en grids simples.</td>
+                        </tr>
+                        <tr>
+                            <td><code>md</code></td>
+                            <td><code>&ge; 768px</code></td>
+                            <td>Tablet portrait</td>
+                            <td>Grids de 2 columnas, padding m&aacute;s generoso, elementos ocultos en mobile aparecen.</td>
+                        </tr>
+                        <tr>
+                            <td><code>lg</code></td>
+                            <td><code>&ge; 1024px</code></td>
+                            <td>Tablet landscape / laptop</td>
+                            <td>Layout con sidebar, navbar completa, grids de 3 columnas.</td>
+                        </tr>
+                        <tr>
+                            <td><code>xl</code></td>
+                            <td><code>&ge; 1280px</code></td>
+                            <td>Desktop</td>
+                            <td>Container m&aacute;ximo, espaciado generoso, layout de p&aacute;gina completo.</td>
+                        </tr>
+                        <tr>
+                            <td><code>2xl</code></td>
+                            <td><code>&ge; 1536px</code></td>
+                            <td>Widescreen</td>
+                            <td>Contenido centrado con max-width, m&aacute;s espacio en grids.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: Mobile-first -->
+            <section class="sub-section animate-on-scroll" id="mobile-first">
+                <h2>
+                    Enfoque Mobile-First
+                    <a href="#mobile-first" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El enfoque <strong>mobile-first</strong> significa que los estilos base (fuera de cualquier media query) est&aacute;n escritos para la pantalla m&aacute;s peque&ntilde;a. Luego, us&aacute;s <code>@media (min-width: ...)</code> para <em>agregar</em> estilos progresivamente a medida que la pantalla crece. Esto produce un CSS m&aacute;s limpio, m&aacute;s mantenible y m&aacute;s r&aacute;pido en mobile (los estilos base son m&iacute;nimos y las media queries solo se descargan/evaluan si aplican). El enfoque desktop-first (<code>max-width</code>) es lo contrario: los estilos base son para desktop y sobreescrib&iacute;s para mobile, lo que genera m&aacute;s CSS y es m&aacute;s propenso a errores.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   MOBILE-FIRST vs DESKTOP-FIRST: comparacion
+   ============================================ */
+
+/* --- MOBILE-FIRST (recomendado) --- */
+/* Estilos base: mobile (sin media query) */
+.card-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 columna en mobile */
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Tablet: 2 columnas */
+@media (min-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+}
+
+/* Desktop: 3 columnas + sidebar */
+@media (min-width: 1024px) {
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 2rem;
+    }
+}
+
+/* --- DESKTOP-FIRST (no recomendado) --- */
+/* Estilos base: desktop */
+.card-grid-old {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+}
+
+/* Tablet: hay que REESCRIBIR todo */
+@media (max-width: 1023px) {
+    .card-grid-old {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+}
+
+/* Mobile: REESCRIBIR otra vez */
+@media (max-width: 767px) {
+    .card-grid-old {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
+
+/* ============================================
+   MOBILE-FIRST: ejemplo real de componente
+   ============================================ */
+
+/* Base (mobile): todo apilado */
+.page-layout {
+    display: grid;
+    grid-template-areas:
+        "header"
+        "content"
+        "sidebar"
+        "footer";
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+/* md: sidebar pasa a la derecha */
+@media (min-width: 768px) {
+    .page-layout {
+        grid-template-areas:
+            "header header"
+            "content sidebar"
+            "footer footer";
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+/* lg: sidebar a la izquierda */
+@media (min-width: 1024px) {
+    .page-layout {
+        grid-template-areas:
+            "header header"
+            "sidebar content"
+            "footer footer";
+        grid-template-columns: 250px 1fr;
+    }
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">min-width vs max-width</p>
+                        <p>Us&aacute; siempre <code>min-width</code> (mobile-first). Con <code>min-width</code>, las media queries se apilan progresivamente y no se anulan entre s&iacute;. Con <code>max-width</code> (desktop-first), las queries se solapan y necesit&aacute;s ordenarlas de mayor a menor para evitar conflictos, lo que es propenso a errores. Excepci&oacute;n: <code>max-width</code> est&aacute; bien para un ajuste r&aacute;pido o cuando hered&aacute;s un proyecto legacy desktop-first.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Unidades relativas -->
+            <section class="sub-section animate-on-scroll" id="unidades-relativas">
+                <h2>
+                    Unidades relativas: rem, em, vw, vh, %
+                    <a href="#unidades-relativas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las unidades relativas son la base del responsive design sin media queries. A diferencia de <code>px</code> (que es un tama&ntilde;o fijo), las unidades relativas se calculan en relaci&oacute;n a otro valor: el tama&ntilde;o de fuente del root (<code>rem</code>), el tama&ntilde;o de fuente del elemento padre (<code>em</code>), el ancho del viewport (<code>vw</code>), la altura del viewport (<code>vh</code>), o el tama&ntilde;o del contenedor padre (<code>%</code>). Usar unidades relativas permite que el layout escale naturalmente con el viewport sin necesidad de breakpoints para cada cambio.
+                </p>
+
+                <h3>rem y em</h3>
+
+                <p>
+                    <code>rem</code> (root em) es relativo al tama&ntilde;o de fuente del elemento ra&iacute;z (<code>:root</code> / <code>&lt;html&gt;</code>). Si el html tiene <code>font-size: 16px</code>, entonces <code>1rem = 16px</code>, <code>2rem = 32px</code>, <code>0.5rem = 8px</code>. <code>em</code> es relativo al <code>font-size</code> del elemento <em>padre</em> directo. Si un padre tiene <code>font-size: 20px</code>, entonces <code>1em = 20px</code> para ese hijo. La diferencia clave es que <code>rem</code> es predecible (siempre relativo al root), mientras que <code>em</code> es contextual (cambia seg&uacute;n el padre).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   rem: relativo al root (html)
+   ============================================ */
+
+/* Por defecto, los navegadores tienen:
+   html { font-size: 16px; }
+   Entonces: 1rem = 16px */
+
+html {
+    font-size: 16px; /* 1rem = 16px (base) */
+}
+
+/* Tipografia con rem */
+h1 { font-size: 2rem;   } /* 32px */
+h2 { font-size: 1.5rem; } /* 24px */
+h3 { font-size: 1.25rem; } /* 20px */
+p  { font-size: 1rem;   } /* 16px */
+small { font-size: 0.875rem; } /* 14px */
+
+/* Espaciado con rem */
+.container {
+    padding: 2rem;    /* 32px */
+    margin-bottom: 1.5rem; /* 24px */
+}
+
+/* ============================================
+   em: relativo al PADRE (contextual)
+   ============================================ */
+
+.card {
+    font-size: 1rem; /* 16px - este es el "contexto" */
+}
+
+.card .title {
+    font-size: 1.5em; /* 1.5 * 16px = 24px (relativo al .card) */
+}
+
+.card .meta {
+    font-size: 0.75em; /* 0.75 * 16px = 12px */
+}
+
+/* CUIDADO con em anidados */
+.sidebar {
+    font-size: 0.875em; /* 14px si el padre es 16px */
+}
+
+.sidebar .menu-item {
+    font-size: 1.2em; /* 1.2 * 14px = 16.8px (NO 19.2px!) */
+    /* Cada nivel de anidacion cambia la referencia */
+}
+
+/* ============================================
+   rem vs em: cuando usar cada uno
+   ============================================ */
+
+/* Us&aacute; rem para: tipografia, espaciado, padding, margin
+   Es predecible porque no cambia con el contexto */
+.component {
+    font-size: 1rem;        /* Predecible: siempre 16px */
+    padding: 1rem 1.5rem;   /* Predecible: 16px 24px */
+    margin-bottom: 2rem;    /* Predecible: 32px */
+}
+
+/* Us&aacute; em para: componentes escalables, botones dentro de cards
+   Si cambias el font-size del padre, todo escala proporcionalmente */
+.btn {
+    font-size: 1em;    /* Igual al texto del contexto */
+    padding: 0.5em 1em; /* Proporcional al texto */
+}
+
+.card-large {
+    font-size: 1.25rem;
+    /* El .btn dentro escala automaticamente
+       1em ahora = 1.25rem = 20px */
+}</code></pre>
+                </div>
+
+                <h3>vw, vh y unidades del viewport</h3>
+
+                <p>
+                    <code>vw</code> (viewport width) y <code>vh</code> (viewport height) son relativos al tama&ntilde;o del viewport. <code>1vw</code> = 1% del ancho del viewport, <code>1vh</code> = 1% de la altura. Estas unidades son ideales para elementos que deben escalar con la pantalla: heroes de ancho completo, tipograf&iacute;a que escala con el viewport, o layouts que deben llenar toda la pantalla. <code>vmin</code> es el menor de vw/vh, y <code>vmax</code> es el mayor. Tambi&eacute;n existen <code>dvw</code>, <code>dvh</code>, <code>lvw</code>, <code>lvh</code> (dynamic/large viewport) para manejar la barra de direcciones de navegadores mobile.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   vw: viewport width (1vw = 1% del ancho)
+   ============================================ */
+
+/* Hero que siempre mide 100% del ancho */
+.hero {
+    width: 100vw; /* Ocupa todo el viewport */
+    /* CUIDADO: si el elemento tiene padding o esta dentro de
+       un contenedor con scroll, puede causar overflow horizontal */
+    max-width: 100%;
+}
+
+/* Tipografia que escala con el viewport (sin media queries!) */
+.hero-title {
+    font-size: 5vw; /* En 375px mobile: 18.75px
+                        En 1440px desktop: 72px */
+    /* PROBLEMA: en mobile es muy chica, en desktop muy grande
+       Solucion: usar clamp() (ver seccion siguiente) */
+}
+
+/* ============================================
+   vh: viewport height (1vh = 1% de la altura)
+   ============================================ */
+
+/* Seccion que ocupa toda la pantalla */
+.full-screen {
+    min-height: 100vh; /* La altura completa del viewport */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Panel lateral que ocupa 80% de la altura */
+.side-panel {
+    height: 80vh;
+    overflow-y: auto;
+}
+
+/* ============================================
+   vmin y vmax: el menor/mayor entre vw y vh
+   ============================================ */
+
+/* Elemento cuadrado que siempre entra en pantalla */
+.square {
+    width: 80vmin; /* 80% del menor entre ancho y alto */
+    height: 80vmin; /* En portrait: 80vh, en landscape: 80vw */
+}
+
+/* ============================================
+   dvh, lvh, svh: unidades de viewport modernas
+   Solucionan el problema de la barra de direccion mobile
+   ============================================ */
+
+/* En mobile, 100vh incluye el area detras de la barra de URL
+   del navegador, causando que el contenido se oculte.
+
+   dvh (dynamic viewport height):
+   - Cambia dinamicamente cuando la barra se muestra/oculta */
+
+.safe-height {
+    min-height: 100dvh; /* Altura real visible, sin barra */
+    /* Soporte: Chrome 108+, Safari 15.4+, Firefox 101+ */
+}
+
+/* Fallback para navegadores sin soporte de dvh */
+@supports (min-height: 100dvh) {
+    .safe-height {
+        min-height: 100dvh;
+    }
+
+    @supports not (min-height: 100dvh) {
+        .safe-height {
+            min-height: 100vh;
+            min-height: -webkit-fill-available; /* iOS Safari */
+        }
+    }
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Unidad</th>
+                            <th>Relativa a</th>
+                            <th>Uso principal</th>
+                            <th>Precauci&oacute;n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>rem</code></td>
+                            <td><code>font-size</code> de <code>:root</code></td>
+                            <td>Tipograf&iacute;a, espaciado, padding, margin. Es predecible y consistente.</td>
+                            <td>Necesit&aacute;s definir un <code>font-size</code> base en <code>:root</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>em</code></td>
+                            <td><code>font-size</code> del padre</td>
+                            <td>Componentes escalables (botones, badges). Si el padre cambia, todo escala.</td>
+                            <td>Se acumula con el anidamiento. Dif&iacute;cil de debuggear.</td>
+                        </tr>
+                        <tr>
+                            <td><code>%</code></td>
+                            <td>Dimensi&oacute;n del padre</td>
+                            <td>Anchos de layout (<code>width: 50%</code>), grids flexibles.</td>
+                            <td>Para <code>padding-top/bottom</code>, es relativo al <em>ancho</em> del padre (no alto).</td>
+                        </tr>
+                        <tr>
+                            <td><code>vw</code></td>
+                            <td>1% del ancho del viewport</td>
+                            <td>Tipograf&iacute;a fluida, elementos full-width.</td>
+                            <td>En mobile muy chico puede ser demasiado peque&ntilde;o. Us&aacute; con <code>clamp()</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>vh</code></td>
+                            <td>1% de la altura del viewport</td>
+                            <td>Secciones full-height, overlay modales.</td>
+                            <td>En mobile incluye la barra de direcciones. Us&aacute; <code>dvh</code> cuando sea posible.</td>
+                        </tr>
+                        <tr>
+                            <td><code>dvh</code></td>
+                            <td>Altura din&aacute;mica del viewport</td>
+                            <td>Reemplazo moderno de <code>vh</code> en mobile.</td>
+                            <td>Soporte reciente. Necesita fallback.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">100vh en mobile iOS</p>
+                        <p>En iPhones con la barra de direcciones din&aacute;mica, <code>100vh</code> es m&aacute;s alto que el &aacute;rea visible porque incluye el espacio detr&aacute;s de la barra de URL. Esto causa que parte del contenido quede oculto y no accesible sin scroll. La soluci&oacute;n moderna es <code>100dvh</code> (dynamic viewport height). Para navegadores que no lo soportan, el fallback es <code>height: -webkit-fill-available</code> (Safari) o simplemente <code>100vh</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: clamp() -->
+            <section class="sub-section animate-on-scroll" id="clamp">
+                <h2>
+                    Tipograf&iacute;a fluida con clamp()
+                    <a href="#clamp" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    <code>clamp(min, preferred, max)</code> es una funci&oacute;n CSS que reemplaza la necesidad de media queries para tipograf&iacute;a fluida. Define un valor que escala entre un m&iacute;nimo y un m&aacute;ximo, usando un valor preferido como punto intermedio. Si el viewport es chico, el valor se queda en el m&iacute;nimo. Si es grande, no supera el m&aacute;ximo. En el rango intermedio, escala proporcionalmente. Esto elimina la necesidad de escribir 4 media queries para ajustar el tama&ntilde;o de fuente en cada breakpoint.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   clamp(min, preferred, max)
+   - Si el valor calculado &lt; min: usa min
+   - Si el valor calculado &gt; max: usa max
+   - Si esta entre min y max: usa el preferido
+   ============================================ */
+
+/* ANTES: tipografia con media queries (4 reglas) */
+h1 {
+    font-size: 2rem; /* 32px base (mobile) */
+}
+
+@media (min-width: 768px) {
+    h1 { font-size: 2.5rem; } /* 40px */
+}
+
+@media (min-width: 1024px) {
+    h1 { font-size: 3rem; } /* 48px */
+}
+
+@media (min-width: 1280px) {
+    h1 { font-size: 3.5rem; } /* 56px */
+}
+
+/* DESPUES: tipografia fluida con clamp() (1 sola regla!) */
+h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    /* min: 2rem (32px) — nunca mas chico que esto
+       preferred: 5vw — escala con el viewport
+       max: 3.5rem (56px) — nunca mas grande que esto */
+}
+
+/* ============================================
+   Sistema tipografico fluido completo
+   ============================================ */
+
+:root {
+    /* Tipografia fluida */
+    --text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --text-sm:   clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+    --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+    --text-lg:   clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+    --text-xl:   clamp(1.25rem, 1rem + 1.25vw, 1.5rem);
+    --text-2xl:  clamp(1.5rem, 1rem + 2.5vw, 2rem);
+    --text-3xl:  clamp(2rem, 1.5rem + 2.5vw, 3rem);
+    --text-4xl:  clamp(2.5rem, 1.5rem + 5vw, 4rem);
+
+    /* Espaciado fluido */
+    --space-sm:  clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+    --space-md:  clamp(1rem, 0.8rem + 1vw, 1.5rem);
+    --space-lg:  clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    --space-xl:  clamp(2rem, 1rem + 5vw, 5rem);
+}
+
+body {
+    font-size: var(--text-base);
+    line-height: 1.6;
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+
+/* ============================================
+   clamp() para layouts (no solo tipografia)
+   ============================================ */
+
+/* Container que escala entre 320px y 1200px */
+.fluid-container {
+    width: clamp(320px, 90%, 1200px);
+    margin: 0 auto;
+}
+
+/* Gap que escala entre 1rem y 2rem */
+.fluid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: clamp(1rem, 3vw, 3rem);
+}
+
+/* Sidebar con ancho fluido */
+.sidebar {
+    width: clamp(200px, 20%, 300px);
+    /* Min 200px, escala con viewport, max 300px */
+}
+
+/* ============================================
+   Formulas utiles para clamp()
+   ============================================ */
+/*
+   Para calcular el valor "preferred" que escala linealmente:
+   preferred = min + (max - min) * ((viewport - viewport_min) / (viewport_max - viewport_min))
+
+   Ejemplo: quiero que h1 pase de 2rem (a 320px) a 3.5rem (a 1440px)
+   preferred = 2 + (3.5 - 2) * ((100vw - 320px) / (1440 - 320))
+   = 2rem + 1.5 * ((100vw - 320px) / 1120px)
+
+   Simplificado con la formula comun:
+   font-size: clamp(2rem, calc(2rem + 1.5 * (100vw - 320px) / 1120), 3.5rem);
+
+   O mas simple (aproximacion con vw directo):
+   font-size: clamp(2rem, 5vw, 3.5rem);
+*/</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">clamp() tambi&eacute;n funciona con min(), max()</p>
+                        <p><code>clamp()</code> es en realidad un atajo de <code>max(min, min(preferred, max))</code>. Las funciones <code>min()</code> y <code>max()</code> tambi&eacute;n se pueden usar solas: <code>font-size: max(1rem, 3vw)</code> garantiza un m&iacute;nimo de 1rem pero permite crecer con el viewport. <code>width: min(90%, 1200px)</code> limita el ancho al menor entre 90% y 1200px.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Container Queries -->
+            <section class="sub-section animate-on-scroll" id="container-queries">
+                <h2>
+                    Container Queries
+                    <a href="#container-queries" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las <strong>Container Queries</strong> (<code>@container</code>) son una de las adiciones m&aacute;s revolucionarias a CSS en los &uacute;ltimos a&ntilde;os. A diferencia de las media queries que responden al tama&ntilde;o del <em>viewport</em>, las container queries responden al tama&ntilde;o del <em>contenedor padre</em>. Esto significa que un componente puede adaptarse a su contenedor, no a la pantalla. Una card en el sidebar (estrecho) se ve distinta que la misma card en el main content (ancho), sin necesidad de clases extra ni JavaScript.
+                </p>
+
+                <p>
+                    El soporte es amplio desde 2023: Chrome 105+, Safari 16+, Firefox 110+. Para navegadores sin soporte, las container queries simplemente se ignoran (graceful degradation), y los estilos base del componente se aplican sin cambios.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   Container Queries: concepto basico
+   ============================================ */
+
+/* Paso 1: Definir el contenedor */
+.card-wrapper {
+    container-type: inline-size; /* El contenedor puede cambiar de tama&ntilde;o */
+    container-name: card-container; /* Nombre opcional para referenciarlo */
+}
+
+/* Paso 2: Query basada en el contenedor, no el viewport */
+@container card-container (min-width: 400px) {
+    .card {
+        display: grid;
+        grid-template-columns: 150px 1fr; /* Layout horizontal */
+    }
+}
+
+/* Si el contenedor mide menos de 400px:
+   los estilos base se aplican (layout vertical) */
+
+/* ============================================
+   Ejemplo: card que se adapta a su contenedor
+   ============================================ */
+
+/* Definimos el contenedor */
+.post-card-container {
+    container-type: inline-size;
+    container-name: post;
+}
+
+/* Estilos base: layout vertical (contenedor chico) */
+.post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+}
+
+.post-card .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.post-card .card-title {
+    font-size: 1.125rem;
+}
+
+/* Cuando el contenedor es >= 400px: layout horizontal */
+@container post (min-width: 400px) {
+    .post-card {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .post-card .card-image {
+        width: 150px;
+        height: 150px;
+        flex-shrink: 0;
+    }
+
+    .post-card .card-title {
+        font-size: 1.25rem;
+    }
+}
+
+/* Cuando el contenedor es >= 700px: layout con sidebar de info */
+@container post (min-width: 700px) {
+    .post-card .card-image {
+        width: 250px;
+        height: 200px;
+    }
+
+    .post-card .card-meta {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+/* ============================================
+   Container Query Units (cqw, cqh)
+   ============================================ */
+/* Unidades relativas al contenedor:
+   1cqw = 1% del ancho del contenedor
+   1cqh = 1% de la altura del contenedor */
+
+.card-wrapper {
+    container-type: inline-size;
+}
+
+.card-wrapper .card-title {
+    font-size: clamp(1rem, 3cqw, 1.5rem);
+    /* Escala con el ancho del contenedor, no del viewport */
+}
+
+/* ============================================
+   container-type: inline-size vs size
+   ============================================ */
+/* inline-size: el contenedor responde al ancho (el mas comun)
+   Solo tracking de ancho, menor impacto en performance */
+
+/* size: responde al ancho Y la altura
+   Menos comun, puede causar loops de layout */</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Media Queries</th>
+                            <th>Container Queries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Responde a</strong></td>
+                            <td>Tama&ntilde;o del viewport (pantalla)</td>
+                            <td>Tama&ntilde;o del contenedor padre</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Componentes</strong></td>
+                            <td>Todos los componentes del mismo tipo se ven iguales</td>
+                            <td>Cada instancia se adapta a su contexto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reusabilidad</strong></td>
+                            <td>Baja: necesit&aacute;s clases distintas para cada contexto</td>
+                            <td>Alta: el componente se adapta autom&aacute;ticamente</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sintaxis</strong></td>
+                            <td><code>@media (min-width: 768px)</code></td>
+                            <td><code>@container (min-width: 400px)</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Setup</strong></td>
+                            <td>Ninguno</td>
+                            <td><code>container-type: inline-size</code> en el padre</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Soporte</strong></td>
+                            <td>Universal (todos los navegadores)</td>
+                            <td>Chrome 105+, Safari 16+, Firefox 110+</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: Imagenes responsivas -->
+            <section class="sub-section animate-on-scroll" id="imagenes-responsivas">
+                <h2>
+                    Im&aacute;genes responsivas: picture y srcset
+                    <a href="#imagenes-responsivas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Servir la misma imagen de 2000px a un mobile de 375px desperdicia ancho de banda y empeora el tiempo de carga. Las im&aacute;genes responsivas permiten servir diferentes versiones de una imagen seg&uacute;n el tama&ntilde;o de la pantalla, la densidad de p&iacute;xeles o las condiciones del navegador. HTML proporciona dos herramientas para esto: <code>&lt;img srcset&gt;</code> para variaciones de la misma imagen (resoluciones distintas) y <code>&lt;picture&gt;</code> para im&aacute;genes completamente diferentes (recortes, formatos distintos, art direction).
+                </p>
+
+                <h3>srcset con descriptores de ancho</h3>
+
+                <p>
+                    El atributo <code>srcset</code> en <code>&lt;img&gt;</code> permite definir m&uacute;ltiples versiones de la misma imagen con diferentes anchos. El navegador elige autom&aacute;ticamente la mejor opci&oacute;n bas&aacute;ndose en el ancho del viewport y la densidad de p&iacute;xeles. Us&aacute; descriptores de ancho (<code>w</code>) junto con <code>sizes</code> para dar contexto al navegador sobre cu&aacute;nto espacio ocupar&aacute; la imagen en cada breakpoint.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- ============================================
+     srcset con descriptores de ancho (w)
+     El navegador elige la mejor imagen
+     ============================================ --&gt;
+
+&lt;!-- sizes: dice al navegador cuanto espacio ocupa la imagen
+     en diferentes breakpoints --&gt;
+&lt;!-- srcset: lista de imagenes y sus anchos reales --&gt;
+
+&lt;img
+    src="hero-800.jpg"
+    srcset="hero-400.jpg 400w,
+            hero-800.jpg 800w,
+            hero-1200.jpg 1200w,
+            hero-1600.jpg 1600w"
+    sizes="(max-width: 640px) 100vw,
+           (max-width: 1024px) 50vw,
+           33vw"
+    alt="Hero image responsiva"
+&gt;
+
+&lt;!-- Logica del navegador:
+  - En mobile (&lt;=640px): la imagen ocupa 100vw
+    Si la pantalla es 375px: 375px, elige hero-400.jpg
+  - En tablet (641-1024px): la imagen ocupa 50vw
+    Si la pantalla es 768px: 384px, elige hero-400.jpg
+  - En desktop (&gt;1024px): la imagen ocupa 33vw
+    Si la pantalla es 1440px: 475px, elige hero-800.jpg
+  - En un Retina 2x desktop: necesitaria 950px, elige hero-1200.jpg --&gt;
+
+&lt;!-- ============================================
+     srcset con descriptores de densidad (x)
+     Mas simple, para densidades de pixeles fijas
+     ============================================ --&gt;
+
+&lt;img
+    src="logo.png"
+    srcset="logo@1x.png 1x,
+            logo@2x.png 2x,
+            logo@3x.png 3x"
+    alt="Logo"
+&gt;
+&lt;!-- 1x: pantalla normal, 2x: Retina, 3x: Retina HD --&gt;</code></pre>
+                </div>
+
+                <h3>picture para art direction</h3>
+
+                <p>
+                    <code>&lt;picture&gt;</code> permite servir im&aacute;genes completamente diferentes seg&uacute;n condiciones del navegador. Es ideal para <strong>art direction</strong>: donde no solo cambia la resoluci&oacute;n sino el recorte o la composici&oacute;n de la imagen. Por ejemplo, en mobile quer&eacute;s un recorte cuadrado centrado en el sujeto, y en desktop un panorama amplio. <code>&lt;picture&gt;</code> tambi&eacute;n permite servir formatos modernos (WebP, AVIF) con fallback a JPEG/PNG.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- ============================================
+     picture: art direction
+     Diferente recorte para mobile y desktop
+     ============================================ --&gt;
+
+&lt;picture&gt;
+    &lt;!-- Primero: condiciones especificas (media queries) --&gt;
+    &lt;source
+        media="(max-width: 640px)"
+        srcset="hero-cuadrado-mobile.webp"
+        type="image/webp"
+    &gt;
+    &lt;source
+        media="(max-width: 640px)"
+        srcset="hero-cuadrado-mobile.jpg"
+    &gt;
+    &lt;source
+        media="(min-width: 641px)"
+        srcset="hero-panoramica-desktop.webp"
+        type="image/webp"
+    &gt;
+    &lt;source
+        media="(min-width: 641px)"
+        srcset="hero-panoramica-desktop.jpg"
+    &gt;
+
+    &lt;!-- Fallback: la imagen que se muestra si no hay soporte --&gt;
+    &lt;img
+        src="hero-fallback.jpg"
+        alt="Imagen hero responsiva"
+    &gt;
+&lt;/picture&gt;
+
+&lt;!-- ============================================
+     picture: formato moderno con fallback
+     AVIF &gt; WebP &gt; JPEG
+     ============================================ --&gt;
+
+&lt;picture&gt;
+    &lt;source srcset="photo.avif" type="image/avif"&gt;
+    &lt;source srcset="photo.webp" type="image/webp"&gt;
+    &lt;img src="photo.jpg" alt="Foto optimizada"&gt;
+&lt;/picture&gt;
+&lt;!-- El navegador usa la primera que soporte:
+   AVIF (mejor compresion) &gt; WebP &gt; JPEG (fallback) --&gt;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   Imagenes responsivas con CSS
+   ============================================ */
+
+/* Imagen que siempre llena su contenedor */
+img.responsive {
+    max-width: 100%;    /* Nunca mas ancha que su contenedor */
+    height: auto;       /* Mantiene la proporcion */
+    display: block;     /* Elimina el espacio bajo la imagen */
+}
+
+/* Background images responsivas */
+.hero {
+    background-image: url("hero-mobile.jpg");
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+}
+
+@media (min-width: 768px) {
+    .hero {
+        background-image: url("hero-desktop.jpg");
+        min-height: 500px;
+    }
+}
+
+/* Object-fit: como la imagen llena su contenedor */
+.image-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta para llenar (como background-size: cover) */
+    /* object-fit: contain  — Muestra toda la imagen, puede dejar barras
+       object-fit: fill    — Estira para llenar (puede distorsionar)
+       object-fit: none    — Tamanio original
+       object-fit: scale-down — El menor entre none y contain */
+}
+
+/* object-position: controla el punto focal del recorte */
+.image-cover-focus {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center top; /* Enfoca la parte superior */
+    /* object-position: 50% 0; — Igual que center top */
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Sub-section: Preferencias del usuario -->
+            <section class="sub-section animate-on-scroll" id="preferencias">
+                <h2>
+                    Media queries de preferencias del usuario
+                    <a href="#preferencias" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las media queries de preferencias permiten respetar la configuraci&oacute;n del sistema operativo o del navegador del usuario. Esto es fundamental para la <strong>accesibilidad</strong>: si un usuario activ&oacute; el modo oscuro, prefiere movimiento reducido, o tiene contraste alto configurado, tu sitio deber&iacute;a respetar esas preferencias autom&aacute;ticamente. No es opcional&mdash;es parte de un buen desarrollo web responsable.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   prefers-color-scheme: modo oscuro/claro
+   ============================================ */
+
+/* Detecta la preferencia del sistema operativo */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0d1117;
+        --fg: #e6edf3;
+        --surface: #161b22;
+        --border-color: #30363d;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #ffffff;
+        --fg: #1f2937;
+        --surface: #f3f4f6;
+        --border-color: #d1d5db;
+    }
+}
+
+/* ============================================
+   prefers-reduced-motion: reducir animaciones
+   IMPORTANTE para accesibilidad (vestibular disorders)
+   ============================================ */
+
+/* Si el usuario prefiere menos movimiento:
+   desactiva todas las animaciones y transiciones */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Pero NO desactives:
+       - Transiciones de opacity para mostrar/ocultar (no marean)
+       - Cambios de color que no involucran movimiento */
+}
+
+/* ============================================
+   prefers-contrast: contraste del usuario
+   ============================================ */
+
+@media (prefers-contrast: more) {
+    :root {
+        --border-color: #000000; /* Bordes mas visibles */
+        --fg: #000000;           /* Texto mas oscuro */
+    }
+
+    a {
+        text-decoration: underline; /* Links siempre subrayados */
+    }
+
+    .btn {
+        border: 2px solid currentColor; /* Bordes claros en botones */
+    }
+}
+
+@media (prefers-contrast: less) {
+    :root {
+        --border-color: #e5e7eb; /* Bordes mas sutiles */
+    }
+}
+
+/* ============================================
+   prefers-color-scheme + forced-colors (Windows High Contrast)
+   ============================================ */
+
+@media (forced-colors: active) {
+    /* El usuario tiene Modo de Alto Contraste de Windows activado
+       Los colores del sistema reemplazan los del CSS */
+    .btn {
+        border: 1px solid ButtonText; /* Usa colores del sistema */
+        background: ButtonFace;
+        color: ButtonText;
+    }
+}
+
+/* ============================================
+   Combinar con otras media queries
+   ============================================ */
+
+/* Mobile + modo oscuro + sin animaciones */
+@media (max-width: 640px) and (prefers-color-scheme: dark) and (prefers-reduced-motion: reduce) {
+    .hero {
+        /* Layout simplificado para este escenario */
+        padding: 1rem;
+        animation: none;
+    }
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Media query</th>
+                            <th>Qu&eacute; detecta</th>
+                            <th>Acci&oacute;n recomendada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>prefers-color-scheme</code></td>
+                            <td>Modo oscuro o claro del sistema.</td>
+                            <td>Alternar las custom properties del tema (colores, fondos, bordes).</td>
+                        </tr>
+                        <tr>
+                            <td><code>prefers-reduced-motion</code></td>
+                            <td>El usuario prefiere menos movimiento (accesibilidad vestibular).</td>
+                            <td>Desactivar animaciones, transiciones, parallax y scroll behaviors.</td>
+                        </tr>
+                        <tr>
+                            <td><code>prefers-contrast</code></td>
+                            <td>Nivel de contraste preferido (more, less, custom).</td>
+                            <td>Aumentar bordes, subrayar links, usar colores de alto contraste.</td>
+                        </tr>
+                        <tr>
+                            <td><code>prefers-color-gamut</code></td>
+                            <td>Gama de color del display (srgb, p3, rec2020).</td>
+                            <td>Servir colores HDR cuando el display lo soporta.</td>
+                        </tr>
+                        <tr>
+                            <td><code>forced-colors</code></td>
+                            <td>Modo de Alto Contraste de Windows est&aacute; activo.</td>
+                            <td>Usar colores del sistema (ButtonText, ButtonFace, Canvas, etc.).</td>
+                        </tr>
+                        <tr>
+                            <td><code>prefers-reduced-data</code></td>
+                            <td>El usuario prefiere menos consumo de datos (experimental).</td>
+                            <td>No cargar videos autoplay, reducir resoluci&oacute;n de im&aacute;genes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">prefers-reduced-motion no es opcional</p>
+                        <p>Approximadamente el 5% de los usuarios tiene alg&uacute;n tipo de trastorno vestibular (mareos, v&eacute;rtigo) que se agrava con animaciones en pantalla. <strong>Ignorar <code>prefers-reduced-motion</code> puede hacer que tu sitio sea literalmente inusable</strong> para estas personas. Implement&aacute;lo como un reset global en tu CSS base, no como un afterthought. Las animaciones decorativas se desactivan, pero las transiciones funcionales (mostrar/ocultar) pueden mantenerse.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Buenas practicas -->
+            <section class="sub-section animate-on-scroll" id="buenas-practicas">
+                <h2>
+                    Buenas pr&aacute;cticas y herramientas
+                    <a href="#buenas-practicas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    El responsive design no es solo agregar media queries&mdash;es una filosof&iacute;a de desarrollo que abarca desde las unidades que eleg&iacute;s hasta c&oacute;mo prob&aacute;s tu sitio. Estas son las buenas pr&aacute;cticas que hacen la diferencia entre un sitio "funciona en mobile" y un sitio que est&aacute; verdaderamente optimizado para cualquier dispositivo.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   1. SIEMPRE incluye el viewport meta tag
+   ============================================ */
+/* &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+   Sin esto, los navegadores mobile renderizan la pagina
+   a 980px de ancho y la achican, haciendo que todo sea tiny. */
+
+/* ============================================
+   2. Evita anchos fijos en elementos
+   ============================================ */
+
+/* MAL: ancho fijo */
+.container-bad {
+    width: 1200px;
+}
+
+/* BIEN: max-width con auto margins */
+.container-good {
+    max-width: 1200px; /* No supera 1200px */
+    width: 100%;       /* Pero puede ser menor */
+    margin: 0 auto;    /* Centrado */
+}
+
+/* ============================================
+   3. Usa overflow-wrap para texto largo
+   ============================================ */
+.long-text {
+    overflow-wrap: break-word; /* Parte palabras largas */
+    word-break: break-word;    /* Fallback para browsers antiguos */
+    hyphens: auto;             /* Guiones automaticos si el idioma lo permite */
+}
+
+/* ============================================
+   4. Imagenes siempre responsivas
+   ============================================ */
+img, video, svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ============================================
+   5. Tablas responsivas: wrapper con overflow
+   ============================================ */
+.table-wrapper {
+    overflow-x: auto; /* Scroll horizontal si la tabla es muy ancha */
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+}
+
+/* ============================================
+   6. Evita el scroll horizontal no deseado
+   ============================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    /* El padding no suma al ancho total */
+}
+
+html, body {
+    overflow-x: hidden; /* Previene scroll horizontal */
+    /* Pero CUIDADO: esto oculta el problema, no lo arregla
+       Es mejor encontrar el elemento que causa el overflow */
+}
+
+/* ============================================
+   7. Touch targets: minimo 44x44px
+   ============================================ */
+/* Los botones y links en mobile deben ser grandes
+   enough para ser tocados con el dedo (WCAG) */
+.btn, a, button, input[type="checkbox"],
+input[type="radio"], .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    /* Espacio entre targets: minimo 8px */
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Pr&aacute;ctica</th>
+                            <th>Por qu&eacute; importa</th>
+                            <th>C&oacute;mo implementarla</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Viewport meta tag</strong></td>
+                            <td>Sin &eacute;l, mobile renderiza a 980px y escala.</td>
+                            <td><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code> en todo proyecto.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile-first</strong></td>
+                            <td>CSS m&aacute;s limpio, progresivo, mejor performance en mobile.</td>
+                            <td>Estilos base para mobile, <code>min-width</code> para breakpoints mayores.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Unidades relativas</strong></td>
+                            <td>Layout que escala sin media queries adicionales.</td>
+                            <td><code>rem</code> para tipograf&iacute;a/espaciado, <code>%</code> para anchos, <code>clamp()</code> para valores fluidos.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>max-width en vez de width</strong></td>
+                            <td>Previene overflow horizontal en pantallas chicas.</td>
+                            <td><code>max-width: 1200px; width: 100%;</code> en containers.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Touch targets &ge; 44px</strong></td>
+                            <td>WCAG: los botones deben ser tocables con el dedo.</td>
+                            <td><code>min-height: 44px</code> en botones, links, inputs.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>prefers-reduced-motion</strong></td>
+                            <td>Accesibilidad: usuarios con vestibular disorders.</td>
+                            <td>Reset global: desactivar animaciones/transiciones.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Im&aacute;genes responsivas</strong></td>
+                            <td>Ahorra ancho de banda, mejora tiempo de carga en mobile.</td>
+                            <td><code>srcset</code> para resoluciones, <code>&lt;picture&gt;</code> para art direction.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Chrome DevTools para responsive</p>
+                        <p>Presion&aacute; <kbd>Ctrl+Shift+M</kbd> (o <kbd>Cmd+Shift+M</kbd> en Mac) para abrir el modo responsive de DevTools. Pod&eacute;s simular diferentes dispositivos, probar breakpoints en tiempo real, y ver c&oacute;mo se reorganiza el layout. Tambi&eacute;n pod&eacute;s usar <code>Ctrl+Shift+I</code> &gt; click en el &iacute;cono del dispositivo en la toolbar. Herramientas como <strong>Responsively App</strong> (open source) muestran m&uacute;ltiples viewports simult&aacute;neamente.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="css-grid.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    CSS Grid
+                </a>
+                <a href="css-preprocesadores.html" class="btn btn-secondary">
+                    Preprocesadores
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
