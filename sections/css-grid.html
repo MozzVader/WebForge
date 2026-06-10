@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid — WebForge</title>
+    <meta name="description" content="Domina CSS Grid: el sistema de layout bidimensional de CSS. Define filas y columnas con grid-template, controla la ubicaci&oacute;n de &iacute;tems con grid-column/row, usa la unidad fr, minmax(), auto-fill/auto-fit, grid-template-areas y patrones de layout complejos.">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS Grid</span>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>CSS Grid</h1>
+                <p>CSS Grid Layout es el sistema de layout <strong>bidimensional</strong> de CSS: est&aacute; dise&ntilde;ado para controlar simult&aacute;neamente filas y columnas, permitiendo crear layouts complejos en dos dimensiones con una precisi&oacute;n que Flexbox no puede alcanzar. Mientras Flexbox maneja una dimensi&oacute;n a la vez (fila o columna), Grid te permite definir una grilla completa&mdash;cu&aacute;ntas columnas, cu&aacute;ntas filas, qu&eacute; tama&ntilde;o tiene cada una&mdash;y luego colocar cada elemento exactamente donde quer&eacute;s. Es la herramienta definitiva para page layouts, dashboards, galer&iacute;as y cualquier estructura que necesite control en ambas direcciones.</p>
+            </div>
+
+            <p>
+                La relaci&oacute;n conceptual con Flexbox es importante: <strong>Grid es para layouts de p&aacute;gina (macro), Flexbox es para componentes (micro)</strong>. Grid define la estructura general de la p&aacute;gina&mdash;header, sidebar, main, footer&mdash;y dentro de cada una de esas regiones, us&aacute;s Flexbox para alinear los elementos internos (navbars, cards, formularios). No son mutuamente excluyentes; se complementan. Las propiedades del contenedor grid son <code>display: grid</code>, <code>grid-template-columns</code>, <code>grid-template-rows</code>, <code>grid-template-areas</code>, <code>gap</code>, <code>justify-items</code> y <code>align-items</code>. Las de los &iacute;tems son <code>grid-column</code>, <code>grid-row</code>, <code>grid-area</code> y <code>place-self</code>.
+            </p>
+
+            <!-- Sub-section: Creando el Grid -->
+            <section class="sub-section animate-on-scroll" id="contenedor-grid">
+                <h2>
+                    Propiedades del contenedor
+                    <a href="#contenedor-grid" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Todo Grid empieza con <code>display: grid</code> aplicado al contenedor. A partir de ese momento, los hijos directos se convierten en <strong>grid items</strong> que se posicionan autom&aacute;ticamente en celdas de una grilla impl&iacute;cita. La grilla impl&iacute;cita tiene columnas y filas de tama&ntilde;o autom&aacute;tico basado en el contenido&mdash;pero el verdadero poder de Grid est&aacute; en definir expl&iacute;citamente las columnas y filas con <code>grid-template-columns</code> y <code>grid-template-rows</code>.
+                </p>
+
+                <h3>grid-template-columns y grid-template-rows</h3>
+
+                <p>
+                    Estas son las propiedades fundamentales de Grid: definen cu&aacute;ntas columnas y filas tiene la grilla y el tama&ntilde;o de cada una. Los valores pueden ser longitudes fijas (<code>200px</code>, <code>5rem</code>), porcentajes (<code>50%</code>), la unidad <code>fr</code> (fraction, exclusiva de Grid), funciones como <code>minmax()</code>, <code>repeat()</code>, o palabras clave como <code>auto</code> y <code>min-content</code>. La combinaci&oacute;n de estas herramientas te da un control extremadamente preciso sobre la estructura del layout.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Grid basico: 3 columnas fijas de 200px */
+.grid-fijo {
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    /* Equivalente con repeat(): */
+    grid-template-columns: repeat(3, 200px);
+}
+
+/* Grid con sidebar: 280px fijo + contenido flexible */
+.layout-sidebar {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    /* 1fr = una fraccion del espacio restante */
+    gap: 1.5rem;
+}
+
+/* Grid de 3 columnas proporcionales */
+.proporcional {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    /* La columna central es el doble de ancha que las laterales */
+    /* Si el contenedor mide 600px: 150px | 300px | 150px */
+}
+
+/* ============================================
+   grid-template-rows: definir las filas
+   ============================================ */
+.page-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr auto;
+    /* Fila 1: header (auto = tama&ntilde;o del contenido)
+       Fila 2: contenido principal (1fr = ocupa todo el espacio)
+       Fila 3: footer (auto = tama&ntilde;o del contenido) */
+    min-height: 100vh;
+}
+
+/* ============================================
+   Mezcla de unidades en una misma grilla
+   ============================================ */
+.page-full {
+    display: grid;
+    grid-template-columns: 200px 1fr 300px;
+    /* Sidebar izq | Contenido principal | Sidebar der */
+    grid-template-rows: 64px 1fr 48px;
+    /* Header    | Main               | Footer */
+    min-height: 100vh;
+    gap: 0;
+}</code></pre>
+                </div>
+
+                <h3>La unidad <code>fr</code></h3>
+
+                <p>
+                    La unidad <code>fr</code> (fraction) es exclusiva de CSS Grid y representa una fracci&oacute;n del espacio disponible en el contenedor despu&eacute;s de restar los tama&ntilde;os fijos y los gaps. Es diferente a porcentajes porque <code>fr</code> distribuye el <em>espacio libre</em>, no el total. Si ten&eacute;s <code>grid-template-columns: 1fr 2fr 1fr</code>, el espacio libre se divide en 4 partes: la primera y tercera columnas obtienen 1 parte cada una, la central obtiene 2. Si ademas ten&eacute;s <code>grid-template-columns: 200px 1fr 1fr</code>, primero se reservan los 200px, y luego el espacio restante se divide en partes iguales entre los dos <code>1fr</code>.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   fr vs porcentajes: la diferencia clave
+   ============================================ */
+
+/* Con porcentajes: 50% + 50% + gap = overflow!
+   El gap se suma a los porcentajes */
+.grid-percent {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 1rem; /* PROBLEMA: 50% + 1rem + 50% > 100% */
+}
+
+/* Con fr: nunca hay overflow por el gap
+   1fr 1fr se calcula DESPUES de restar el gap */
+.grid-fr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem; /* PERFECTO: las columnas se achican para dejar espacio */
+}
+
+/* Mezcla de fr y unidades fijas */
+.layout-con-sidebar {
+    display: grid;
+    grid-template-columns: 250px 1fr 1fr;
+    gap: 1rem;
+    /* 250px fijos + el resto se divide en 2 fracciones iguales */
+    /* En un contenedor de 1000px con 2rem de gaps:
+       250px + (1000px - 250px - 2rem) / 2 = 250 + 371 = cada columna */
+}
+
+/* min-content y max-content como tama&ntilde;os */
+.ajustable {
+    display: grid;
+    grid-template-columns: min-content 1fr max-content;
+    /* min-content: la columna mide lo minimo que su contenido necesita
+       max-content: la columna mide lo maximo que su contenido necesita
+       1fr: el espacio restante */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">fr vs porcentajes</p>
+                        <p>Us&aacute; <code>fr</code> en lugar de porcentajes cuando trabajes con Grid. Los porcentajes se calculan sobre el ancho total del contenedor y no tienen en cuenta el <code>gap</code>, lo que puede causar overflow. <code>fr</code> distribuye el espacio libre restante despu&eacute;s de restar los tama&ntilde;os fijos y los gaps, as&iacute; que nunca produce overflow.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Funciones de Grid -->
+            <section class="sub-section animate-on-scroll" id="funciones-grid">
+                <h2>
+                    Funciones esenciales: repeat(), minmax(), auto-fill, auto-fit
+                    <a href="#funciones-grid" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Estas cuatro funciones son las que hacen que Grid sea verdaderamente poderoso para layouts responsivos sin media queries. <code>repeat()</code> evita la repetici&oacute;n manual de columnas, <code>minmax()</code> define rangos de tama&ntilde;o m&iacute;nimo y m&aacute;ximo, y <code>auto-fill</code> / <code>auto-fit</code> crean columnas autom&aacute;ticamente bas&aacute;ndose en el espacio disponible. Combinadas, permiten crear grids que se adaptan a cualquier tama&ntilde;o de pantalla sin una sola media query.
+                </p>
+
+                <h3>repeat()</h3>
+
+                <p>
+                    <code>repeat()</code> es una funci&oacute;n que repite un patr&oacute;n de columnas o filas un n&uacute;mero determinado de veces. En lugar de escribir <code>grid-template-columns: 1fr 1fr 1fr 1fr</code>, escrib&iacute;s <code>grid-template-columns: repeat(4, 1fr)</code>. Adem&aacute;s, <code>repeat()</code> acepta valores como <code>auto-fill</code> y <code>auto-fit</code> como primer argumento, lo que la convierte en la herramienta principal para grids responsivos.
+                </p>
+
+                <h3>minmax()</h3>
+
+                <p>
+                    <code>minmax(min, max)</code> define un rango de tama&ntilde;o permitido para una columna o fila. El navegador intenta que la pista tenga al menos el tama&ntilde;o <code>min</code> y como m&aacute;ximo el <code>max</code>. Si el espacio disponible est&aacute; entre ambos, la pista se ajusta. Si hay m&aacute;s espacio que el max, la pista no crece m&aacute;s all&aacute; del max. Si hay menos espacio que el min, la pista se encoge hasta el min (y si no alcanza, genera overflow). La combinaci&oacute;n <code>minmax(auto, 1fr)</code> o <code>minmax(min-content, 1fr)</code> es especialmente &uacute;til para layouts flexibles.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   repeat(): evitar repeticion manual
+   ============================================ */
+
+/* En lugar de esto: */
+.grid-manual {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/* Us&aacute; esto: */
+.grid-repeat {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Patrones alternados: 100px, 1fr, 100px, 1fr... */
+.grid-alternado {
+    grid-template-columns: repeat(4, 100px 1fr);
+}
+
+/* ============================================
+   minmax(): rangos de tama&ntilde;o
+   ============================================ */
+
+/* Columna que mide entre 200px y 500px */
+.grid-rango {
+    display: grid;
+    grid-template-columns: minmax(200px, 500px) 1fr;
+    /* Col 1: min 200px, max 500px (se ajusta al espacio)
+       Col 2: el resto (1fr) */
+}
+
+/* Sidebar con ancho flexible */
+.sidebar-flex {
+    display: grid;
+    grid-template-columns: minmax(200px, 300px) 1fr;
+    /* Sidebar: entre 200 y 300px
+       Contenido: todo lo que sobre */
+}
+
+/* ============================================
+   PATRON REACTIVO SIN MEDIA QUERIES
+   La combinaci&oacute;n definitiva: repeat() + minmax() + auto-fill
+   ============================================ */
+
+/* Columnas automaticas de minimo 250px
+   El navegador calcula cu&aacute;ntas caben y crea esa cantidad
+   Si caben 4: 4 columnas. Si caben 2: 2 columnas.
+   SIN MEDIA QUERIES! */
+.grid-responsivo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* ============================================
+   auto-fill vs auto-fit: la diferencia sutil
+   ============================================ */
+
+/* auto-fill: crea columnas vac&iacute;as si sobra espacio
+   Si entran 3 columnas de 250px pero sobra espacio para 4:
+   crea 4 columnas (la 4ta queda vac&iacute;a) */
+.grid-autofill {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* auto-fit: colapsa las columnas vac&iacute;as
+   Si entran 3 items y sobra espacio para 4:
+   las 3 columnas existentes se ESTIRAN para llenar el espacio
+   (las columnas vac&iacute;as colapsan a ancho 0) */
+.grid-autofit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* PRACTICO: cuando hay pocos items y queres que ocupen todo el ancho
+   usa auto-fit. Cuando hay muchos items y queres que mantengan su
+   tama&ntilde;o, usa auto-fill. */</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Funci&oacute;n</th>
+                            <th>Qu&eacute; hace</th>
+                            <th>Cu&aacute;ndo usarla</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>repeat(3, 1fr)</code></td>
+                            <td>Crea 3 columnas de <code>1fr</code> cada una. Atajo para no escribir <code>1fr 1fr 1fr</code>.</td>
+                            <td>Siempre que tengas columnas iguales repetidas.</td>
+                        </tr>
+                        <tr>
+                            <td><code>minmax(200px, 1fr)</code></td>
+                            <td>La columna mide entre 200px (m&iacute;nimo) y 1fr (m&aacute;ximo). Se estira si hay espacio, pero nunca menos de 200px.</td>
+                            <td>Para columnas con tama&ntilde;o m&iacute;nimo garantizado que se adaptan al espacio.</td>
+                        </tr>
+                        <tr>
+                            <td><code>repeat(auto-fill, ...)</code></td>
+                            <td>Crea tantas columnas como quepan en el contenedor. Las columnas sobrantes quedan vac&iacute;as pero ocupan espacio.</td>
+                            <td>Galer&iacute;as y card grids donde los items mantienen su tama&ntilde;o fijo.</td>
+                        </tr>
+                        <tr>
+                            <td><code>repeat(auto-fit, ...)</code></td>
+                            <td>Igual que auto-fill, pero las columnas vac&iacute;as colapsan y las existentes se estiran para llenar el espacio.</td>
+                            <td>Cuando quer&eacute;s que los items se expandan si sobra espacio (pocas cards, widgets).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">auto-fill vs auto-fit con pocos items</p>
+                        <p>La diferencia solo se nota cuando hay <strong>menos items que columnas disponibles</strong>. Con <code>auto-fill</code>, las columnas vac&iacute;as mantienen su tama&ntilde;o y el grid muestra espacios vac&iacute;os. Con <code>auto-fit</code>, las columnas vac&iacute;as colapsan a 0 y los items existentes se expanden. Si siempre ten&eacute;s suficientes items para llenar el grid, ambos se comportan igual.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Propiedades de los items -->
+            <section class="sub-section animate-on-scroll" id="items-grid">
+                <h2>
+                    Propiedades de los &iacute;tems
+                    <a href="#items-grid" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Las propiedades de los &iacute;tems Grid controlan d&oacute;nde se coloca cada elemento dentro de la grilla y cu&aacute;ntas celdas ocupa. A diferencia de Flexbox donde los items fluyen en una direcci&oacute;n, en Grid los items se pueden colocar en cualquier celda espec&iacute;fica, abarcar m&uacute;ltiples columnas o filas, y hasta superponerse intencionalmente. Esto da un control de posicionamiento que no existe en ning&uacute;n otro sistema de layout de CSS.
+                </p>
+
+                <h3>grid-column y grid-row</h3>
+
+                <p>
+                    <code>grid-column</code> y <code>grid-row</code> permiten especificar en qu&eacute; l&iacute;neas de la grilla se ubica un item. El valor es <code>start / end</code>, donde start es la l&iacute;nea donde comienza y end es la l&iacute;nea donde termina. Las l&iacute;neas de Grid son numeradas empezando desde 1, y tambi&eacute;n se pueden contar desde el final con valores negativos (-1 es la &uacute;ltima l&iacute;nea, -2 la pen&uacute;ltima, etc.). Usar <code>span</code> permite decir "ocupa N celdas" sin necesidad de calcular la l&iacute;nea exacta de fin.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">.page-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    grid-template-rows: 64px 1fr 48px;
+    /* Lineas de columna: 1 | 2 | 3 | 4
+       Lineas de fila:    1 | 2 | 3 | 4 */
+}
+
+/* ============================================
+   Posicionamiento por lineas (start / end)
+   ============================================ */
+
+/* Header: ocupa toda la primera fila
+   Columna: desde la linea 1 hasta la 4 (todas)
+   Fila: desde la linea 1 hasta la 2 */
+.page-grid .header {
+    grid-column: 1 / 4;   /* o grid-column: 1 / -1 */
+    grid-row: 1 / 2;
+}
+
+/* Sidebar: primera columna, toda la altura del contenido
+   Columna: 1 a 2
+   Fila: 2 a 3 */
+.page-grid .sidebar {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+/* Main: ocupa las columnas 2 y 3, fila 2 */
+.page-grid .main {
+    grid-column: 2 / 4;   /* o grid-column: 2 / -1 */
+    grid-row: 2 / 3;
+}
+
+/* Footer: toda la ultima fila */
+.page-grid .footer {
+    grid-column: 1 / -1;  /* -1 = ultima linea */
+    grid-row: 3 / 4;
+}
+
+/* ============================================
+   Shorthands de grid-column / grid-row
+   ============================================ */
+
+/* grid-column: start / end  (forma completa) */
+.item { grid-column: 2 / 4; }
+
+/* grid-column: span N  (ocupa N columnas desde donde est&aacute;) */
+.item-span { grid-column: span 2; }
+
+/* grid-row: span N  (ocupa N filas) */
+.item-tall { grid-row: span 3; }
+
+/* Combinados */
+.featured {
+    grid-column: 1 / 3;  /* Columnas 1 y 2 */
+    grid-row: 1 / 3;     /* Filas 1 y 2 */
+}
+
+/* ============================================
+   Numeros negativos: contar desde el final
+   ============================================ */
+/*
+   Lineas:  1   2   3   4
+            |   |   |   |
+   Negativo:-4  -3  -2  -1
+*/
+
+.full-width {
+    grid-column: 1 / -1; /* Desde la primera hasta la ultima linea */
+}
+
+.last-two {
+    grid-column: -3 / -1; /* Las ultimas 2 columnas */
+}</code></pre>
+                </div>
+
+                <h3>grid-area y grid-template-areas</h3>
+
+                <p>
+                    <code>grid-template-areas</code> es una de las caracter&iacute;sticas m&aacute;s elegantes de Grid: permite definir el layout completo del contenedor usando nombres literales en una "plantilla visual". Cada fila es un string, y los nombres repetidos indican que un item abarca m&uacute;ltiples celdas. Los items usan <code>grid-area: nombre</code> para referenciarse. Esto hace que el CSS sea auto-documentable: mir&aacute;s la plantilla y entend&eacute;s instant&aacute;neamente la estructura del layout.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   grid-template-areas: layout visual con nombres
+   ============================================ */
+
+.page-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 64px 1fr 48px;
+    grid-template-areas:
+        "header  header"
+        "sidebar content"
+        "footer  footer";
+    /* Fila 1: header ocupa las 2 columnas
+       Fila 2: sidebar a la izq, content a la der
+       Fila 3: footer ocupa las 2 columnas */
+    min-height: 100vh;
+    gap: 0;
+}
+
+/* Cada item se asigna a un &aacute;rea por nombre */
+.page-layout .header  { grid-area: header; }
+.page-layout .sidebar { grid-area: sidebar; }
+.page-layout .content { grid-area: content; }
+.page-layout .footer  { grid-area: footer; }
+
+/* ============================================
+   Layout de dashboard con grid-template-areas
+   ============================================ */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-rows: 60px 1fr 1fr 40px;
+    grid-template-areas:
+        "nav    nav    nav"
+        "aside  main1  main2"
+        "aside  main3  main4"
+        "footer footer footer";
+    min-height: 100vh;
+    gap: 1rem;
+}
+
+.dashboard .top-nav   { grid-area: nav; }
+.dashboard .sidebar   { grid-area: aside; }
+.dashboard .widget-1  { grid-area: main1; }
+.dashboard .widget-2  { grid-area: main2; }
+.dashboard .widget-3  { grid-area: main3; }
+.dashboard .widget-4  { grid-area: main4; }
+.dashboard .footer    { grid-area: footer; }
+
+/* ============================================
+   Areas vacias con punto (.)
+   ============================================ */
+/* Us&aacute; un punto para dejar celdas vacias */
+.gallery-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+        "featured featured featured"
+        "card1   card2   card3"
+        ".       card4   .";
+    /* La fila 3 tiene espacios vacios a los costados */
+}
+
+.gallery-layout .featured { grid-area: featured; }
+.gallery-layout .c1        { grid-area: card1; }
+.gallery-layout .c2        { grid-area: card2; }
+.gallery-layout .c3        { grid-area: card3; }
+.gallery-layout .c4        { grid-area: card4; }</code></pre>
+                </div>
+
+                <h3>place-self, justify-self y align-self</h3>
+
+                <p>
+                    En Grid, <code>justify-self</code> controla la alineaci&oacute;n horizontal de un item dentro de su celda, y <code>align-self</code> controla la vertical. <code>place-self</code> es el shorthand que combina ambos. A diferencia de Flexbox, en Grid estas propiedades se aplican a items individuales (no hay justify-items/align-items en los items, esos son del contenedor). Los valores disponibles son <code>start</code>, <code>end</code>, <code>center</code> y <code>stretch</code> (por defecto).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 1rem;
+}
+
+/* justify-self: alineacion horizontal dentro de la celda */
+.grid .item-center-h {
+    justify-self: center; /* Centrado horizontal en su celda */
+}
+
+.grid .item-end-h {
+    justify-self: end; /* Alineado a la derecha de su celda */
+}
+
+.grid .item-stretch-h {
+    justify-self: stretch; /* Por defecto: llena todo el ancho */
+}
+
+/* align-self: alineacion vertical dentro de la celda */
+.grid .item-bottom {
+    align-self: end; /* Pegado al fondo de su celda */
+}
+
+.grid .item-center-v {
+    align-self: center; /* Centrado vertical en su celda */
+}
+
+/* place-self: shorthand (align-self justify-self) */
+.grid .item-centered {
+    place-self: center; /* Centrado en ambas direcciones */
+}
+
+.grid .item-bottom-right {
+    place-self: end end; /* Abajo y a la derecha */
+}
+
+/* justify-items y align-items (en el contenedor)
+   Afectan a TODOS los items del grid */
+.grid-all-centered {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;  /* Todos centrados horizontal */
+    align-items: center;     /* Todos centrados vertical */
+    /* Shorthand: */
+    place-items: center;     /* Centra todos en ambas direcciones */
+}</code></pre>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Propiedad</th>
+                            <th>D&oacute;nde se aplica</th>
+                            <th>Qu&eacute; controla</th>
+                            <th>Valores comunes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>justify-items</code></td>
+                            <td>Contenedor</td>
+                            <td>Alineaci&oacute;n horizontal de <em>todos</em> los items dentro de sus celdas.</td>
+                            <td><code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>align-items</code></td>
+                            <td>Contenedor</td>
+                            <td>Alineaci&oacute;n vertical de <em>todos</em> los items dentro de sus celdas.</td>
+                            <td><code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>place-items</code></td>
+                            <td>Contenedor</td>
+                            <td>Shorthand de <code>align-items</code> + <code>justify-items</code>.</td>
+                            <td><code>center</code>, <code>start end</code>, etc.</td>
+                        </tr>
+                        <tr>
+                            <td><code>justify-self</code></td>
+                            <td>&Iacute;tem</td>
+                            <td>Sobreescribe <code>justify-items</code> para un item espec&iacute;fico.</td>
+                            <td><code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>align-self</code></td>
+                            <td>&Iacute;tem</td>
+                            <td>Sobreescribe <code>align-items</code> para un item espec&iacute;fico.</td>
+                            <td><code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>place-self</code></td>
+                            <td>&Iacute;tem</td>
+                            <td>Shorthand de <code>align-self</code> + <code>justify-self</code>.</td>
+                            <td><code>center</code>, <code>end end</code>, etc.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sub-section: Grid implicito -->
+            <section class="sub-section animate-on-scroll" id="grid-implicito">
+                <h2>
+                    Grid impl&iacute;cito y auto-flow
+                    <a href="#grid-implicito" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Cuando un grid item no cabe en las filas/columnas definidas expl&iacute;citamente, o cuando hay m&aacute;s items que celdas, el navegador crea autom&aacute;ticamente filas o columnas adicionales: esto es el <strong>grid impl&iacute;cito</strong>. Las propiedades <code>grid-auto-rows</code> y <code>grid-auto-columns</code> controlan el tama&ntilde;o de estas pistas impl&iacute;citas, y <code>grid-auto-flow</code> controla la direcci&oacute;n en la que se colocan los items (por filas o por columnas).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   grid-auto-flow: direccion del flujo implicito
+   ============================================ */
+
+/* row (default): los items llenan columnas de izquierda a derecha
+   y pasan a la siguiente fila cuando se completa */
+.grid-row-flow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: row;
+    /* 1 2 3
+       4 5 6
+       7 8 ... */
+}
+
+/* column: los items llenan filas de arriba a abajo
+   y pasan a la siguiente columna cuando se completa */
+.grid-col-flow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: column;
+    /* 1 4 7
+       2 5 8
+       3 6 ... */
+}
+
+/* dense: rellena los huecos (compactado)
+   Si un item no cabe, busca el primer hueco disponible
+   en lugar de crear una nueva fila/columna */
+.grid-dense {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-auto-flow: row dense;
+    /* Los items se acomodan en los huecos dejados por items
+       que ocupan multiples celdas (span 2, etc.) */
+}
+
+/* ============================================
+   grid-auto-rows: tama&ntilde;o de las filas implicitas
+   ============================================ */
+
+/* Las filas implicitas tienen un tama&ntilde;o minimo */
+.grid-min-rows {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(150px, auto);
+    /* Cada fila implicita mide al menos 150px */
+}
+
+/* Todas las filas del mismo tama&ntilde;o (implicitas + explicitas) */
+.grid-equal-rows {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    /* Las filas se expanden para que todas midan lo mismo */
+}
+
+/* ============================================
+   grid-auto-columns: tama&ntilde;o de las columnas implicitas
+   (menos comun, se usa cuando el flujo es column)
+   ============================================ */
+.grid-auto-cols {
+    display: grid;
+    grid-template-rows: repeat(3, 100px);
+    grid-auto-flow: column;
+    grid-auto-columns: 200px;
+    /* Columnas implicitas de 200px cada una */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">dense para evitar huecos</p>
+                        <p>Cuando us&aacute;s items con <code>span</code> (que ocupan m&aacute;s de una celda), es probable que queden huecos en la grilla. Agregar <code>grid-auto-flow: row dense</code> hace que el navegador reacomode los items m&aacute;s chicos en esos huecos en lugar de dejarlos vac&iacute;os. Esto es ideal para galer&iacute;as de im&aacute;genes con diferentes tama&ntilde;os o dashboards con widgets de varios anchos.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sub-section: Patrones comunes -->
+            <section class="sub-section animate-on-scroll" id="patrones-grid">
+                <h2>
+                    Patrones comunes con CSS Grid
+                    <a href="#patrones-grid" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    CSS Grid brilla en layouts bidimensionales donde necesit&aacute;s controlar filas y columnas al mismo tiempo. Estos son los patrones m&aacute;s comunes que se resuelven elegantemente con Grid, muchos de los cuales son dif&iacute;ciles o imposibles de lograr con Flexbox solo. La mayor&iacute;a requieren pocas l&iacute;neas de CSS y son inherentemente responsivos.
+                </p>
+
+                <h3>Page layout completo (Holy Grail)</h3>
+
+                <p>
+                    El cl&aacute;sico "Holy Grail" del web design: header arriba, footer abajo, sidebar a la izquierda, contenido principal al centro. Con Grid y <code>grid-template-areas</code>, este layout que hist&oacute;ricamente requer&iacute;a tablas, floats o hacks complejos se define en 5 l&iacute;neas de CSS. El contenido principal se expande autom&aacute;ticamente y el footer siempre queda abajo gracias a <code>1fr</code> en la fila del contenido.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Holy Grail Layout con Grid */
+.holy-grail {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+.holy-grail .header  { grid-area: header; }
+.holy-grail .sidebar { grid-area: sidebar; }
+.holy-grail .content { grid-area: content; }
+.holy-grail .footer  { grid-area: footer; }
+
+/* ============================================
+   Responsive: en mobile, sidebar arriba del contenido
+   Solo cambiamos el template, sin tocar el HTML
+   ============================================ */
+@media (max-width: 768px) {
+    .holy-grail {
+        grid-template-areas:
+            "header"
+            "content"
+            "sidebar"
+            "footer";
+        grid-template-columns: 1fr;
+    }
+}</code></pre>
+                </div>
+
+                <h3>Galer&iacute;a de im&aacute;genes (masonry-like)</h3>
+
+                <p>
+                    Un patr&oacute;n muy popular es la galer&iacute;a con im&aacute;genes de diferentes alturas que se acomodan sin huecos (estilo Pinterest). CSS Grid no tiene masonry nativo a&uacute;n (la propuesta <code>masonry</code> est&aacute; en desarrollo), pero se puede simular con <code>grid-auto-flow: dense</code> y items con diferentes <code>grid-row: span</code>. No es un masonry perfecto (los items se ordenan por fila, no por columna), pero para la mayor&iacute;a de casos pr&aacute;cticos es suficiente.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Galer&iacute;a tipo masonry con Grid */
+.masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-auto-rows: 10px; /* Filas pequenas para granularidad */
+    grid-auto-flow: dense; /* Rellena huecos */
+    gap: 15px;
+}
+
+/* Items con diferentes alturas (ocupan diferentes cantidades de filas) */
+.masonry-grid .item-sm  { grid-row: span 20; } /* ~200px */
+.masonry-grid .item-md  { grid-row: span 30; } /* ~300px */
+.masonry-grid .item-lg  { grid-row: span 40; } /* ~400px */
+.masonry-grid .item-xl  { grid-row: span 55; } /* ~550px */
+
+.masonry-grid .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}</code></pre>
+                </div>
+
+                <h3>Card grid responsivo</h3>
+
+                <p>
+                    El patr&oacute;n m&aacute;s com&uacute;n de todos: un grid de cards que se adapta al ancho de pantalla. Con <code>repeat(auto-fit, minmax(280px, 1fr))</code> no necesit&aacute;s ninguna media query&mdash;el navegador calcula autom&aacute;ticamente cu&aacute;ntas cards caben y las redimensiona. Es la forma m&aacute;s limpia de hacer un card grid responsivo.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Card grid responsivo sin media queries */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card-grid .card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column; /* Flexbox DENTRO del Grid item */
+    gap: 0.75rem;
+}
+
+.card-grid .card .card-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}
+
+.card-grid .card .card-body {
+    flex: 1; /* El body crece para empujar el footer hacia abajo */
+}
+
+/* ============================================
+   Card destacada que ocupa 2 columnas
+   ============================================ */
+.card-grid .card-featured {
+    grid-column: span 2; /* Ocupa 2 columnas */
+}
+
+/* En mobile (pantallas chicas), la featured ocupa 1 sola columna */
+@media (max-width: 600px) {
+    .card-grid .card-featured {
+        grid-column: span 1;
+    }
+}</code></pre>
+                </div>
+
+                <h3>Dashboard con widgets</h3>
+
+                <p>
+                    Los dashboards son el caso de uso perfecto para Grid: necesit&aacute;s colocar widgets de diferentes tama&ntilde;os en una grilla bidimensional, con algunos widgets que ocupan m&aacute;s espacio que otros. <code>grid-template-areas</code> hace que el layout sea f&aacute;cil de leer y modificar, y en mobile simplemente cambias el template para apilar todo verticalmente.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Dashboard layout */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+        "stats1  stats2  stats3  stats4"
+        "chart   chart   chart   chart"
+        "table   table   activity activity"
+        "table   table   tasks   tasks";
+    gap: 1.5rem;
+}
+
+.dashboard .stats-1    { grid-area: stats1; }
+.dashboard .stats-2    { grid-area: stats2; }
+.dashboard .stats-3    { grid-area: stats3; }
+.dashboard .stats-4    { grid-area: stats4; }
+.dashboard .chart      { grid-area: chart; }
+.dashboard .table      { grid-area: table; }
+.dashboard .activity   { grid-area: activity; }
+.dashboard .tasks      { grid-area: tasks; }
+
+/* Cada widget tiene estilos base */
+.dashboard .widget {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+/* Responsive: en tablets, 2 columnas */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "stats1  stats2"
+            "stats3  stats4"
+            "chart   chart"
+            "table   table"
+            "activity tasks";
+    }
+}
+
+/* En mobile, todo en 1 columna */
+@media (max-width: 640px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "stats1"
+            "stats2"
+            "stats3"
+            "stats4"
+            "chart"
+            "table"
+            "activity"
+            "tasks";
+    }
+}</code></pre>
+                </div>
+
+                <h3>Superposici&oacute;n de elementos (overlay)</h3>
+
+                <p>
+                    Un truco poderoso de Grid es que los items pueden <strong>superponerse</strong> intencionalmente al colocarlos en las mismas celdas. Esto es &uacute;til para overlays de im&aacute;genes, tooltips posicionados sobre contenido, o elementos decorativos. Cuando los items se superponen, el que aparece despuu&eacute;s en el DOM se renderiza encima (salvo que uses <code>z-index</code>).
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Hero con imagen de fondo y texto superpuesto */
+.hero-overlay {
+    display: grid;
+    place-items: center; /* Centra el texto */
+    min-height: 400px;
+    position: relative;
+}
+
+.hero-overlay .hero-bg {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    /* Ocupa toda la grilla (background) */
+    z-index: 0;
+}
+
+.hero-overlay .hero-content {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    /* Misma celda que el bg, pero encima */
+    z-index: 1;
+    text-align: center;
+    color: white;
+}
+
+/* ============================================
+   Badge superpuesto en una card
+   ============================================ */
+.card-with-badge {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto;
+}
+
+.card-with-badge .badge {
+    /* Se superpone sobre la esquina superior derecha */
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    z-index: 1;
+    transform: translate(0.5rem, -0.5rem);
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Sub-section: Grid vs Flexbox -->
+            <section class="sub-section animate-on-scroll" id="grid-vs-flexbox">
+                <h2>
+                    Grid vs Flexbox: cu&aacute;ndo usar cada uno
+                    <a href="#grid-vs-flexbox" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    Una de las preguntas m&aacute;s frecuentes es: "uso Grid o Flexbox?". La respuesta corta es que <strong>no son mutuamente excluyentes</strong>&mdash;se usan juntos. Grid controla la estructura bidimensional del layout de la p&aacute;gina (qu&eacute; va en cada columna y fila), y Flexbox controla la alineaci&oacute;n dentro de cada componente (items de una navbar, contenido de una card, botones de un formulario). Pens&aacute; en Grid como el plano arquitect&oacute;nico de la casa y Flexbox como el dise&ntilde;o interior de cada habitaci&oacute;n.
+                </p>
+
+                <p>
+                    La regla general es: si necesit&aacute;s controlar filas y columnas al mismo tiempo, us&aacute; Grid. Si necesit&aacute;s alinear elementos en una sola direcci&oacute;n (una fila de botones, una columna de items de men&uacute;), us&aacute; Flexbox. En la pr&aacute;ctica, la mayor&iacute;a de las p&aacute;ginas usan Grid para el layout principal y Flexbox para los componentes internos, y es perfectamente normal anidar Flexbox dentro de Grid items y viceversa.
+                </p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Flexbox</th>
+                            <th>CSS Grid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Direcci&oacute;n</strong></td>
+                            <td>Unidimensional (fila o columna)</td>
+                            <td>Bidimensional (filas y columnas simult&aacute;neamente)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mejor para</strong></td>
+                            <td>Componentes internos: navbars, barras de herramientas, cards, formularios, filas de botones.</td>
+                            <td>Layout de p&aacute;gina: page layouts, dashboards, galer&iacute;as, grillas bidimensionales.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Control del tama&ntilde;o</strong></td>
+                            <td><code>flex-grow/shrink/basis</code> para crecimiento proporcional.</td>
+                            <td><code>grid-template-columns/rows</code>, <code>fr</code>, <code>minmax()</code> para definici&oacute;n expl&iacute;cita de pistas.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Posicionamiento</strong></td>
+                            <td>Secuencial (orden del DOM), <code>order</code> para cambiar visualmente.</td>
+                            <td>Arbitrario: cada item puede ir en cualquier celda, con <code>grid-column/row</code> y <code>grid-area</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alineaci&oacute;n</strong></td>
+                            <td><code>justify-content</code> (eje principal), <code>align-items</code> (eje transversal).</td>
+                            <td><code>justify-items</code>, <code>align-items</code>, <code>justify-content</code>, <code>align-content</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Responsivo</strong></td>
+                            <td><code>flex-wrap: wrap</code> + <code>flex: 1 1 Npx</code> para wrapping b&aacute;sico.</td>
+                            <td><code>repeat(auto-fill/auto-fit, minmax(Npx, 1fr))</code> para grids responsivos sin media queries.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contenido din&aacute;mico</strong></td>
+                            <td>Mejor para items de tama&ntilde;o variable en una sola direcci&oacute;n.</td>
+                            <td>Mejor cuando el tama&ntilde;o y posici&oacute;n de cada item es predecible.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Curva de aprendizaje</strong></td>
+                            <td>M&aacute;s sencilla: pocas propiedades, una dimensi&oacute;n.</td>
+                            <td>M&aacute;s compleja: m&aacute;s propiedades, dos dimensiones, l&iacute;neas numeradas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* ============================================
+   EJEMPLO REAL: Grid + Flexbox combinados
+   Grid para la estructura, Flexbox para los componentes
+   ============================================ */
+
+/* GRID: Layout principal de la p&aacute;gina */
+.app-layout {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+/* FLEXBOX: Dentro del header (navbar) */
+.app-layout .header {
+    grid-area: header;
+    display: flex;           /* Flexbox para alinear items del header */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    height: 60px;
+}
+
+.app-layout .header .logo {
+    flex-shrink: 0; /* Logo nunca se encoge */
+}
+
+.app-layout .header .nav-links {
+    display: flex;           /* Flexbox para los links */
+    gap: 1rem;
+    list-style: none;
+}
+
+/* FLEXBOX: Dentro del sidebar */
+.app-layout .sidebar {
+    grid-area: sidebar;
+    display: flex;           /* Flexbox para el menu lateral */
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+}
+
+/* FLEXBOX: Dentro de cada card del contenido */
+.app-layout .content {
+    grid-area: content;
+    display: grid;           /* Grid para las cards */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+/* Cada card usa Flexbox internamente */
+.app-layout .content .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+}
+
+.app-layout .content .card .card-actions {
+    display: flex;           /* Flexbox para los botones de la card */
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: auto;       /* Empuja los botones al fondo */
+}
+
+/* GRID: Footer */
+.app-layout .footer {
+    grid-area: footer;
+    display: flex;           /* Flexbox para el contenido del footer */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    height: 48px;
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">La regla del 80/20</p>
+                        <p>Si el 80% del tiempo est&aacute;s alineando elementos en una sola direcci&oacute;n, Flexbox es suficiente. Si necesit&aacute;s controlar expl&iacute;citamente d&oacute;nde va cada cosa en dos dimensiones (layout de p&aacute;gina, dashboard, galer&iacute;a con items de distinto tama&ntilde;o), Grid es la herramienta correcta. En la pr&aacute;ctica: <strong>Grid para la p&aacute;gina, Flexbox para los componentes</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="css-flexbox.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Flexbox
+                </a>
+                <a href="css-responsive.html" class="btn btn-secondary">
+                    Responsive Design
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
