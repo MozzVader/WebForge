@@ -162,6 +162,138 @@
                 </div>
             </section>
 
+            <!-- Sub-section: Formato de texto -->
+            <section class="sub-section animate-on-scroll" id="formato-texto">
+                <h2>
+                    Formato de texto
+                    <a href="#formato-texto" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>
+                    HTML ofrece una variedad de etiquetas inline para dar formato y significado al texto dentro de los parrafos. Es importante entender la diferencia entre etiquetas <strong>semanticas</strong> (que agregan significado al contenido) y las <strong>puramente visuales</strong> (que solo cambian la apariencia). Los lectores de pantalla y los motores de busqueda interpretan las etiquetas semanticas, por lo que siempre se deben preferir sobre las visuales cuando el contexto lo permita.
+                </p>
+
+                <p>
+                    Las mas comunes son <code>&lt;strong&gt;</code> para indicar importancia fuerte (se renderiza como negrita) y <code>&lt;em&gt;</code> para indicar enfasis (se renderiza como cursiva). Estas dos son semanticas: un lector de pantalla cambia la entonacion al leerlas. Sus equivalentes visuales sin significado son <code>&lt;b&gt;</code> (negrita) y <code>&lt;i&gt;</code> (cursiva), que hoy en dia solo se usan cuando el formato se necesita por razones puramente esteticas, como nombres propios en otro idioma o terminos tecnicos.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Enfasis semantico (preferidos) --&gt;
+&lt;p&gt;Este texto es &lt;strong&gt;muy importante&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Debes &lt;em&gt;prestar atencion&lt;/em&gt; a esto.&lt;/p&gt;
+
+&lt;!-- Formato visual sin semantica --&gt;
+&lt;p&gt;Texto en &lt;b&gt;negrita&lt;/b&gt; sin significado especial.&lt;/p&gt;
+&lt;p&gt;Un termino en &lt;i&gt;cursiva&lt;/i&gt; por estilo.&lt;/p&gt;</code></pre>
+                </div>
+
+                <p>
+                    Para indicar contenido que fue borrado o agregado, se usan <code>&lt;del&gt;</code> (tachado) y <code>&lt;ins&gt;</code> (subrayado). Son especialmente utiles en revisiones de contenido, precios anteriores o changelogs. La etiqueta <code>&lt;s&gt;</code> es similar a <code>&lt;del&gt;</code> visualmente (tachado), pero semanticamente indica que el contenido ya no es relevante o es incorrecto, sin implicar una edicion. El navegador suele tachar <code>&lt;del&gt;</code> y subrayar <code>&lt;ins&gt;</code> por defecto.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Borrado e insertado --&gt;
+&lt;p&gt;Precio: &lt;del&gt;$500&lt;/del&gt; &lt;ins&gt;$350&lt;/ins&gt;&lt;/p&gt;
+
+&lt;!-- Contenido no relevante --&gt;
+&lt;p&gt;&lt;s&gt;Oferta terminada&lt;/s&gt; Mir&aacute; las nuevas promos.&lt;/p&gt;</code></pre>
+                </div>
+
+                <p>
+                    Otras etiquetas utiles son <code>&lt;mark&gt;</code> para resaltar texto (como con un marcador fosforescente), <code>&lt;small&gt;</code> para texto secundario como letras chicas o copyright, <code>&lt;u&gt;</code> para subrayado (que hoy se usa para resaltar errores ortograficos o nombres propios en chino, no para simular links), y <code>&lt;abbr&gt;</code> para abreviaturas con su expansion en el atributo <code>title</code>, que los lectores de pantalla pueden leer al pasar el mouse o enfocar.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Resaltado --&gt;
+&lt;p&gt;Busca la palabra &lt;mark&gt;importante&lt;/mark&gt; en el texto.&lt;/p&gt;
+
+&lt;!-- Texto pequeno --&gt;
+&lt;p&gt;&lt;small&gt;Copyright 2025 Mi Empresa&lt;/small&gt;&lt;/p&gt;
+
+&lt;!-- Subrayado --&gt;
+&lt;p&gt;Se escribi&oacute; &lt;u&gt;hola&lt;/u&gt; en vez de &lt;u&gt;hola&lt;/u&gt;.&lt;/p&gt;
+
+&lt;!-- Abreviatura --&gt;
+&lt;p&gt;La &lt;abbr title="Organizacion de las Naciones Unidas"&gt;ONU&lt;/abbr&gt;
+   fue fundada en 1945.&lt;/p&gt;</code></pre>
+                </div>
+
+                <p>
+                    Para indices y superindices, <code>&lt;sub&gt;</code> y <code>&lt;sup&gt;</code> son fundamentales en formulas quimicas, matematicas y notas al pie. Para citas, <code>&lt;blockquote&gt;</code> representa una cita en bloque (separada del texto principal), mientras que <code>&lt;q&gt;</code> es para citas cortas en linea. Ambas aceptan el atributo <code>cite</code> con la URL de fuente. Finalmente, <code>&lt;code&gt;</code> muestra fragmentos de codigo en linea, <code>&lt;pre&gt;</code> conserva el formato exacto del texto (espacios, saltos de linea), y <code>&lt;span&gt;</code> es el contenedor inline generico para aplicar estilos o agrupar texto sin significado semantico propio.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Subindice y superindice --&gt;
+&lt;p&gt;La f&oacute;rmula del agua es H&lt;sub&gt;2&lt;/sub&gt;O.&lt;/p&gt;
+&lt;p&gt;E = mc&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;
+
+&lt;!-- Citas --&gt;
+&lt;blockquote cite="https://ejemplo.com/fuente"&gt;
+    &lt;p&gt;"La creatividad es la inteligencia divirti&eacute;ndose."&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Einstein dijo &lt;q&gt;La imaginaci&oacute;n es m&aacute;s importante que el conocimiento&lt;/q&gt;.&lt;/p&gt;
+
+&lt;!-- Codigo --&gt;
+&lt;p&gt;Usa la funci&oacute;n &lt;code&gt;console.log()&lt;/code&gt; para depurar.&lt;/p&gt;
+&lt;pre&gt;function saludar() {
+    return "Hola Mundo";
+}&lt;/pre&gt;
+
+&lt;!-- Span generico --&gt;
+&lt;p&gt;Texto con &lt;span style="color: red"&gt;parte roja&lt;/span&gt;.&lt;/p&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Resumen rapido: semantico vs. visual</p>
+                        <p>Usa <code>&lt;strong&gt;</code> / <code>&lt;em&gt;</code> cuando el texto tenga importancia o enfasis real. Us&aacute; <code>&lt;b&gt;</code> / <code>&lt;i&gt;</code> solo si necesit&aacute;s el formato visual sin agregar significado. Para tachado por edici&oacute;n us&aacute; <code>&lt;del&gt;</code> / <code>&lt;ins&gt;</code>; para contenido obsoleto us&aacute; <code>&lt;s&gt;</code>. Evit&aacute; <code>&lt;u&gt;</code> para simular links y <code>&lt;span style="..."&gt;</code> cuando exista una etiqueta sem&aacute;ntica que haga lo mismo.</p>
+                    </div>
+                </div>
+            </section>
+
             <!-- Sub-section: Links -->
             <section class="sub-section animate-on-scroll" id="links">
                 <h2>
