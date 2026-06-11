@@ -120,7 +120,7 @@
     /* Z-index layers */
     --z-grid: -1;
     --z-content: 1;
-    --z-sidebar: 100;
+    --z-sidebar: 350;
     --z-header: 200;
     --z-overlay: 300;
     --z-modal: 400;
