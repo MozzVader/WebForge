@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events Playground</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --orange: #d29922;
+    --purple: #bc8cff;
+    --pink: #f778ba;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    padding: 12px;
+    overflow-x: hidden;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 8px 14px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all .15s;
+  }
+  .tab:hover { color: var(--fg); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Controls bar */
+  .controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    min-height: 32px;
+  }
+  .controls label {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .ctrl-select {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .ctrl-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .ctrl-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .ctrl-check {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .ctrl-check input { accent-color: var(--accent); }
+
+  /* Playground area */
+  .playground {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    min-height: 180px;
+    position: relative;
+  }
+
+  /* Code output */
+  .code-output {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-height: 120px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .code-output .kw { color: var(--purple); }
+  .code-output .fn { color: var(--blue); }
+  .code-output .str { color: #a5d6ff; }
+  .code-output .cmt { color: #484f58; font-style: italic; }
+  .code-output .num { color: var(--orange); }
+
+  /* ========== BUBBLE/CAPTURE PANEL ========== */
+  .bubble-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .bubble-box {
+    width: 70%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    font-weight: 500;
+    font-size: 13px;
+  }
+  .bubble-box.grandparent { border-color: #58a6ff; background: rgba(88,166,255,.06); width: 90%; }
+  .bubble-box.parent { border-color: #d29922; background: rgba(210,153,34,.06); width: 72%; }
+  .bubble-box.child { border-color: #3fb950; background: rgba(63,185,80,.06); width: 50%; }
+
+  .bubble-box .label { font-size: 11px; color: var(--muted); font-weight: 400; margin-bottom: 2px; }
+  .bubble-box .name { font-family: 'JetBrains Mono', monospace; }
+
+  .bubble-box.flash-capture { animation: flashCap .4s ease; }
+  .bubble-box.flash-target { animation: flashTgt .4s ease; }
+  .bubble-box.flash-bubble { animation: flashBub .4s ease; }
+  @keyframes flashCap { 0% { box-shadow: 0 0 0 0 rgba(88,166,255,.6); } 50% { box-shadow: 0 0 12px 4px rgba(88,166,255,.4); } 100% { box-shadow: none; } }
+  @keyframes flashTgt { 0% { box-shadow: 0 0 0 0 rgba(63,185,80,.6); } 50% { box-shadow: 0 0 12px 4px rgba(63,185,80,.4); } 100% { box-shadow: none; } }
+  @keyframes flashBub { 0% { box-shadow: 0 0 0 0 rgba(210,153,34,.6); } 50% { box-shadow: 0 0 12px 4px rgba(210,153,34,.4); } 100% { box-shadow: none; } }
+
+  /* Event log */
+  .event-log {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    max-height: 140px;
+    overflow-y: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .event-log:empty::before { content: 'Hacé click en los elementos...'; color: #484f58; }
+  .log-entry { display: flex; align-items: center; gap: 6px; }
+  .log-entry .phase { font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+  .phase.cap { background: rgba(88,166,255,.15); color: var(--accent); }
+  .phase.tgt { background: rgba(63,185,80,.15); color: var(--green); }
+  .phase.bub { background: rgba(210,153,34,.15); color: var(--orange); }
+  .phase.stopped { background: rgba(248,81,73,.15); color: var(--red); }
+  .log-entry .who { color: var(--fg); }
+  .log-entry .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot.cap { background: var(--accent); }
+  .dot.tgt { background: var(--green); }
+  .dot.bub { background: var(--orange); }
+
+  /* ========== DELEGATION PANEL ========== */
+  .del-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .del-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .15s;
+    font-size: 13px;
+  }
+  .del-item:hover { background: rgba(88,166,255,.05); }
+  .del-item.selected { border-color: var(--accent); background: rgba(88,166,255,.1); }
+  .del-item .del-icon { font-size: 16px; width: 24px; text-align: center; }
+  .del-item .del-text { flex: 1; }
+  .del-item .del-badge {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(63,185,80,.15);
+    color: var(--green);
+    font-weight: 500;
+  }
+  .del-toolbar {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .del-btn {
+    flex: 1;
+    padding: 7px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .15s;
+  }
+  .del-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ========== CUSTOM EVENTS PANEL ========== */
+  .custom-channels {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .channel {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,.01);
+  }
+  .channel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .channel-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .channel-listeners {
+    display: flex;
+    gap: 4px;
+  }
+  .listener-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all .2s;
+    position: relative;
+  }
+  .listener-dot.active { background: var(--green); }
+  .listener-dot.flash { animation: listenerFlash .5s ease; }
+  @keyframes listenerFlash {
+    0% { box-shadow: 0 0 0 0 rgba(63,185,80,.8); transform: scale(1); }
+    50% { box-shadow: 0 0 8px 3px rgba(63,185,80,.5); transform: scale(1.4); }
+    100% { box-shadow: none; transform: scale(1); }
+  }
+  .channel-controls { display: flex; gap: 6px; }
+  .emit-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .emit-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .emit-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .emit-btn.primary:hover { background: #79c0ff; }
+
+  /* ========== KEYBOARD PANEL ========== */
+  .kb-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+  }
+  .kb-key-visual {
+    width: 80px;
+    height: 80px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--card);
+    transition: all .1s;
+  }
+  .kb-key-visual.active { border-color: var(--accent); box-shadow: 0 0 16px rgba(88,166,255,.3); background: rgba(88,166,255,.08); }
+  .kb-key-visual .key-char { font-size: 28px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+  .kb-key-visual .key-name { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .kb-props {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .kb-prop {
+    text-align: center;
+    padding: 4px 10px;
+    background: rgba(255,255,255,.02);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .kb-prop .pk { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .kb-prop .pv { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--fg); margin-top: 2px; }
+  .kb-modifiers {
+    display: flex;
+    gap: 6px;
+  }
+  .kb-mod {
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    transition: all .15s;
+  }
+  .kb-mod.active { border-color: var(--orange); color: var(--orange); background: rgba(210,153,34,.08); }
+  .kb-history {
+    width: 100%;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    min-height: 26px;
+    align-items: center;
+  }
+  .kb-history-tag {
+    padding: 2px 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    animation: fadeIn .15s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+  .kb-hint { font-size: 11px; color: var(--muted); text-align: center; }
+  .kb-shortcuts {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .kb-shortcut {
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .kb-shortcut kbd {
+    padding: 1px 5px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--fg);
+  }
+
+  /* ========== THROTTLE/DEBOUNCE PANEL ========== */
+  .td-viz {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    height: 120px;
+    padding: 0 4px;
+    position: relative;
+  }
+  .td-viz::after {
+    content: '';
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .td-bar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+  }
+  .td-bar {
+    width: 100%;
+    min-width: 8px;
+    max-width: 18px;
+    border-radius: 3px 3px 0 0;
+    transition: height .1s;
+  }
+  .td-bar.raw { background: rgba(88,166,255,.25); }
+  .td-bar.throttled { background: var(--accent); }
+  .td-bar.debounced { background: var(--green); }
+  .td-bar-label { font-size: 8px; color: var(--muted); margin-top: 4px; }
+  .td-legend {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .td-legend span { display: flex; align-items: center; gap: 4px; }
+  .td-legend .swatch { width: 10px; height: 10px; border-radius: 2px; }
+  .td-counter {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .td-counter-item { text-align: center; }
+  .td-counter-item .num { font-size: 22px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+  .td-counter-item .lbl { font-size: 10px; color: var(--muted); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+  /* Focus area for keyboard */
+  .kb-focus-area {
+    outline: 2px solid transparent;
+    border-radius: 8px;
+    transition: outline .2s;
+    cursor: text;
+  }
+  .kb-focus-area.focused { outline: 2px solid var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="tabs">
+  <button class="tab active" data-tab="bubble">Bubbling & Capturing</button>
+  <button class="tab" data-tab="delegation">Event Delegation</button>
+  <button class="tab" data-tab="custom">Custom Events</button>
+  <button class="tab" data-tab="keyboard">Keyboard</button>
+  <button class="tab" data-tab="throttle">Throttle & Debounce</button>
+</div>
+
+<!-- ===== BUBBLING & CAPTURING ===== -->
+<div class="panel active" id="panel-bubble">
+  <div class="controls">
+    <label>Modo:</label>
+    <select class="ctrl-select" id="bubble-mode">
+      <option value="bubble">Bubbling (default)</option>
+      <option value="capture">Capturing</option>
+      <option value="both">Ambas fases</option>
+    </select>
+    <label class="ctrl-check"><input type="checkbox" id="bubble-stop"> stopPropagation en Padre</label>
+    <button class="ctrl-btn" id="bubble-clear">Limpiar log</button>
+  </div>
+  <div class="playground">
+    <div class="bubble-tree">
+      <div class="bubble-box grandparent" id="bub-abuelo">
+        <div class="label">Abuelo</div>
+        <div class="name">.grandparent</div>
+      </div>
+      <div style="height:1px;background:var(--border);width:60%;margin:2px 0;"></div>
+      <div class="bubble-box parent" id="bub-padre">
+        <div class="label">Padre</div>
+        <div class="name">.parent</div>
+      </div>
+      <div style="height:1px;background:var(--border);width:45%;margin:2px 0;"></div>
+      <div class="bubble-box child" id="bub-hijo">
+        <div class="label">Hijo</div>
+        <div class="name">.child</div>
+      </div>
+    </div>
+  </div>
+  <div class="event-log" id="bubble-log"></div>
+  <div class="code-output" id="bubble-code">// Hacé click en cualquier elemento para ver el flujo del evento</div>
+</div>
+
+<!-- ===== EVENT DELEGATION ===== -->
+<div class="panel" id="panel-delegation">
+  <div class="controls">
+    <label>Listeners:</label>
+    <button class="ctrl-btn active" id="del-mode-delegated">1 en el padre (delegation)</button>
+    <button class="ctrl-btn" id="del-mode-individual">1 por item</button>
+    <button class="ctrl-btn" id="del-add">+ Agregar item</button>
+    <button class="ctrl-btn" id="del-remove">- Eliminar último</button>
+  </div>
+  <div class="playground">
+    <ul class="del-list" id="del-list">
+      <li class="del-item" data-id="1"><span class="del-icon">&#128100;</span><span class="del-text">Ana García</span><span class="del-badge">Dev</span></li>
+      <li class="del-item" data-id="2"><span class="del-icon">&#128187;</span><span class="del-text">Bootcamp React</span><span class="del-badge">Curso</span></li>
+      <li class="del-item" data-id="3"><span class="del-icon">&#127912;</span><span class="del-text">Diseño UI/UX</span><span class="del-badge">Artículo</span></li>
+      <li class="del-item" data-id="4"><span class="del-icon">&#128640;</span><span class="del-text">Deploy en Vercel</span><span class="del-badge">Tutorial</span></li>
+    </ul>
+    <div class="del-toolbar">
+      <button class="del-btn" data-action="select-all">Seleccionar todos</button>
+      <button class="del-btn" data-action="deselect-all">Deseleccionar</button>
+      <button class="del-btn" data-action="delete-selected">Eliminar seleccionados</button>
+    </div>
+  </div>
+  <div class="code-output" id="del-code">// Hacé click en los items de la lista</div>
+</div>
+
+<!-- ===== CUSTOM EVENTS ===== -->
+<div class="panel" id="panel-custom">
+  <div class="controls">
+    <label>Estado del canal:</label>
+    <button class="ctrl-btn" id="custom-add-listener">+ Listener</button>
+    <button class="ctrl-btn" id="custom-remove-listener">- Listener</button>
+    <button class="ctrl-btn" id="custom-clear">Limpiar log</button>
+  </div>
+  <div class="playground">
+    <div class="custom-channels" id="custom-channels">
+      <div class="channel" data-channel="cart:item-added">
+        <div class="channel-header">
+          <span class="channel-name">cart:item-added</span>
+          <div class="channel-listeners" id="cl-cart">
+            <div class="listener-dot active" title="Listener 1 (UI Badge)"></div>
+          </div>
+        </div>
+        <div class="channel-controls">
+          <button class="emit-btn primary" onclick="emitCustom('cart:item-added')">Emit</button>
+          <button class="emit-btn" onclick="emitCustom('cart:item-added', {name:'Keyboard RGB', price: 89.99})">+ datos</button>
+        </div>
+      </div>
+      <div class="channel" data-channel="user:login">
+        <div class="channel-header">
+          <span class="channel-name">user:login</span>
+          <div class="channel-listeners" id="cl-user">
+            <div class="listener-dot active" title="Listener 1 (Dashboard)"></div>
+            <div class="listener-dot active" title="Listener 2 (Analytics)"></div>
+          </div>
+        </div>
+        <div class="channel-controls">
+          <button class="emit-btn primary" onclick="emitCustom('user:login')">Emit</button>
+          <button class="emit-btn" onclick="emitCustom('user:login', {userId: 42, role: 'admin'})">+ datos</button>
+        </div>
+      </div>
+      <div class="channel" data-channel="notify:toast">
+        <div class="channel-header">
+          <span class="channel-name">notify:toast</span>
+          <div class="channel-listeners" id="cl-notify">
+          </div>
+        </div>
+        <div class="channel-controls">
+          <button class="emit-btn primary" onclick="emitCustom('notify:toast')">Emit</button>
+          <button class="emit-btn" onclick="emitCustom('notify:toast', {msg:'Guardado!', type:'success'})">+ datos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="event-log" id="custom-log"></div>
+  <div class="code-output" id="custom-code">// Presioná "Emit" para disparar un CustomEvent</div>
+</div>
+
+<!-- ===== KEYBOARD ===== -->
+<div class="panel" id="panel-keyboard">
+  <div class="playground kb-focus-area" id="kb-area" tabindex="0">
+    <div class="kb-display">
+      <div class="kb-hint">Hacé click acá y presioná cualquier tecla</div>
+      <div class="kb-key-visual" id="kb-key">
+        <span class="key-char" id="kb-char">?</span>
+        <span class="key-name" id="kb-name">--</span>
+      </div>
+      <div class="kb-modifiers">
+        <span class="kb-mod" id="mod-ctrl">Ctrl</span>
+        <span class="kb-mod" id="mod-shift">Shift</span>
+        <span class="kb-mod" id="mod-alt">Alt</span>
+        <span class="kb-mod" id="mod-meta">Meta</span>
+      </div>
+      <div class="kb-props">
+        <div class="kb-prop"><div class="pk">event.key</div><div class="pv" id="pk-key">--</div></div>
+        <div class="kb-prop"><div class="pk">event.code</div><div class="pv" id="pk-code">--</div></div>
+        <div class="kb-prop"><div class="pk">event.type</div><div class="pv" id="pk-type">--</div></div>
+      </div>
+      <div class="kb-history" id="kb-history"></div>
+      <div class="kb-shortcuts">
+        <span class="kb-shortcut"><kbd>Ctrl</kbd>+<kbd>K</kbd> = buscar</span>
+        <span class="kb-shortcut"><kbd>Esc</kbd> = cerrar</span>
+        <span class="kb-shortcut"><kbd>Ctrl</kbd>+<kbd>S</kbd> = guardar</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-output" id="kb-code">// Presioná teclas para ver el event object en tiempo real</div>
+</div>
+
+<!-- ===== THROTTLE & DEBOUNCE ===== -->
+<div class="panel" id="panel-throttle">
+  <div class="controls">
+    <label>Probá mover el mouse o hacer click rápido acá:</label>
+    <button class="ctrl-btn" id="td-reset">Resetear contadores</button>
+  </div>
+  <div class="playground" id="td-playground" style="height:130px;cursor:crosshair;"></div>
+  <div class="td-legend">
+    <span><span class="swatch" style="background:rgba(88,166,255,.25)"></span> Eventos reales</span>
+    <span><span class="swatch" style="background:var(--accent)"></span> Throttled (cada 200ms)</span>
+    <span><span class="swatch" style="background:var(--green)"></span> Debounced (después de 300ms idle)</span>
+  </div>
+  <div class="td-counter">
+    <div class="td-counter-item"><div class="num" style="color:rgba(88,166,255,.7)" id="td-raw-count">0</div><div class="lbl">Raw events</div></div>
+    <div class="td-counter-item"><div class="num" style="color:var(--accent)" id="td-throttle-count">0</div><div class="lbl">Throttled</div></div>
+    <div class="td-counter-item"><div class="num" style="color:var(--green)" id="td-debounce-count">0</div><div class="lbl">Debounced</div></div>
+  </div>
+  <div class="code-output" id="td-code">// Mové el mouse o hacé click sobre el area gris</div>
+</div>
+
+<script>
+// ========== TABS ==========
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ========== AUTO-RESIZE ==========
+function autoResize() {
+  const h = document.documentElement.scrollHeight;
+  window.parent.postMessage({ type: 'demo-resize', height: h }, '*');
+}
+new ResizeObserver(autoResize).observe(document.body);
+setTimeout(autoResize, 100);
+
+// ========== BUBBLING & CAPTURING ==========
+const bubbleLog = document.getElementById('bubble-log');
+const bubbleCode = document.getElementById('bubble-code');
+let bubbleListeners = [];
+
+function clearBubbleListeners() {
+  bubbleListeners.forEach(l => l.element.removeEventListener('click', l.fn, l.options));
+  bubbleListeners = [];
+}
+
+function setupBubbleListeners() {
+  clearBubbleListeners();
+  bubbleLog.innerHTML = '';
+  const mode = document.getElementById('bubble-mode').value;
+  const stopInParent = document.getElementById('bubble-stop').checked;
+
+  const elements = [
+    { el: document.getElementById('bub-abuelo'), name: 'Abuelo', color: 'cap' },
+    { el: document.getElementById('bub-padre'), name: 'Padre', color: 'bub' },
+    { el: document.getElementById('bub-hijo'), name: 'Hijo', color: 'tgt' },
+  ];
+
+  const phases = [];
+  if (mode === 'capture' || mode === 'both') {
+    phases.push({ phase: 'Capturing', capture: true, cls: 'cap' });
+  }
+  if (mode === 'bubble' || mode === 'both') {
+    phases.push({ phase: 'Target/Bubbling', capture: false, cls: mode === 'both' ? 'bub' : null });
+  }
+
+  elements.forEach(({ el, name, color }) => {
+    phases.forEach(({ phase, capture, cls }) => {
+      const fn = (e) => {
+        const flashCls = capture ? 'flash-capture' : (e.target === el ? 'flash-target' : 'flash-bubble');
+        el.classList.remove('flash-capture', 'flash-target', 'flash-bubble');
+        void el.offsetWidth;
+        el.classList.add(flashCls);
+        setTimeout(() => el.classList.remove(flashCls), 400);
+
+        const phaseLabel = (e.target === el && !capture) ? 'target' : (capture ? 'capture' : 'bubble');
+        addBubbleLogEntry(phaseLabel, name, el.id.replace('bub-', ''), e.target.id.replace('bub-'));
+
+        if (stopInParent && el.id === 'bub-padre' && !capture) {
+          e.stopPropagation();
+          addBubbleLogEntry('stopped', 'Padre', 'padre', 'STOPPED');
+        }
+
+        updateBubbleCode(e, name, capture, phaseLabel);
+        autoResize();
+      };
+      el.addEventListener('click', fn, capture);
+      bubbleListeners.push({ element: el, fn, options: capture });
+    });
+  });
+}
+
+function addBubbleLogEntry(phase, name, id, target) {
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  const phaseClass = phase === 'capture' ? 'cap' : phase === 'target' ? 'tgt' : phase === 'stopped' ? 'stopped' : 'bub';
+  entry.innerHTML = `<span class="dot ${phaseClass}"></span><span class="phase ${phaseClass}">${phase}</span><span class="who">${name} (#${target === 'STOPPED' ? 'padre' : target})</span>`;
+  bubbleLog.appendChild(entry);
+  bubbleLog.scrollTop = bubbleLog.scrollHeight;
+}
+
+function updateBubbleCode(e, name, isCapture, phaseLabel) {
+  const capOpt = isCapture ? ', true' : '';
+  const targetInfo = e.target === e.currentTarget ? ' (es el target)' : ` → target: ${e.target.id.replace('bub-','')}`;
+  const code = [
+    `<span class="cmt">// ${phaseLabel} phase${targetInfo}</span>`,
+    `<span class="kw">document</span>.<span class="fn">querySelector</span>(<span class="str">'#${e.currentTarget.id}'</span>)`,
+    `  .<span class="fn">addEventListener</span>(<span class="str">'click'</span>, handler${capOpt});`,
+    `<span class="cmt">// → "${name}" escuchó el click</span>`,
+  ];
+  bubbleCode.innerHTML = code.join('\n');
+}
+
+document.getElementById('bubble-mode').addEventListener('change', setupBubbleListeners);
+document.getElementById('bubble-stop').addEventListener('change', setupBubbleListeners);
+document.getElementById('bubble-clear').addEventListener('click', () => { bubbleLog.innerHTML = ''; });
+setupBubbleListeners();
+
+// ========== EVENT DELEGATION ==========
+const delList = document.getElementById('del-list');
+const delCode = document.getElementById('del-code');
+let delMode = 'delegated';
+let individualListeners = [];
+let nextId = 5;
+
+const delItems = [
+  { icon: '&#128100;', text: 'Ana García', badge: 'Dev' },
+  { icon: '&#128187;', text: 'Bootcamp React', badge: 'Curso' },
+  { icon: '&#127912;', text: 'Diseño UI/UX', badge: 'Artículo' },
+  { icon: '&#128640;', text: 'Deploy en Vercel', badge: 'Tutorial' },
+  { icon: '&#128218;', text: 'JS Avanzado', badge: 'Guía' },
+  { icon: '&#128274;', text: 'Auth con JWT', badge: 'Tutorial' },
+  { icon: '&#127760;', text: 'REST APIs', badge: 'Artículo' },
+  { icon: '&#128293;', text: 'Performance Web', badge: 'Dev' },
+];
+
+function setDelMode(mode) {
+  delMode = mode;
+  document.getElementById('del-mode-delegated').classList.toggle('active', mode === 'delegated');
+  document.getElementById('del-mode-individual').classList.toggle('active', mode === 'individual');
+  clearIndividualListeners();
+  if (mode === 'individual') {
+    setupIndividualListeners();
+  }
+  updateDelCode('mode');
+}
+
+function clearIndividualListeners() {
+  individualListeners.forEach(({el, fn}) => el.removeEventListener('click', fn));
+  individualListeners = [];
+}
+
+function setupIndividualListeners() {
+  delList.querySelectorAll('.del-item').forEach(item => {
+    const fn = (e) => {
+      e.stopPropagation();
+      item.classList.toggle('selected');
+      updateDelCode('click', item);
+      autoResize();
+    };
+    item.addEventListener('click', fn);
+    individualListeners.push({el: item, fn});
+  });
+}
+
+// Delegated listener (always on)
+delList.addEventListener('click', (e) => {
+  if (delMode !== 'delegated') return;
+  const item = e.target.closest('.del-item');
+  if (!item) return;
+  item.classList.toggle('selected');
+  updateDelCode('click', item);
+  autoResize();
+});
+
+// Toolbar delegation
+document.querySelector('.del-toolbar').addEventListener('click', (e) => {
+  const btn = e.target.closest('.del-btn');
+  if (!btn) return;
+  const action = btn.dataset.action;
+  if (action === 'select-all') {
+    delList.querySelectorAll('.del-item').forEach(i => i.classList.add('selected'));
+  } else if (action === 'deselect-all') {
+    delList.querySelectorAll('.del-item').forEach(i => i.classList.remove('selected'));
+  } else if (action === 'delete-selected') {
+    const sel = delList.querySelectorAll('.del-item.selected');
+    sel.forEach(i => i.remove());
+  }
+  updateDelCode('action', action);
+  autoResize();
+});
+
+document.getElementById('del-mode-delegated').addEventListener('click', () => setDelMode('delegated'));
+document.getElementById('del-mode-individual').addEventListener('click', () => setDelMode('individual'));
+
+document.getElementById('del-add').addEventListener('click', () => {
+  const d = delItems[(nextId - 5) % delItems.length];
+  const li = document.createElement('li');
+  li.className = 'del-item';
+  li.dataset.id = nextId++;
+  li.innerHTML = `<span class="del-icon">${d.icon}</span><span class="del-text">${d.text} #${nextId-1}</span><span class="del-badge">${d.badge}</span>`;
+  delList.appendChild(li);
+  if (delMode === 'individual') {
+    clearIndividualListeners();
+    setupIndividualListeners();
+  }
+  updateDelCode('add', li);
+  autoResize();
+});
+
+document.getElementById('del-remove').addEventListener('click', () => {
+  const items = delList.querySelectorAll('.del-item');
+  if (items.length > 0) {
+    items[items.length - 1].remove();
+    if (delMode === 'individual') {
+      clearIndividualListeners();
+      setupIndividualListeners();
+    }
+    updateDelCode('remove');
+    autoResize();
+  }
+});
+
+function updateDelCode(action, el) {
+  const count = delList.querySelectorAll('.del-item').length;
+  if (action === 'mode') {
+    if (delMode === 'delegated') {
+      delCode.innerHTML = [
+        `<span class="cmt">// 1 solo listener en el padre (delegation)</span>`,
+        `<span class="kw">ul</span>.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) => {`,
+        `  <span class="kw">const</span> item = e.target.<span class="fn">closest</span>(<span class="str">'.del-item'</span>);`,
+        `  <span class="kw">if</span> (!item) <span class="kw">return</span>;`,
+        `  item.classList.<span class="fn">toggle</span>(<span class="str">'selected'</span>);`,
+        `  <span class="cmt">// ✅ Items nuevos funcionan automáticamente</span>`,
+        `});`
+      ].join('\n');
+    } else {
+      delCode.innerHTML = [
+        `<span class="cmt">// ${count} listeners (1 por item)</span>`,
+        `items.<span class="fn">forEach</span>(item => {`,
+        `  item.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () => {`,
+        `    item.classList.<span class="fn">toggle</span>(<span class="str">'selected'</span>);`,
+        `  });`,
+        `});`,
+        `<span class="cmt">// ❌ Items nuevos NO tienen listener</span>`
+      ].join('\n');
+    }
+  } else if (action === 'click') {
+    const id = el ? el.dataset.id : '?';
+    const txt = el ? el.querySelector('.del-text')?.textContent : '';
+    delCode.innerHTML = `<span class="cmt">// Click en item #${id}</span>\ne.target.<span class="fn">closest</span>(<span class="str">'.del-item'</span>) → <span class="str">"${txt}"</span>\nitem.classList.<span class="fn">toggle</span>(<span class="str">'selected'</span>);`;
+  } else if (action === 'add') {
+    delCode.innerHTML = `<span class="cmt">// Item agregado dinámicamente</span>\n<span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">'li'</span>);\nli.textContent = <span class="str">"Nuevo item"</span>;\nul.<span class="fn">appendChild</span>(li);\n<span class="cmt">// ${delMode === 'delegated' ? '✅ Funciona! (delegation)' : '❌ No tiene listener'}</span>`;
+  } else if (action === 'remove') {
+    delCode.innerHTML = `<span class="cmt">// Item eliminado</span>\nitems[items.length-<span class="num">1</span>].<span class="fn">remove</span>();`;
+  } else {
+    delCode.innerHTML = `<span class="cmt">// Toolbar action: ${el}</span>\n<span class="cmt">// También usa delegation!</span>`;
+  }
+}
+updateDelCode('mode');
+
+// ========== CUSTOM EVENTS ==========
+const customLog = document.getElementById('custom-log');
+const customCode = document.getElementById('custom-code');
+const channelListeners = {
+  'cart:item-added': 1,
+  'user:login': 2,
+  'notify:toast': 0,
+};
+let customEventNum = 0;
+
+function renderListenerDots() {
+  Object.entries(channelListeners).forEach(([ch, count]) => {
+    const key = ch.split(':')[0];
+    const container = document.getElementById('cl-' + key);
+    if (!container) return;
+    container.innerHTML = '';
+    for (let i = 0; i < Math.min(count, 5); i++) {
+      const dot = document.createElement('div');
+      dot.className = 'listener-dot active';
+      dot.title = `Listener ${i+1}`;
+      container.appendChild(dot);
+    }
+    if (count === 0) {
+      container.innerHTML = '<span style="font-size:10px;color:var(--muted)">sin listeners</span>';
+    }
+  });
+}
+renderListenerDots();
+
+document.getElementById('custom-add-listener').addEventListener('click', () => {
+  const channels = Object.keys(channelListeners);
+  const ch = channels[customEventNum % channels.length];
+  channelListeners[ch]++;
+  renderListenerDots();
+  customEventNum++;
+  customCode.innerHTML = `document.<span class="fn">addEventListener</span>(<span class="str">'${ch}'</span>, handler);\n<span class="cmt">// Ahora ${ch} tiene ${channelListeners[ch]} listener(s)</span>`;
+});
+
+document.getElementById('custom-remove-listener').addEventListener('click', () => {
+  const channels = Object.keys(channelListeners).filter(c => channelListeners[c] > 0);
+  if (channels.length === 0) return;
+  const ch = channels[customEventNum % channels.length];
+  if (channelListeners[ch] > 0) {
+    channelListeners[ch]--;
+    renderListenerDots();
+    customCode.innerHTML = `document.<span class="fn">removeEventListener</span>(<span class="str">'${ch}'</span>, handler);\n<span class="cmt">// Ahora ${ch} tiene ${channelListeners[ch]} listener(s)</span>`;
+  }
+  customEventNum++;
+});
+
+document.getElementById('custom-clear').addEventListener('click', () => { customLog.innerHTML = ''; });
+
+function emitCustom(eventName, detail) {
+  const count = channelListeners[eventName] || 0;
+  const hasDetail = detail !== undefined;
+
+  // Flash listener dots
+  const key = eventName.split(':')[0];
+  const container = document.getElementById('cl-' + key);
+  if (container) {
+    container.querySelectorAll('.listener-dot').forEach((dot, i) => {
+      setTimeout(() => {
+        dot.classList.remove('flash');
+        void dot.offsetWidth;
+        dot.classList.add('flash');
+        setTimeout(() => dot.classList.remove('flash'), 500);
+      }, i * 100);
+    });
+  }
+
+  // Log entry
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  const detailStr = hasDetail ? ` ${JSON.stringify(detail)}` : '';
+  entry.innerHTML = `<span class="dot" style="background:${count > 0 ? 'var(--green)' : 'var(--red)'}"></span><span style="color:var(--fg)"><span style="color:var(--accent)">dispatchEvent</span> → <span style="color:var(--orange)">'${eventName}'</span>${count > 0 ? `<span style="color:var(--green)"> (${count} listener${count>1?'s':''})</span>` : '<span style="color:var(--red)"> (sin listeners!)</span>'}</span>`;
+  customLog.appendChild(entry);
+  customLog.scrollTop = customLog.scrollHeight;
+
+  // Code output
+  const detailCode = hasDetail ? `\n  { ${Object.entries(detail).map(([k,v]) => `${k}: ${typeof v === 'string' ? '"'+v+'"' : v}`).join(', ')} },\n  { bubbles: <span class="num">true</span> }\n` : ')';
+  customCode.innerHTML = `<span class="kw">const</span> event = <span class="kw">new</span> <span class="fn">CustomEvent</span>(<span class="str">'${eventName}'</span>, {${hasDetail ? '' : ''}${hasDetail ? `\n  detail: { ${Object.entries(detail).map(([k,v]) => `${k}: <span class="str">${typeof v === 'string' ? '"'+v+'"' : v}</span>`).join(', ')} },\n  bubbles: <span class="num">true</span>\n});` : '});'}
+document.<span class="fn">dispatchEvent</span>(event);${count > 0 ? `\n<span class="cmt">// ✅ ${count} listener${count>1?'s':''} ejecutados</span>` : `\n<span class="cmt">// ❌ Nadie escucha este evento</span>`}`;
+
+  autoResize();
+}
+
+// ========== KEYBOARD ==========
+const kbArea = document.getElementById('kb-area');
+const kbKey = document.getElementById('kb-key');
+const kbChar = document.getElementById('kb-char');
+const kbName = document.getElementById('kb-name');
+const kbHistory = document.getElementById('kb-history');
+const kbCode_el = document.getElementById('kb-code');
+
+kbArea.addEventListener('focus', () => kbArea.classList.add('focused'));
+kbArea.addEventListener('blur', () => kbArea.classList.remove('focused'));
+
+kbArea.addEventListener('keydown', (e) => {
+  e.preventDefault();
+  kbKey.classList.add('active');
+
+  // Key visual
+  let displayChar = e.key;
+  if (e.key === ' ') displayChar = '␣';
+  else if (e.key === 'Enter') displayChar = '↵';
+  else if (e.key === 'Backspace') displayChar = '⌫';
+  else if (e.key === 'Tab') displayChar = '⇥';
+  else if (e.key === 'Escape') displayChar = 'Esc';
+  else if (e.key === 'ArrowUp') displayChar = '↑';
+  else if (e.key === 'ArrowDown') displayChar = '↓';
+  else if (e.key === 'ArrowLeft') displayChar = '←';
+  else if (e.key === 'ArrowRight') displayChar = '→';
+  else if (e.key === 'Shift') displayChar = '⇧';
+  else if (e.key === 'Control') displayChar = 'Ctrl';
+  else if (e.key === 'Alt') displayChar = 'Alt';
+  else if (e.key === 'Meta') displayChar = '⌘';
+  else if (e.key === 'CapsLock') displayChar = '⇪';
+  else if (e.key === 'Delete') displayChar = 'Del';
+  kbChar.textContent = displayChar;
+  kbName.textContent = e.code;
+
+  // Properties
+  document.getElementById('pk-key').textContent = e.key === ' ' ? '" "' : `"${e.key}"`;
+  document.getElementById('pk-code').textContent = `"${e.code}"`;
+  document.getElementById('pk-type').textContent = `"${e.type}"`;
+
+  // Modifiers
+  document.getElementById('mod-ctrl').classList.toggle('active', e.ctrlKey);
+  document.getElementById('mod-shift').classList.toggle('active', e.shiftKey);
+  document.getElementById('mod-alt').classList.toggle('active', e.altKey);
+  document.getElementById('mod-meta').classList.toggle('active', e.metaKey);
+
+  // History
+  const tag = document.createElement('span');
+  tag.className = 'kb-history-tag';
+  const modStr = (e.ctrlKey ? 'Ctrl+' : '') + (e.shiftKey ? 'Shift+' : '') + (e.altKey ? 'Alt+' : '');
+  tag.textContent = modStr + (e.key === ' ' ? 'Space' : e.key);
+  kbHistory.appendChild(tag);
+  if (kbHistory.children.length > 20) kbHistory.removeChild(kbHistory.firstChild);
+
+  // Code
+  const mods = [];
+  if (e.ctrlKey) mods.push('e.ctrlKey');
+  if (e.shiftKey) mods.push('e.shiftKey');
+  if (e.altKey) mods.push('e.altKey');
+  if (e.metaKey) mods.push('e.metaKey');
+  const modLine = mods.length > 0 ? `\n<span class="cmt">// Modifiers: ${mods.join(', ')} = true</span>` : '';
+  kbCode_el.innerHTML = `document.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, (e) => {\n  <span class="kw">if</span> (e.<span class="fn">key</span> === <span class="str">'${e.key}'</span>) { <span class="cmt">// e.code = "${e.code}"</span>\n    <span class="cmt">// Tu lógica acá...</span>\n  }${modLine}\n});`;
+
+  autoResize();
+});
+
+kbArea.addEventListener('keyup', () => {
+  kbKey.classList.remove('active');
+});
+
+// ========== THROTTLE & DEBOUNCE ==========
+const tdPlayground = document.getElementById('td-playground');
+const tdCodeEl = document.getElementById('td-code');
+let tdRawCount = 0, tdThrottleCount = 0, tdDebounceCount = 0;
+let tdBars = [];
+const MAX_BARS = 40;
+
+function tdThrottle(fn, limit) {
+  let inThrottle = false;
+  return function(...args) {
+    if (!inThrottle) { fn.apply(this, args); inThrottle = true; setTimeout(() => { inThrottle = false; }, limit); }
+  };
+}
+
+function tdDebounce(fn, delay) {
+  let timer = null;
+  return function(...args) { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), delay); };
+}
+
+function addTdBar(type) {
+  if (tdBars.length >= MAX_BARS) {
+    tdBars.shift();
+    const first = tdPlayground.querySelector('.td-bar-col');
+    if (first) first.remove();
+  }
+  const col = document.createElement('div');
+  col.className = 'td-bar-col';
+  const bar = document.createElement('div');
+  bar.className = `td-bar ${type}`;
+  const h = type === 'raw' ? Math.random() * 60 + 10 : Math.random() * 40 + 40;
+  bar.style.height = h + 'px';
+  col.appendChild(bar);
+  tdPlayground.appendChild(col);
+  tdBars.push(type);
+  autoResize();
+}
+
+const throttledHandler = tdThrottle(() => {
+  tdThrottleCount++;
+  document.getElementById('td-throttle-count').textContent = tdThrottleCount;
+  addTdBar('throttled');
+}, 200);
+
+let debounceTimer = null;
+const debouncedHandler = tdDebounce(() => {
+  tdDebounceCount++;
+  document.getElementById('td-debounce-count').textContent = tdDebounceCount;
+  addTdBar('debounced');
+  tdCodeEl.innerHTML = `<span class="cmt">// Debounce: ejecutado después de 300ms de inactividad</span>\n<span class="fn">debounce</span>(callback, <span class="num">300</span>);\n<span class="cmt">// Total ejecuciones: ${tdDebounceCount}</span>`;
+}, 300);
+
+function tdFire() {
+  tdRawCount++;
+  document.getElementById('td-raw-count').textContent = tdRawCount;
+  addTdBar('raw');
+  throttledHandler();
+  debouncedHandler();
+}
+
+tdPlayground.addEventListener('mousemove', tdFire);
+tdPlayground.addEventListener('click', tdFire);
+tdPlayground.addEventListener('touchmove', (e) => { e.preventDefault(); tdFire(); });
+
+document.getElementById('td-reset').addEventListener('click', () => {
+  tdRawCount = 0; tdThrottleCount = 0; tdDebounceCount = 0;
+  document.getElementById('td-raw-count').textContent = '0';
+  document.getElementById('td-throttle-count').textContent = '0';
+  document.getElementById('td-debounce-count').textContent = '0';
+  tdBars = [];
+  tdPlayground.innerHTML = '';
+  tdCodeEl.innerHTML = '<span class="cmt">// Contadores reseteados</span>';
+  autoResize();
+});
+
+// Update code on first interaction
+let tdFirstFire = true;
+const origTdFire = tdFire;
+// (already handled inside debouncedHandler above)
+</script>
+</body>
+</html>
