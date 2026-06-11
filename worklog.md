@@ -217,3 +217,26 @@ Stage Summary:
 - Archivo creado: demos/async-playground.html (~480 líneas)
 - Archivo modificado: sections/js-asincronia.html (embed en línea 71-78)
 - 5 tabs cubriendo callbacks, promises, async/await, fetch y manejo de errores
+
+---
+Task ID: 10
+Agent: main
+Task: Agregar Multimedia Playground a html-multimedia.html
+
+Work Log:
+- Leído html-multimedia.html (6 sub-secciones: video, audio, picture, canvas, svg, iframe)
+- Creado demos/multimedia-playground.html con 5 tabs interactivos:
+  1. **Video**: 6 atributos toggleable (controls, autoplay, muted, loop, poster, playsinline), player simulado con progress bar y controles, badges de estado, HTML generado en vivo. Auto-mute cuando se activa autoplay.
+  2. **Audio**: Selector de formato (MP3/Ogg/AAC/WAV) con info de compatibilidad, visualizador de barras animadas, controles de reproducción simulados, atributos toggleable, comparativa de formatos con badges.
+  3. **Picture**: 2 modos (Art Direction vs srcset+sizes), slider de viewport 320-1440px, indicadores de cuál source elige el navegador en cada breakpoint, código generado.
+  4. **Canvas**: Canvas real dibujable con 4 herramientas (rect, circle, line, text), 8 colores, preview mientras arrastrás, grilla de fondo, código Canvas 2D API generado para la última forma.
+  5. **SVG**: Editor de formas (rect, circle, ellipse, line, polygon, path), props editables en vivo (incluyendo color picker), viewBox editable, reset, código SVG generado.
+- Insertado demo-embed en html-multimedia.html después del header de sección
+- Ícono de filmstrip/grid en la barra del embed
+- Commit 2bb23d2 push exitoso
+
+Stage Summary:
+- Archivo creado: demos/multimedia-playground.html (~520 líneas)
+- Archivo modificado: sections/html-multimedia.html (embed en línea 73-80)
+- 5 tabs cubriendo video, audio, picture, canvas y SVG
+- ¡Último playground de la serie completado!
