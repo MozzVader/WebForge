@@ -101,3 +101,29 @@ Stage Summary:
 - Archivo creado: demos/responsive-playground.html (~520 líneas)
 - Archivo modificado: sections/css-responsive.html (embed en línea 90-100)
 - Mismo patrón visual que los playgrounds anteriores (dark theme, controles, CSS output, auto-resize)
+---
+Task ID: 5
+Agent: main
+Task: Agregar Form Validation Playground a html-formularios.html
+
+Work Log:
+- Leído html-formularios.html (5 sub-secciones: estructura, labels, tipos-input, textarea-select, validacion, a11y, ejemplo)
+- Ya existían mini-demos inline para tipos de input y textarea/select
+- Creado demos/validation-playground.html con:
+  - 3 presets de formulario: Registro (6 campos), Contacto (5 campos), Login (3 campos)
+  - Checkboxes para activar/desactivar atributos de validación por campo (required, minlength, maxlength, pattern, min, max, step)
+  - Formulario en vivo con bordes :valid (verde) / :invalid (rojo)
+  - Panel de Validity API mostrando estado real-time (valid/invalid/pristine) por campo
+  - Hints contextuales (valueMissing, tooShort, patternMismatch, typeMismatch, etc.)
+  - Output HTML mostrando atributos activos (verde) vs inactivos (gris)
+  - Toggle novalidate para comparar validación nativa vs sin validación
+  - Botones: Enviar formulario, checkValidity(), Reset
+  - Toast notifications para resultados
+- Insertado demo-embed en html-formularios.html después del intro de "Validación nativa"
+- Ícono de escudo con check en la barra del embed
+- Commit 025f730 push exitoso
+
+Stage Summary:
+- Archivo creado: demos/validation-playground.html (~420 líneas)
+- Archivo modificado: sections/html-formularios.html (embed en la sección validación)
+- Los mini-demos inline existentes se mantienen (no se tocan)
