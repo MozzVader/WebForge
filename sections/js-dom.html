@@ -173,6 +173,18 @@ if (primerHijo.nodeType === Node.TEXT_NODE) {
                     Antes de poder modificar un elemento del DOM, primero necesit&aacute;s <strong>seleccionarlo</strong>. JavaScript ofrece varios m&eacute;todos para esto. Los m&eacute;todos modernos (<code>querySelector</code> y <code>querySelectorAll</code>) son los m&aacute;s usados porque aceptan cualquier selector CSS, lo que los hace extremadamente flexibles. Los m&eacute;todos cl&aacute;sicos como <code>getElementById</code> siguen siendo &uacute;tiles y un poco m&aacute;s r&aacute;pidos cuando solo necesit&aacute;s buscar por ID.
                 </p>
 
+                <p class="demo-embed__intro">
+                    Escrib&iacute; un selector CSS en el campo de arriba y observ&aacute; c&oacute;mo los elementos que matchean se resaltan en el mini DOM. Us&aacute; los quick selectors para probar los m&aacute;s comunes, o hac&eacute; clic en cualquier elemento del mini DOM para generar su selector autom&aacute;ticamente. Despu&eacute;s, ejecut&aacute; acciones sobre los elementos seleccionados: cambiar texto, agregar clases, modificar estilos, clonar o eliminar. El panel derecho muestra el c&oacute;digo JavaScript equivalente.
+                </p>
+
+                <div class="demo-embed">
+                    <div class="demo-embed__bar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <span>Playground &mdash; DOM Selection &amp; Manipulation</span>
+                    </div>
+                    <iframe src="../demos/dom-playground.html" title="DOM Playground - Selectores CSS y manipulación del DOM" loading="lazy"></iframe>
+                </div>
+
                 <div class="code-block">
                     <div class="code-block-header">
                         <span class="code-block-lang">

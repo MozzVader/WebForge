@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOM Playground</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:#0d1117;
+  color:#e6edf3;
+  padding:16px;
+  overflow-x:hidden;
+}
+
+/* --- Selector Input --- */
+.selector-section{
+  margin-bottom:12px;
+}
+
+.selector-row{
+  display:flex;
+  gap:8px;
+  align-items:stretch;
+}
+
+.selector-input-wrap{
+  flex:1;
+  position:relative;
+}
+
+.selector-input-wrap::before{
+  content:'document.';
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:#484f58;
+  pointer-events:none;
+}
+
+.selector-input{
+  width:100%;
+  background:#161b22;
+  color:#e6edf3;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:8px 10px 8px 82px;
+  font-size:12px;
+  font-family:'JetBrains Mono',monospace;
+  outline:none;
+  transition:border-color .2s;
+}
+
+.selector-input:focus{
+  border-color:#58a6ff;
+}
+
+.selector-input::placeholder{
+  color:#484f58;
+}
+
+.method-badge{
+  background:#21262d;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:8px 12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:#8b949e;
+  display:flex;
+  align-items:center;
+  white-space:nowrap;
+}
+
+.method-badge .method-name{
+  color:#79c0ff;
+}
+
+.match-count{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:#3fb950;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+}
+
+.match-count .count-num{
+  background:rgba(63,185,80,.12);
+  color:#3fb950;
+  padding:2px 8px;
+  border-radius:10px;
+  font-weight:600;
+}
+
+/* --- Actions --- */
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:12px;
+}
+
+.act-btn{
+  background:#21262d;
+  color:#c9d1d9;
+  border:1px solid #30363d;
+  border-radius:5px;
+  padding:5px 10px;
+  font-size:11px;
+  font-family:'JetBrains Mono',monospace;
+  cursor:pointer;
+  transition:all .15s;
+}
+
+.act-btn:hover{
+  background:#30363d;
+  border-color:#58a6ff;
+  color:#e6edf3;
+}
+
+.act-btn:active{
+  transform:scale(.96);
+}
+
+/* --- Layout --- */
+.playground-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+@media(max-width:600px){
+  .playground-layout{grid-template-columns:1fr}
+}
+
+.panel{
+  background:#161b22;
+  border:1px solid #30363d;
+  border-radius:8px;
+  padding:12px;
+}
+
+.panel h3{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  color:#8b949e;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+/* --- Mini DOM Tree --- */
+.mini-dom{
+  background:#0d1117;
+  border:1.5px dashed #30363d;
+  border-radius:6px;
+  padding:12px;
+  font-size:12px;
+  line-height:1.6;
+  min-height:220px;
+  position:relative;
+  transition:border-color .3s;
+}
+
+.mini-dom *{transition:all .2s}
+
+/* Highlight matched elements */
+.mini-dom .highlight{
+  outline:2px solid #58a6ff;
+  outline-offset:1px;
+  background:rgba(88,166,255,.08) !important;
+  border-radius:3px;
+}
+
+.mini-dom .highlight-flash{
+  animation:flashHighlight .6s ease;
+}
+
+@keyframes flashHighlight{
+  0%{outline-color:#f0e68c;background:rgba(240,230,140,.15)}
+  100%{outline-color:#58a6ff;background:rgba(88,166,255,.08)}
+}
+
+.mini-dom h2{font-size:16px;color:#e6edf3;margin-bottom:6px}
+.mini-dom h3{font-size:13px;color:#c9d1d9;margin:8px 0 4px}
+.mini-dom p{color:#8b949e;margin-bottom:6px;font-size:11px;line-height:1.5}
+.mini-dom ul{padding-left:20px;margin-bottom:6px}
+.mini-dom li{color:#8b949e;font-size:11px;margin-bottom:2px}
+.mini-dom .nav-bar{background:#21262d;border-radius:4px;padding:6px 10px;margin-bottom:10px;display:flex;gap:12px;align-items:center}
+.mini-dom .nav-bar span{color:#8b949e;font-size:11px}
+.mini-dom .nav-bar .nav-brand{color:#58a6ff;font-weight:600;font-size:12px}
+.mini-dom .card{background:#21262d;border:1px solid #30363d;border-radius:6px;padding:10px;margin-bottom:8px}
+.mini-dom .card-title{font-weight:600;color:#e6edf3;font-size:12px;margin-bottom:3px}
+.mini-dom .card-text{color:#8b949e;font-size:11px}
+.mini-dom .btn{background:#21262d;border:1px solid #30363d;border-radius:4px;padding:3px 8px;color:#8b949e;font-size:10px;display:inline-block;cursor:default}
+.mini-dom .btn.primary{border-color:#58a6ff;color:#58a6ff}
+.mini-dom .footer{border-top:1px solid #30363d;padding-top:8px;margin-top:8px}
+.mini-dom .footer p{color:#484f58;font-size:10px}
+.mini-dom input{background:#0d1117;border:1px solid #30363d;border-radius:3px;padding:2px 6px;color:#e6edf3;font-size:10px;width:120px}
+.mini-dom .badge{display:inline-block;background:rgba(88,166,255,.1);color:#58a6ff;font-size:9px;padding:1px 6px;border-radius:10px;margin-left:4px}
+
+/* --- JS Output --- */
+.js-output{
+  background:#0d1117;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:10px 12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:#8b949e;
+  line-height:1.7;
+  overflow-x:auto;
+  white-space:pre;
+  min-height:220px;
+}
+
+.js-output .kw{color:#ff7b72}
+.js-output .fn{color:#d2a8ff}
+.js-output .str{color:#a5d6ff}
+.js-output .sel{color:#3fb950}
+.js-output .cmt{color:#484f58;font-style:italic}
+.js-output .prop{color:#79c0ff}
+.js-output .val{color:#ffa657}
+
+/* --- Inspector --- */
+.inspector{
+  margin-top:8px;
+  padding:8px 10px;
+  background:#0d1117;
+  border:1px solid #30363d;
+  border-radius:6px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:#484f58;
+  min-height:40px;
+  line-height:1.6;
+}
+
+.inspector .insp-tag{color:#7ee787}
+.inspector .insp-class{color:#79c0ff}
+.inspector .insp-attr{color:#ffa657}
+.inspector .insp-val{color:#a5d6ff}
+
+/* --- History --- */
+.history{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin-bottom:10px;
+}
+
+.history-chip{
+  background:#21262d;
+  border:1px solid #30363d;
+  border-radius:4px;
+  padding:2px 8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:#8b949e;
+  cursor:pointer;
+  transition:all .15s;
+}
+
+.history-chip:hover{
+  border-color:#58a6ff;
+  color:#e6edf3;
+}
+
+/* --- Bottom Actions --- */
+.bottom-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  background:#21262d;
+  color:#e6edf3;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:6px 14px;
+  font-size:12px;
+  font-family:'Inter',system-ui,sans-serif;
+  cursor:pointer;
+  transition:all .2s;
+}
+
+.btn:hover{
+  background:#30363d;
+  border-color:#58a6ff;
+}
+
+.btn:active{transform:scale(.97)}
+
+/* --- Quick Selectors --- */
+.quick-row{
+  display:flex;
+  gap:6px;
+  margin-bottom:10px;
+  flex-wrap:wrap;
+}
+
+.quick-chip{
+  background:#161b22;
+  border:1px solid #30363d;
+  border-radius:4px;
+  padding:3px 8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:#8b949e;
+  cursor:pointer;
+  transition:all .15s;
+}
+
+.quick-chip:hover{
+  border-color:#3fb950;
+  color:#3fb950;
+}
+</style>
+</head>
+<body>
+
+<div class="selector-section">
+  <div class="selector-row">
+    <div class="selector-input-wrap">
+      <input type="text" class="selector-input" id="selectorInput" placeholder="Escribí un selector CSS...">
+    </div>
+    <div class="method-badge"><span class="method-name" id="methodName">querySelector</span></div>
+    <div class="match-count"><span class="count-num" id="matchCount">0</span> matches</div>
+  </div>
+</div>
+
+<div class="quick-row" id="quickSelectors">
+  <span class="quick-chip" data-sel="h2">h2</span>
+  <span class="quick-chip" data-sel=".card">.card</span>
+  <span class="quick-chip" data-sel=".card-title">.card-title</span>
+  <span class="quick-chip" data-sel="ul li">ul li</span>
+  <span class="quick-chip" data-sel=".btn">.btn</span>
+  <span class="quick-chip" data-sel=".btn.primary">.btn.primary</span>
+  <span class="quick-chip" data-sel=".nav-bar span">.nav-bar span</span>
+  <span class="quick-chip" data-sel="input">input</span>
+  <span class="quick-chip" data-sel="[data-id]">[data-id]</span>
+  <span class="quick-chip" data-sel=".card:nth-child(2)">.card:nth-child(2)</span>
+  <span class="quick-chip" data-sel=".card .card-text">.card .card-text</span>
+  <span class="quick-chip" data-sel=".card > .card-title">.card > .card-title</span>
+</div>
+
+<div class="actions">
+  <button class="act-btn" data-action="text" title="Cambiar textContent">textContent =</button>
+  <button class="act-btn" data-action="class" title="Agregar clase">addClass</button>
+  <button class="act-btn" data-action="style" title="Cambiar estilo">style.bg</button>
+  <button class="act-btn" data-action="toggle" title="Toggle display">toggle()</button>
+  <button class="act-btn" data-action="clone" title="Clonar elemento">cloneNode</button>
+  <button class="act-btn" data-action="remove" title="Eliminar elemento">remove()</button>
+  <button class="act-btn" data-action="attr" title="Ver atributos">attributes</button>
+</div>
+
+<div class="playground-layout">
+  <div class="panel">
+    <h3>Mini DOM</h3>
+    <div class="mini-dom" id="miniDom">
+      <nav class="nav-bar">
+        <span class="nav-brand">WebForge</span>
+        <span>Inicio</span>
+        <span>Cursos</span>
+        <span>Blog</span>
+      </nav>
+      <h2>Titulo principal</h2>
+      <p>Parrafo de introduccion con texto de ejemplo.</p>
+      <div class="card" data-id="card-1">
+        <div class="card-title">Card 1 <span class="badge">nuevo</span></div>
+        <p class="card-text">Descripcion de la primera card del listado.</p>
+        <button class="btn primary">Ver mas</button>
+      </div>
+      <div class="card" data-id="card-2">
+        <div class="card-title">Card 2</div>
+        <p class="card-text">Descripcion de la segunda card del listado.</p>
+        <button class="btn">Ver mas</button>
+      </div>
+      <div class="card" data-id="card-3">
+        <div class="card-title">Card 3 <span class="badge">popular</span></div>
+        <p class="card-text">Descripcion de la tercera card del listado.</p>
+        <button class="btn">Ver mas</button>
+      </div>
+      <h3>Lista de temas</h3>
+      <ul>
+        <li>HTML basico</li>
+        <li>CSS y Flexbox</li>
+        <li>JavaScript DOM</li>
+        <li>Responsive Design</li>
+      </ul>
+      <div>
+        <input type="text" placeholder="Buscar..." data-id="search-input">
+      </div>
+      <div class="footer">
+        <p>Copyright 2026 WebForge</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>JavaScript generado</h3>
+    <div class="js-output" id="jsOutput"><span class="cmt">// Escribí un selector CSS arriba</span>
+<span class="cmt">// o hacé clic en un quick selector</span>
+
+<span class="cmt">// Los elementos que matcheen se</span>
+<span class="cmt">// resaltaran en el mini DOM</span></div>
+    <div class="inspector" id="inspector">Pasá el mouse sobre un elemento para inspeccionarlo</div>
+  </div>
+</div>
+
+<div class="bottom-actions">
+  <button class="btn" id="btnReset">Reset DOM</button>
+  <button class="btn" id="btnUndo">Deshacer ultima accion</button>
+</div>
+
+<script>
+var selectorInput = document.getElementById('selectorInput');
+var methodName = document.getElementById('methodName');
+var matchCount = document.getElementById('matchCount');
+var miniDom = document.getElementById('miniDom');
+var jsOutput = document.getElementById('jsOutput');
+var inspector = document.getElementById('inspector');
+var actionHistory = [];
+
+// Quick selectors
+document.getElementById('quickSelectors').addEventListener('click', function(e) {
+  var chip = e.target.closest('.quick-chip');
+  if (!chip) return;
+  selectorInput.value = chip.getAttribute('data-sel');
+  runSelector();
+});
+
+// Live selector
+selectorInput.addEventListener('input', runSelector);
+
+// Action buttons
+document.querySelectorAll('.act-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var action = this.getAttribute('data-action');
+    executeAction(action);
+  });
+});
+
+// Inspector (hover)
+miniDom.addEventListener('mouseover', function(e) {
+  var el = e.target;
+  if (el === miniDom) return;
+  inspectElement(el);
+});
+
+// Quick select on click in DOM
+miniDom.addEventListener('click', function(e) {
+  var el = e.target;
+  if (el === miniDom) return;
+  var tag = el.tagName.toLowerCase();
+  var id = el.id ? '#' + el.id : '';
+  var cls = el.className ? '.' + el.className.trim().split(/\s+/).join('.') : '';
+  // Clean up complex class selectors
+  cls = cls.replace(/\.highlight-flash/g, '').replace(/\.highlight/g, '');
+  selectorInput.value = tag + id + cls;
+  runSelector();
+});
+
+function runSelector() {
+  var sel = selectorInput.value.trim();
+  clearHighlights();
+
+  if (!sel) {
+    methodName.textContent = '—';
+    matchCount.textContent = '0';
+    jsOutput.innerHTML = '<span class="cmt">// Escribí un selector CSS arriba</span>\n<span class="cmt">// o hacé clic en un quick selector</span>';
+    return;
+  }
+
+  var matches = [];
+  var error = false;
+
+  try {
+    matches = Array.from(miniDom.querySelectorAll(sel));
+  } catch(e) {
+    error = true;
+  }
+
+  if (error) {
+    methodName.innerHTML = '<span style="color:#f85149">Error</span>';
+    matchCount.textContent = '!';
+    jsOutput.innerHTML = '<span class="cmt">// Selector inválido</span>\n<span class="cmt">// ' + escHtml(sel) + '</span>';
+    return;
+  }
+
+  // Determine method
+  if (matches.length === 1) {
+    methodName.innerHTML = '<span class="method-name">querySelector</span><span style="color:#484f58">(\'<span class="sel">' + escHtml(sel) + '</span>\')</span>';
+  } else {
+    methodName.innerHTML = '<span class="method-name">querySelectorAll</span><span style="color:#484f58">(\'<span class="sel">' + escHtml(sel) + '</span>\')</span>';
+  }
+
+  matchCount.textContent = matches.length;
+
+  // Highlight
+  matches.forEach(function(el) {
+    el.classList.add('highlight');
+  });
+
+  // Generate JS output
+  generateJS(sel, matches);
+}
+
+function clearHighlights() {
+  miniDom.querySelectorAll('.highlight').forEach(function(el) {
+    el.classList.remove('highlight', 'highlight-flash');
+  });
+}
+
+function generateJS(sel, matches) {
+  var lines = [];
+  var m = matches.length;
+
+  if (m === 0) {
+    lines.push('<span class="cmt">// No matchea ningun elemento</span>');
+    lines.push('<span class="kw">const</span> el = document.<span class="fn">querySelector</span>(<span class="str">\'' + escHtml(sel) + '\'</span>);');
+    lines.push('el; <span class="cmt">// null</span>');
+  } else if (m === 1) {
+    lines.push('<span class="cmt">// Selecciona 1 elemento</span>');
+    lines.push('<span class="kw">const</span> el = document.<span class="fn">querySelector</span>(<span class="str">\'' + escHtml(sel) + '\'</span>);');
+    lines.push('');
+    lines.push('el.<span class="prop">textContent</span>;');
+    lines.push('<span class="cmt">// → "' + escHtml(matches[0].textContent.trim().substring(0, 40)) + '"</span>');
+    lines.push('');
+    lines.push('el.<span class="prop">tagName</span>;');
+    lines.push('<span class="cmt">// → "' + matches[0].tagName + '"</span>');
+  } else {
+    lines.push('<span class="cmt">// Selecciona ' + m + ' elementos</span>');
+    lines.push('<span class="kw">const</span> els = document.<span class="fn">querySelectorAll</span>(<span class="str">\'' + escHtml(sel) + '\'</span>);');
+    lines.push('');
+    lines.push('els.<span class="prop">length</span>;  <span class="cmt">// ' + m + '</span>');
+    lines.push('');
+    lines.push('<span class="cmt">// Iterar:</span>');
+    lines.push('els.<span class="fn">forEach</span>(el => {');
+    lines.push('  el.<span class="prop">textContent</span>;');
+    lines.push('});');
+  }
+
+  jsOutput.innerHTML = lines.join('\n');
+}
+
+function executeAction(action) {
+  var sel = selectorInput.value.trim();
+  if (!sel) return;
+
+  var matches = [];
+  try { matches = Array.from(miniDom.querySelectorAll(sel)); } catch(e) { return; }
+  if (matches.length === 0) return;
+
+  var actionLines = [];
+
+  if (action === 'text') {
+    var newText = 'Modificado [' + Date.now() % 1000 + ']';
+    matches.forEach(function(el, i) {
+      if (i === 0) {
+        saveState('textContent', el, el.textContent);
+        el.textContent = newText;
+      }
+    });
+    actionLines.push('');
+    actionLines.push('<span class="cmt">// Accion: cambiar textContent</span>');
+    actionLines.push(matches[0] === matches[matches.length-1]
+      ? 'el.<span class="prop">textContent</span> = <span class="str">\'' + newText + '\'</span>;'
+      : 'els.<span class="fn">forEach</span>(el => el.<span class="prop">textContent</span> = <span class="str">\'' + newText + '\'</span>);');
+  }
+
+  else if (action === 'class') {
+    var colors = ['#f59e0b','#ec4899','#22c55e','#8b5cf6','#06b6d4'];
+    var className = 'highlight-flash';
+    matches.forEach(function(el) {
+      el.classList.add(className);
+      var c = colors[Math.floor(Math.random() * colors.length)];
+      el.style.outlineColor = c;
+      el.style.outline = '2px solid ' + c;
+      setTimeout(function() { el.style.outline = ''; }, 1500);
+    });
+    actionLines.push('');
+    actionLines.push('<span class="cmt">// Accion: agregar clase</span>');
+    actionLines.push('el.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">\'mi-clase\'</span>);');
+  }
+
+  else if (action === 'style') {
+    var bgs = ['rgba(88,166,255,.15)','rgba(63,185,80,.15)','rgba(248,81,73,.15)','rgba(245,158,11,.15)'];
+    matches.forEach(function(el) {
+      saveState('style', el, el.style.background);
+      el.style.background = bgs[Math.floor(Math.random() * bgs.length)];
+      el.style.borderRadius = '4px';
+    });
+    actionLines.push('');
+    actionLines.push('<span class="cmt">// Accion: cambiar estilo</span>');
+    actionLines.push('el.<span class="prop">style</span>.<span class="prop">background</span> = <span class="str">\'rgba(88,166,255,.15)\'</span>;');
+  }
+
+  else if (action === 'toggle') {
+    matches.forEach(function(el) {
+      var prev = el.style.display;
+      saveState('display', el, prev);
+      el.style.display = (el.style.display === 'none') ? '' : 'none';
+    });
+    actionLines.push('');
+    actionLines.push('<span class="cmt">// Accion: toggle visibilidad</span>');
+    actionLines.push('el.<span class="prop">style</span>.<span class="prop">display</span> = el.<span class="prop">style</span>.<span class="prop">display</span> === <span class="str">\'none\'</span> ? <span class="str">\'\'</span> : <span class="str">\'none\'</span>;');
+  }
+
+  else if (action === 'clone') {
+    var parent = matches[0].parentNode;
+    if (parent && matches.length <= 3) {
+      matches.forEach(function(el) {
+        var clone = el.cloneNode(true);
+        clone.style.opacity = '0.6';
+        parent.appendChild(clone);
+      });
+    }
+    actionLines.push('');
+    actionLines.push('<span class="cmt">// Accion: clonar elemento</span>');
+    actionLines.push('<span class="kw">const</span> clone = el.<span class="fn">cloneNode</span>(<span class="val">true</span>);');
+    actionLines.push('el.<span class="prop">parentNode</span>.<span class="fn">appendChild</span>(clone);');
+  }
+
+  else if (action === 'remove') {
+    matches.forEach(function(el) {
+      saveState('remove', el, el.parentNode, el);
+      el.style.opacity = '0';
+      el.style.transform = 'scale(0.8)';
+      el.style.transition = 'all .3s';
+      setTimeout(function() { el.remove(); }, 300);
+    });
+    actionLines.push('');
+    actionLines.push('<span class="cmt">// Accion: eliminar elemento</span>');
+    actionLines.push('el.<span class="fn">remove</span>();');
+  }
+
+  else if (action === 'attr') {
+    if (matches.length === 1) {
+      var el = matches[0];
+      var attrs = [];
+      if (el.id) attrs.push('id="' + el.id + '"');
+      if (el.className && el.className !== 'highlight') attrs.push('class="' + el.className.replace('highlight','').trim() + '"');
+      if (el.getAttribute('data-id')) attrs.push('data-id="' + el.getAttribute('data-id') + '"');
+      if (el.getAttribute('type')) attrs.push('type="' + el.getAttribute('type') + '"');
+      if (el.getAttribute('placeholder')) attrs.push('placeholder="' + el.getAttribute('placeholder') + '"');
+
+      actionLines.push('');
+      actionLines.push('<span class="cmt">// Atributos del elemento:</span>');
+      actionLines.push('<span class="insp-tag">&lt;' + el.tagName.toLowerCase() + '</span>');
+      attrs.forEach(function(a) {
+        actionLines.push('  <span class="insp-attr">' + a + '</span>');
+      });
+      actionLines.push('<span class="insp-tag">&gt;</span>');
+    }
+  }
+
+  // Append to JS output
+  var existing = jsOutput.innerHTML;
+  jsOutput.innerHTML = existing + actionLines.join('\n');
+  setTimeout(resize, 100);
+}
+
+var undoStack = [];
+
+function saveState(type, el, oldVal, parent) {
+  undoStack.push({ type: type, el: el, oldVal: oldVal, parent: parent });
+  if (undoStack.length > 20) undoStack.shift();
+}
+
+document.getElementById('btnUndo').addEventListener('click', function() {
+  if (undoStack.length === 0) return;
+  var state = undoStack.pop();
+  if (state.type === 'textContent') {
+    state.el.textContent = state.oldVal;
+  } else if (state.type === 'style' || state.type === 'display') {
+    state.el.style.background = state.oldVal;
+    state.el.style.display = state.oldVal;
+  }
+  runSelector();
+  setTimeout(resize, 50);
+});
+
+document.getElementById('btnReset').addEventListener('click', function() {
+  actionHistory = [];
+  undoStack = [];
+  selectorInput.value = '';
+  miniDom.innerHTML = getOriginalDOM();
+  clearHighlights();
+  methodName.textContent = '—';
+  matchCount.textContent = '0';
+  jsOutput.innerHTML = '<span class="cmt">// DOM reseteado</span>';
+  bindDomEvents();
+  setTimeout(resize, 50);
+});
+
+function getOriginalDOM() {
+  return '<nav class="nav-bar"><span class="nav-brand">WebForge</span><span>Inicio</span><span>Cursos</span><span>Blog</span></nav><h2>Titulo principal</h2><p>Parrafo de introduccion con texto de ejemplo.</p><div class="card" data-id="card-1"><div class="card-title">Card 1 <span class="badge">nuevo</span></div><p class="card-text">Descripcion de la primera card del listado.</p><button class="btn primary">Ver mas</button></div><div class="card" data-id="card-2"><div class="card-title">Card 2</div><p class="card-text">Descripcion de la segunda card del listado.</p><button class="btn">Ver mas</button></div><div class="card" data-id="card-3"><div class="card-title">Card 3 <span class="badge">popular</span></div><p class="card-text">Descripcion de la tercera card del listado.</p><button class="btn">Ver mas</button></div><h3>Lista de temas</h3><ul><li>HTML basico</li><li>CSS y Flexbox</li><li>JavaScript DOM</li><li>Responsive Design</li></ul><div><input type="text" placeholder="Buscar..." data-id="search-input"></div><div class="footer"><p>Copyright 2026 WebForge</p></div>';
+}
+
+function inspectElement(el) {
+  var tag = el.tagName.toLowerCase();
+  var parts = ['<span class="insp-tag">&lt;' + tag + '</span>'];
+
+  if (el.id) parts.push(' <span class="insp-attr">id</span>=<span class="insp-val">"' + el.id + '"</span>');
+
+  var cls = el.className.replace(/highlight/g, '').replace(/highlight-flash/g, '').trim();
+  if (cls) parts.push(' <span class="insp-attr">class</span>=<span class="insp-val">"' + cls + '"</span>');
+
+  if (el.getAttribute('data-id')) parts.push(' <span class="insp-attr">data-id</span>=<span class="insp-val">"' + el.getAttribute('data-id') + '"</span>');
+
+  if (el.tagName === 'INPUT') {
+    parts.push(' <span class="insp-attr">type</span>=<span class="insp-val">"' + (el.type || 'text') + '"</span>');
+  }
+
+  parts.push('<span class="insp-tag">&gt;</span>');
+  parts.push(' <span style="color:#484f58">→</span> <span class="insp-val">' + escHtml(el.textContent.trim().substring(0, 50)) + '</span>');
+
+  inspector.innerHTML = parts.join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function bindDomEvents() {
+  // Re-bind click for auto-select
+}
+
+// Auto-resize iframe to fit content
+function resize() {
+  var h = document.body.scrollHeight;
+  if (window.parent && window.parent.postMessage) {
+    window.parent.postMessage({ type: 'demo-resize', height: h }, '*');
+  }
+}
+
+new MutationObserver(resize).observe(document.body, { childList: true, subtree: true, attributes: true });
+window.addEventListener('resize', resize);
+
+setTimeout(resize, 100);
+</script>
+
+</body>
+</html>
