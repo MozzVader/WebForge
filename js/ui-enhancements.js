@@ -387,6 +387,30 @@ const initMiniDemos = () => {
     });
 };
 
+// === Demo Embed: auto-resize iframes ===
+const initDemoEmbeds = () => {
+    const embeds = document.querySelectorAll('.demo-embed iframe');
+    if (!embeds.length) return;
+
+    const resizeIframe = (iframe, height) => {
+        iframe.style.height = Math.min(Math.max(height, 300), 700) + 'px';
+    };
+
+    window.addEventListener('message', (e) => {
+        if (e.data?.type === 'demo-resize' && e.data.height) {
+            embeds.forEach(iframe => {
+                try {
+                    if (iframe.contentWindow === e.source) {
+                        resizeIframe(iframe, e.data.height);
+                    }
+                } catch (err) {
+                    // Cross-origin — ignore
+                }
+            });
+        }
+    });
+};
+
 // === Page Transitions ===
 const initPageTransitions = () => {
     const DURATION = 150; // ms — keep it snappy
@@ -428,5 +452,6 @@ document.addEventListener('components:loaded', () => {
     initHeadingCopy();
     initTocFab();
     initMiniDemos();
+    initDemoEmbeds();
     initPageTransitions();
 });

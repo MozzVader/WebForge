@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flexbox Playground</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:#0d1117;
+  color:#e6edf3;
+  padding:16px;
+  overflow-x:hidden;
+}
+
+/* --- Controls --- */
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.control-group{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  flex:1 1 130px;
+  min-width:120px;
+}
+
+.control-group label{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  color:#8b949e;
+  font-weight:600;
+}
+
+.control-group select{
+  background:#161b22;
+  color:#e6edf3;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:7px 8px;
+  font-size:13px;
+  font-family:'JetBrains Mono',monospace;
+  cursor:pointer;
+  outline:none;
+  transition:border-color .2s;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 8px center;
+  padding-right:26px;
+}
+
+.control-group select:focus{
+  border-color:#58a6ff;
+}
+
+/* --- Live CSS Output --- */
+.css-output{
+  background:#161b22;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:10px 14px;
+  margin-bottom:14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:#8b949e;
+  line-height:1.7;
+  overflow-x:auto;
+  white-space:pre;
+}
+
+.css-output .prop{color:#79c0ff}
+.css-output .val{color:#a5d6ff}
+.css-output .brace{color:#8b949e}
+
+/* --- Playground Area --- */
+.playground{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items:stretch;
+  flex-wrap:nowrap;
+  gap:0px;
+  min-height:220px;
+  padding:16px;
+  background:#161b22;
+  border:2px dashed #30363d;
+  border-radius:8px;
+  transition:all .3s ease;
+  position:relative;
+}
+
+.playground::before{
+  content:'.container';
+  position:absolute;
+  top:-10px;
+  left:12px;
+  background:#0d1117;
+  padding:0 6px;
+  font-size:10px;
+  color:#484f58;
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* --- Flex Items --- */
+.item{
+  width:60px;
+  min-height:40px;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:14px;
+  color:#fff;
+  flex-shrink:0;
+  transition:all .3s ease;
+  user-select:none;
+}
+
+.item:nth-child(1){background:#3b82f6;height:50px}
+.item:nth-child(2){background:#8b5cf6;height:80px}
+.item:nth-child(3){background:#ec4899;height:45px}
+.item:nth-child(4){background:#f59e0b;height:100px}
+.item:nth-child(5){background:#22c55e;height:60px}
+.item:nth-child(6){background:#06b6d4;height:70px}
+.item:nth-child(7){background:#f43f5e;height:55px}
+.item:nth-child(8){background:#84cc16;height:90px}
+
+/* --- Action Buttons --- */
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+
+.btn{
+  background:#21262d;
+  color:#e6edf3;
+  border:1px solid #30363d;
+  border-radius:6px;
+  padding:6px 14px;
+  font-size:12px;
+  font-family:'Inter',system-ui,sans-serif;
+  cursor:pointer;
+  transition:all .2s;
+}
+
+.btn:hover{
+  background:#30363d;
+  border-color:#58a6ff;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="control-group">
+    <label>flex-direction</label>
+    <select id="fd">
+      <option value="row" selected>row</option>
+      <option value="column">column</option>
+      <option value="row-reverse">row-reverse</option>
+      <option value="column-reverse">column-reverse</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label>justify-content</label>
+    <select id="jc">
+      <option value="flex-start" selected>flex-start</option>
+      <option value="flex-end">flex-end</option>
+      <option value="center">center</option>
+      <option value="space-between">space-between</option>
+      <option value="space-around">space-around</option>
+      <option value="space-evenly">space-evenly</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label>align-items</label>
+    <select id="ai">
+      <option value="stretch" selected>stretch</option>
+      <option value="flex-start">flex-start</option>
+      <option value="flex-end">flex-end</option>
+      <option value="center">center</option>
+      <option value="baseline">baseline</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label>flex-wrap</label>
+    <select id="fw">
+      <option value="nowrap" selected>nowrap</option>
+      <option value="wrap">wrap</option>
+      <option value="wrap-reverse">wrap-reverse</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label>gap</label>
+    <select id="gp">
+      <option value="0px" selected>0</option>
+      <option value="8px">8px</option>
+      <option value="16px">16px</option>
+      <option value="24px">24px</option>
+    </select>
+  </div>
+</div>
+
+<div class="css-output" id="cssOutput"></div>
+
+<div class="playground" id="playground">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+  <div class="item">5</div>
+</div>
+
+<div class="actions">
+  <button class="btn" id="addItem">+ Item</button>
+  <button class="btn" id="removeItem">&minus; Item</button>
+  <button class="btn" id="reset">Reset</button>
+</div>
+
+<script>
+const playground = document.getElementById('playground');
+const cssOutput = document.getElementById('cssOutput');
+const fd = document.getElementById('fd');
+const jc = document.getElementById('jc');
+const ai = document.getElementById('ai');
+const fw = document.getElementById('fw');
+const gp = document.getElementById('gp');
+
+let itemCount = 5;
+
+const colors = ['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#22c55e','#06b6d4','#f43f5e','#84cc16'];
+const heights = [50,80,45,100,60,70,55,90];
+
+function update() {
+  playground.style.flexDirection = fd.value;
+  playground.style.justifyContent = jc.value;
+  playground.style.alignItems = ai.value;
+  playground.style.flexWrap = fw.value;
+  playground.style.gap = gp.value;
+
+  cssOutput.innerHTML =
+    '<span class="brace">.container {</span>\n' +
+    '  <span class="prop">display</span>: <span class="val">flex</span>;\n' +
+    '  <span class="prop">flex-direction</span>: <span class="val">' + fd.value + '</span>;\n' +
+    '  <span class="prop">justify-content</span>: <span class="val">' + jc.value + '</span>;\n' +
+    '  <span class="prop">align-items</span>: <span class="val">' + ai.value + '</span>;\n' +
+    '  <span class="prop">flex-wrap</span>: <span class="val">' + fw.value + '</span>;\n' +
+    '  <span class="prop">gap</span>: <span class="val">' + gp.value + '</span>;\n' +
+    '<span class="brace">}</span>';
+}
+
+[fd, jc, ai, fw, gp].forEach(function(s) {
+  s.addEventListener('change', update);
+});
+
+function createItem(index) {
+  var div = document.createElement('div');
+  div.className = 'item';
+  div.textContent = index + 1;
+  return div;
+}
+
+document.getElementById('addItem').addEventListener('click', function() {
+  if (itemCount >= 12) return;
+  playground.appendChild(createItem(itemCount));
+  itemCount++;
+});
+
+document.getElementById('removeItem').addEventListener('click', function() {
+  if (itemCount <= 1) return;
+  playground.removeChild(playground.lastChild);
+  itemCount--;
+});
+
+document.getElementById('reset').addEventListener('click', function() {
+  fd.value = 'row';
+  jc.value = 'flex-start';
+  ai.value = 'stretch';
+  fw.value = 'nowrap';
+  gp.value = '0px';
+
+  playground.innerHTML = '';
+  itemCount = 5;
+  for (var i = 0; i < 5; i++) {
+    playground.appendChild(createItem(i));
+  }
+  update();
+});
+
+// Auto-resize iframe to fit content
+function resize() {
+  var h = document.body.scrollHeight;
+  if (window.parent && window.parent.postMessage) {
+    window.parent.postMessage({ type: 'demo-resize', height: h }, '*');
+  }
+}
+
+new MutationObserver(resize).observe(document.body, { childList: true, subtree: true, attributes: true });
+window.addEventListener('resize', resize);
+
+update();
+setTimeout(resize, 100);
+</script>
+
+</body>
+</html>
