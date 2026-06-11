@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multimedia Playground</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--fg:#e6edf3;--muted:#8b949e;--accent:#58a6ff;--green:#3fb950;--red:#f85149;--orange:#d29922;--purple:#bc8cff;--pink:#f778ba;--cyan:#39d2c0}
+  body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-serif;font-size:13px;padding:12px;overflow-x:hidden}
+
+  .tabs{display:flex;gap:2px;margin-bottom:12px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{padding:8px 14px;background:transparent;border:none;color:var(--muted);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s}
+  .tab:hover{color:var(--fg)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none}.panel.active{display:block}
+
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;min-height:32px}
+  .controls label{font-size:11px;color:var(--muted);font-weight:500}
+  .ctrl-select{background:var(--card);border:1px solid var(--border);color:var(--fg);padding:4px 8px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer}
+  .ctrl-btn{background:var(--card);border:1px solid var(--border);color:var(--fg);padding:4px 10px;border-radius:6px;font-size:11px;font-family:inherit;cursor:pointer;transition:all .15s}
+  .ctrl-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .ctrl-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .ctrl-btn.primary:hover{background:#79c0ff}
+  .ctrl-btn:disabled{opacity:.4;cursor:not-allowed}
+
+  .playground{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;min-height:120px}
+
+  .code-output{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.6;color:var(--muted);max-height:150px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
+  .code-output .kw{color:var(--purple)}.code-output .fn{color:var(--accent)}.code-output .str{color:#a5d6ff}.code-output .cmt{color:#484f58;font-style:italic}.code-output .num{color:var(--orange)}.code-output .tag{color:var(--green)}.code-output .attr{color:var(--cyan)}.code-output .val{color:#a5d6ff}
+
+  .attr-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+  .attr-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;cursor:pointer;transition:all .15s;user-select:none}
+  .attr-card:hover{border-color:var(--accent)}
+  .attr-card.active{border-color:var(--accent);background:rgba(88,166,255,.08)}
+  .attr-card .attr-name{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);font-weight:500}
+  .attr-card .attr-desc{font-size:10px;color:var(--muted);margin-top:2px}
+
+  .video-preview{position:relative;background:#000;border-radius:6px;overflow:hidden;aspect-ratio:16/9;max-height:220px;display:flex;align-items:center;justify-content:center}
+  .video-preview .poster{position:absolute;inset:0;background:linear-gradient(135deg,#1a1e2e,#0d1117);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:opacity .3s}
+  .video-preview .poster.hidden{opacity:0;pointer-events:none}
+  .video-preview .play-icon{width:48px;height:48px;background:rgba(88,166,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s}
+  .video-preview .play-icon:hover{transform:scale(1.1)}
+  .video-preview .play-icon svg{fill:#fff;width:20px;height:20px;margin-left:2px}
+  .video-preview .poster-label{font-size:11px;color:var(--muted)}
+  .video-preview .progress{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);border-radius:0 0 0 6px;transition:width .1s linear}
+  .video-preview .controls-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:8px 10px;display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .2s}
+  .video-preview:hover .controls-bar{opacity:1}
+  .video-preview .time{font-family:'JetBrains Mono',monospace;font-size:10px;color:#ccc}
+  .video-preview .volume-bar{width:50px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;cursor:pointer}
+  .video-preview .volume-fill{height:100%;background:#fff;border-radius:2px}
+  .video-attr-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+  .badge{padding:2px 8px;border-radius:10px;font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:500}
+  .badge.active{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+  .badge.inactive{background:rgba(139,148,158,.08);color:var(--muted);border:1px solid transparent}
+
+  /* Audio */
+  .audio-viz{display:flex;align-items:flex-end;gap:3px;height:80px;padding:12px;background:var(--bg);border-radius:6px;margin-bottom:10px}
+  .audio-bar{width:4px;background:var(--accent);border-radius:2px 2px 0 0;transition:height .1s ease;min-height:4px}
+  .audio-bar.playing{animation:audioPulse .4s ease-in-out infinite alternate}
+  @keyframes audioPulse{0%{transform:scaleY(1)}100%{transform:scaleY(.3)}}
+  .audio-controls{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:6px;padding:10px}
+  .audio-play-btn{width:36px;height:36px;border-radius:50%;background:var(--accent);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .1s}
+  .audio-play-btn:hover{transform:scale(1.05)}
+  .audio-play-btn svg{fill:#fff;width:14px;height:14px}
+  .audio-play-btn svg.pause-icon{display:none}
+  .audio-play-btn.playing svg.play-icon{display:none}
+  .audio-play-btn.playing svg.pause-icon{display:block}
+  .audio-progress{flex:1;height:4px;background:var(--border);border-radius:2px;cursor:pointer;position:relative}
+  .audio-progress-fill{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width .1s linear}
+  .audio-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);min-width:32px}
+  .audio-format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+  .format-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center;transition:all .15s;cursor:pointer}
+  .format-card:hover{border-color:var(--accent)}
+  .format-card.active{border-color:var(--accent);background:rgba(88,166,255,.06)}
+  .format-card .fmt-name{font-weight:600;font-size:12px}
+  .format-card .fmt-desc{font-size:10px;color:var(--muted);margin-top:2px}
+  .format-card .fmt-badge{display:inline-block;margin-top:4px;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:600}
+
+  /* Picture */
+  .picture-preview{display:flex;align-items:center;justify-content:center;min-height:140px;position:relative;border-radius:6px;overflow:hidden}
+  .picture-frame{border:2px dashed var(--border);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;transition:all .3s}
+  .picture-frame.active{border-color:var(--accent);border-style:solid}
+  .picture-frame svg{opacity:.3}
+  .picture-frame .pf-label{font-size:11px;color:var(--muted)}
+  .picture-frame .pf-size{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent)}
+  .picture-match{display:flex;gap:8px;margin-top:8px}
+  .picture-match .pm-item{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;text-align:center}
+  .picture-match .pm-item.hit{border-color:var(--green);color:var(--green)}
+  .picture-match .pm-item.miss{border-color:var(--border);color:var(--muted)}
+  .picture-match .pm-item .pm-query{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+  .picture-match .pm-item .pm-file{font-weight:500;margin-top:2px}
+  .picture-match .pm-item.hit .pm-file{color:var(--green)}
+
+  /* Canvas */
+  .canvas-area{display:flex;gap:10px;align-items:flex-start}
+  .canvas-wrap{flex:1;background:#000;border-radius:6px;overflow:hidden}
+  .canvas-wrap canvas{display:block;width:100%}
+  .canvas-tools{display:flex;flex-direction:column;gap:6px;min-width:120px}
+  .canvas-tool{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;cursor:pointer;transition:all .15s;font-size:11px}
+  .canvas-tool:hover{border-color:var(--accent)}
+  .canvas-tool.active{border-color:var(--accent);background:rgba(88,166,255,.08)}
+  .canvas-tool svg{width:14px;height:14px;flex-shrink:0}
+  .color-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .color-swatch{width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:all .1s}
+  .color-swatch.active{border-color:#fff;transform:scale(1.15)}
+
+  /* SVG */
+  .svg-preview{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;display:flex;align-items:center;justify-content:center;min-height:140px}
+  .svg-preview svg{transition:all .3s}
+  .svg-shapes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .svg-shape-btn{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px;cursor:pointer;text-align:center;transition:all .15s;font-size:11px;color:var(--muted)}
+  .svg-shape-btn:hover{border-color:var(--accent);color:var(--fg)}
+  .svg-shape-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(88,166,255,.06)}
+  .svg-props{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+  .svg-prop{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px}
+  .svg-prop label{font-size:10px;color:var(--muted);min-width:40px;font-family:'JetBrains Mono',monospace}
+  .svg-prop input{background:transparent;border:none;color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:11px;width:50px;outline:none}
+  .svg-prop input[type="color"]{width:24px;height:20px;padding:0;border:none;background:transparent;cursor:pointer}
+
+  @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .animate-in{animation:fadeSlide .25s ease}
+</style>
+</head>
+<body>
+
+<div class="tabs" id="tabs">
+  <button class="tab active" data-tab="video">Video</button>
+  <button class="tab" data-tab="audio">Audio</button>
+  <button class="tab" data-tab="picture">Picture</button>
+  <button class="tab" data-tab="canvas">Canvas</button>
+  <button class="tab" data-tab="svg">SVG</button>
+</div>
+
+<!-- ===== VIDEO TAB ===== -->
+<div class="panel active" id="panel-video">
+  <div class="controls">
+    <label>Atributos:</label>
+  </div>
+  <div class="attr-grid" id="video-attrs">
+    <div class="attr-card active" data-attr="controls"><span class="attr-name">controls</span><div class="attr-desc">Muestra controles de reproducci&oacute;n nativos</div></div>
+    <div class="attr-card" data-attr="autoplay"><span class="attr-name">autoplay</span><div class="attr-desc">Reproduce autom&aacute;ticamente</div></div>
+    <div class="attr-card" data-attr="muted"><span class="attr-name">muted</span><div class="attr-desc">Silencia el audio (necesario para autoplay)</div></div>
+    <div class="attr-card" data-attr="loop"><span class="attr-name">loop</span><div class="attr-desc">Repite indefinidamente</div></div>
+    <div class="attr-card" data-attr="poster"><span class="attr-name">poster</span><div class="attr-desc">Imagen de portada antes de reproducir</div></div>
+    <div class="attr-card" data-attr="playsinline"><span class="attr-name">playsinline</span><div class="attr-desc">No fullscreen en iOS</div></div>
+  </div>
+  <div class="playground">
+    <div class="video-preview" id="video-preview">
+      <div class="poster" id="video-poster">
+        <div class="play-icon" id="video-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="poster-label" id="poster-label">poster="hero.jpg"</div>
+      </div>
+      <div class="progress" id="video-progress" style="width:0"></div>
+      <div class="controls-bar" id="video-ctrl-bar">
+        <div class="play-icon" style="width:24px;height:24px;cursor:pointer" id="video-ctrl-play">
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:#fff"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="time" id="video-time">0:00 / 3:24</div>
+        <div style="flex:1"></div>
+        <div class="volume-bar"><div class="volume-fill" style="width:70%"></div></div>
+      </div>
+    </div>
+    <div class="video-attr-badges" id="video-badges"></div>
+  </div>
+  <div class="code-output" id="video-code"></div>
+</div>
+
+<!-- ===== AUDIO TAB ===== -->
+<div class="panel" id="panel-audio">
+  <div class="controls">
+    <label>Formato:</label>
+    <select class="ctrl-select" id="audio-format">
+      <option value="mp3">MP3</option>
+      <option value="ogg">Ogg Vorbis</option>
+      <option value="aac">AAC</option>
+      <option value="wav">WAV</option>
+    </select>
+    <label style="margin-left:8px">Atributos:</label>
+  </div>
+  <div class="attr-grid" id="audio-attrs" style="grid-template-columns:repeat(4,1fr)">
+    <div class="attr-card active" data-attr="controls"><span class="attr-name">controls</span><div class="attr-desc">Controles nativos</div></div>
+    <div class="attr-card" data-attr="autoplay"><span class="attr-name">autoplay</span><div class="attr-desc">Auto-reproducir</div></div>
+    <div class="attr-card" data-attr="loop"><span class="attr-name">loop</span><div class="attr-desc">Repetir</div></div>
+    <div class="attr-card" data-attr="muted"><span class="attr-name">muted</span><div class="attr-desc">Silenciado</div></div>
+  </div>
+  <div class="playground">
+    <div class="audio-viz" id="audio-viz"></div>
+    <div class="audio-controls">
+      <button class="audio-play-btn" id="audio-play-btn">
+        <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pause-icon" viewBox="0 0 24 24" fill="#fff"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+      </button>
+      <div class="audio-progress" id="audio-progress"><div class="audio-progress-fill" id="audio-progress-fill"></div></div>
+      <div class="audio-time" id="audio-time">0:00</div>
+    </div>
+    <div class="audio-format-grid" id="audio-format-info"></div>
+  </div>
+  <div class="code-output" id="audio-code"></div>
+</div>
+
+<!-- ===== PICTURE TAB ===== -->
+<div class="panel" id="panel-picture">
+  <div class="controls">
+    <label>Viewport:</label>
+    <input type="range" min="320" max="1440" value="375" id="pic-viewport" style="width:140px;accent-color:var(--accent)">
+    <span id="pic-vp-label" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);min-width:48px">375px</span>
+    <label style="margin-left:8px">Modo:</label>
+    <select class="ctrl-select" id="pic-mode">
+      <option value="artdir">Art Direction</option>
+      <option value="srcset">srcset + sizes</option>
+    </select>
+  </div>
+  <div class="playground">
+    <div class="picture-preview">
+      <div class="picture-frame" id="pic-frame">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+        <div class="pf-label" id="pic-label">Imagen adaptativa</div>
+        <div class="pf-size" id="pic-size">--</div>
+      </div>
+    </div>
+    <div class="picture-match" id="pic-match"></div>
+  </div>
+  <div class="code-output" id="picture-code"></div>
+</div>
+
+<!-- ===== CANVAS TAB ===== -->
+<div class="panel" id="panel-canvas">
+  <div class="controls">
+    <label>Herramienta:</label>
+  </div>
+  <div class="playground">
+    <div class="canvas-area">
+      <div class="canvas-wrap">
+        <canvas id="demo-canvas" width="400" height="220"></canvas>
+      </div>
+      <div class="canvas-tools" id="canvas-tools">
+        <div class="canvas-tool active" data-tool="rect">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          rect
+        </div>
+        <div class="canvas-tool" data-tool="circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+          arc
+        </div>
+        <div class="canvas-tool" data-tool="line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><line x1="4" y1="20" x2="20" y2="4"/></svg>
+          line
+        </div>
+        <div class="canvas-tool" data-tool="text">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 7V4h16v3"/><path d="M12 4v16"/><path d="M8 20h8"/></svg>
+          text
+        </div>
+        <div class="canvas-tool" data-tool="clear">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          clear
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px">Color:</div>
+          <div class="color-row" id="color-row"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="code-output" id="canvas-code"></div>
+</div>
+
+<!-- ===== SVG TAB ===== -->
+<div class="panel" id="panel-svg">
+  <div class="controls">
+    <label>Forma:</label>
+    <select class="ctrl-select" id="svg-shape">
+      <option value="rect">rect</option>
+      <option value="circle">circle</option>
+      <option value="ellipse">ellipse</option>
+      <option value="line">line</option>
+      <option value="polygon">polygon</option>
+      <option value="path">path</option>
+    </select>
+    <button class="ctrl-btn primary" id="svg-reset">Reset</button>
+  </div>
+  <div class="playground">
+    <div style="display:flex;gap:10px">
+      <div class="svg-preview" style="flex:1" id="svg-preview">
+        <svg id="svg-canvas" width="260" height="160" viewBox="0 0 260 160">
+          <rect x="30" y="20" width="200" height="120" rx="8" fill="#58a6ff"/>
+        </svg>
+      </div>
+      <div style="min-width:160px">
+        <div class="svg-props" id="svg-props"></div>
+        <div style="margin-top:8px">
+          <label style="font-size:10px;color:var(--muted)">viewBox</label>
+          <div style="display:flex;gap:4px;margin-top:4px">
+            <input type="text" id="svg-vb" value="0 0 260 160" style="background:var(--bg);border:1px solid var(--border);color:var(--fg);padding:4px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;width:100%;outline:none">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="code-output" id="svg-code"></div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+// Tab switching
+$$('.tab').forEach(t => t.addEventListener('click', () => {
+  $$('.tab').forEach(b => b.classList.remove('active'));
+  $$('.panel').forEach(p => p.classList.remove('active'));
+  t.classList.add('active');
+  $(`#panel-${t.dataset.tab}`).classList.add('active');
+  autoResize();
+}));
+
+function autoResize() { window.parent.postMessage({ type: 'demo-resize', height: document.documentElement.scrollHeight }, '*'); }
+new ResizeObserver(autoResize).observe(document.body);
+setTimeout(autoResize, 100);
+
+// =============================================
+// VIDEO TAB
+// =============================================
+const videoAttrs = { controls: true, autoplay: false, muted: false, loop: false, poster: false, playsinline: false };
+let videoPlaying = false, videoProgress = 0, videoInterval = null;
+
+function updateVideoCode() {
+  const attrs = Object.entries(videoAttrs).filter(([k,v]) => v).map(([k]) => k);
+  const hasAutoplay = videoAttrs.autoplay;
+  const hasMuted = videoAttrs.muted;
+  const hasPoster = videoAttrs.poster;
+  const warn = hasAutoplay && !hasMuted;
+
+  let html = '';
+  html += `<span class="tag">&lt;video</span>`;
+  if (attrs.length) html += '\n    ' + attrs.map(a =>
+    `<span class="attr">${a}</span>`
+  ).join('\n    ');
+  if (hasPoster) html += `\n    <span class="attr">poster</span>=<span class="val">"hero.jpg"</span>`;
+  html += `\n    <span class="attr">width</span>=<span class="val">"1280"</span> <span class="attr">height</span>=<span class="val">"720"</span>`;
+  html += `\n<span class="tag">&gt;</span>`;
+  html += `\n    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="val">"video.mp4"</span> <span class="attr">type</span>=<span class="val">"video/mp4"</span><span class="tag">&gt;</span>`;
+  html += `\n    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="val">"video.webm"</span> <span class="attr">type</span>=<span class="val">"video/webm"</span><span class="tag">&gt;</span>`;
+  html += `\n<span class="tag">&lt;/video&gt;</span>`;
+  if (warn) html += `\n\n<span class="cmt">// ⚠️ autoplay sin muted → bloqueado en la mayoría de navegadores</span>`;
+
+  $('#video-code').innerHTML = html;
+
+  // Badges
+  const badges = ['controls','autoplay','muted','loop','poster','playsinline'];
+  $('#video-badges').innerHTML = badges.map(b =>
+    `<span class="badge ${videoAttrs[b] ? 'active' : 'inactive'}">${videoAttrs[b] ? '✓ ' : ''}${b}</span>`
+  ).join('');
+
+  // Poster visibility
+  if (hasPoster) {
+    $('#video-poster').classList.remove('hidden');
+    $('#poster-label').style.display = '';
+  } else {
+    if (!videoPlaying) {
+      $('#video-poster').classList.remove('hidden');
+      $('#poster-label').style.display = 'none';
+    }
+  }
+
+  autoResize();
+}
+
+$$('#video-attrs .attr-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const attr = card.dataset.attr;
+    videoAttrs[attr] = !videoAttrs[attr];
+    card.classList.toggle('active');
+    // Auto-mute when autoplay is on
+    if (attr === 'autoplay' && videoAttrs.autoplay && !videoAttrs.muted) {
+      videoAttrs.muted = true;
+      $('[data-attr="muted"]').classList.add('active');
+    }
+    updateVideoCode();
+  });
+});
+
+function toggleVideoPlay() {
+  videoPlaying = !videoPlaying;
+  const btn = $('#video-play-btn');
+  const poster = $('#video-poster');
+  if (videoPlaying) {
+    poster.classList.add('hidden');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="fill:#fff;width:20px;height:20px"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>';
+    videoInterval = setInterval(() => {
+      videoProgress = Math.min(100, videoProgress + 0.5);
+      $('#video-progress').style.width = videoProgress + '%';
+      const elapsed = Math.floor(videoProgress * 2.04);
+      const m = Math.floor(elapsed / 60);
+      const s = elapsed % 60;
+      $('#video-time').textContent = `${m}:${String(s).padStart(2,'0')} / 3:24`;
+      if (videoProgress >= 100) {
+        if (videoAttrs.loop) { videoProgress = 0; }
+        else { toggleVideoPlay(); videoProgress = 0; }
+      }
+    }, 100);
+  } else {
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+    poster.classList.remove('hidden');
+    clearInterval(videoInterval);
+  }
+  autoResize();
+}
+
+$('#video-play-btn').addEventListener('click', toggleVideoPlay);
+$('#video-ctrl-play').addEventListener('click', toggleVideoPlay);
+updateVideoCode();
+
+// =============================================
+// AUDIO TAB
+// =============================================
+const audioAttrs = { controls: true, autoplay: false, loop: false, muted: false };
+let audioPlaying = false, audioProgress = 0, audioInterval = null;
+const formatData = {
+  mp3: { name: 'MP3', mime: 'audio/mpeg', compat: '100%', quality: 'Buena', size: '3.2 MB', badge: 'Universal', badgeColor: 'var(--green)', desc: 'Compatible con todo' },
+  ogg: { name: 'Ogg Vorbis', mime: 'audio/ogg', compat: '95%', quality: 'Buena+', size: '2.8 MB', badge: 'Open Source', badgeColor: 'var(--cyan)', desc: 'Libre, mejor calidad' },
+  aac: { name: 'AAC', mime: 'audio/aac', compat: '98%', quality: 'Mejor', size: '3.0 MB', badge: 'Estándar', badgeColor: 'var(--purple)', desc: 'Mejor que MP3 a mismo bitrate' },
+  wav: { name: 'WAV', mime: 'audio/wav', compat: '100%', quality: 'Lossless', size: '32 MB', badge: 'Sin pérdida', badgeColor: 'var(--orange)', desc: 'Sin compresión, muy pesado' },
+};
+
+function initAudioViz() {
+  const viz = $('#audio-viz');
+  viz.innerHTML = '';
+  for (let i = 0; i < 40; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'audio-bar';
+    bar.style.height = (Math.random() * 60 + 10) + 'px';
+    bar.style.animationDelay = (Math.random() * 0.5) + 's';
+    viz.appendChild(bar);
+  }
+}
+initAudioViz();
+
+function updateAudioCode() {
+  const fmt = $('#audio-format').value;
+  const f = formatData[fmt];
+  const attrs = Object.entries(audioAttrs).filter(([k,v]) => v).map(([k]) => k);
+  const warn = audioAttrs.autoplay && !audioAttrs.muted;
+
+  let html = `<span class="tag">&lt;audio</span>`;
+  if (attrs.length) html += ' ' + attrs.map(a => `<span class="attr">${a}</span>`).join(' ');
+  html += `<span class="tag">&gt;</span>\n`;
+  html += `    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="val">"podcast.${fmt}"</span> <span class="attr">type</span>=<span class="val">"${f.mime}"</span><span class="tag">&gt;</span>\n`;
+  html += `    Tu navegador no soporta audio HTML5.\n`;
+  html += `<span class="tag">&lt;/audio&gt;</span>`;
+  if (warn) html += `\n\n<span class="cmt">// ⚠️ autoplay sin muted → bloqueado en la mayoría de navegadores</span>`;
+
+  $('#audio-code').innerHTML = html;
+
+  // Format info
+  const others = Object.entries(formatData).filter(([k]) => k !== fmt);
+  $('#audio-format-info').innerHTML = others.map(([k, v]) =>
+    `<div class="format-card"><div class="fmt-name">${v.name}</div><div class="fmt-desc">${v.desc}</div><span class="fmt-badge" style="background:${v.badgeColor}22;color:${v.badgeColor}">${v.compat}</span></div>`
+  ).join('');
+
+  autoResize();
+}
+
+$$('#audio-attrs .attr-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const attr = card.dataset.attr;
+    audioAttrs[attr] = !audioAttrs[attr];
+    card.classList.toggle('active');
+    if (attr === 'autoplay' && audioAttrs.autoplay && !audioAttrs.muted) {
+      audioAttrs.muted = true;
+      $('[data-attr="muted"]').classList.add('active');
+    }
+    updateAudioCode();
+  });
+});
+
+$('#audio-format').addEventListener('change', updateAudioCode);
+
+function toggleAudio() {
+  audioPlaying = !audioPlaying;
+  const btn = $('#audio-play-btn');
+  btn.classList.toggle('playing', audioPlaying);
+  $$('#audio-viz .audio-bar').forEach(b => b.classList.toggle('playing', audioPlaying));
+
+  if (audioPlaying) {
+    audioInterval = setInterval(() => {
+      audioProgress = Math.min(100, audioProgress + 0.3);
+      $('#audio-progress-fill').style.width = audioProgress + '%';
+      const elapsed = Math.floor(audioProgress * 1.5);
+      const m = Math.floor(elapsed / 60);
+      const s = elapsed % 60;
+      $('#audio-time').textContent = `${m}:${String(s).padStart(2,'0')}`;
+      // Randomize bars
+      $$('#audio-viz .audio-bar').forEach(b => {
+        b.style.height = (Math.random() * 60 + 10) + 'px';
+      });
+      if (audioProgress >= 100) {
+        if (audioAttrs.loop) { audioProgress = 0; }
+        else { toggleAudio(); audioProgress = 0; }
+      }
+    }, 100);
+  } else {
+    clearInterval(audioInterval);
+  }
+}
+
+$('#audio-play-btn').addEventListener('click', toggleAudio);
+updateAudioCode();
+
+// =============================================
+// PICTURE TAB
+// =============================================
+const artDirSources = [
+  { media: '(min-width: 1024px)', file: 'hero-panoramic.avif', type: 'image/avif', w: 1920, h: 640, label: 'Panorámica 1920×640', color: '#58a6ff' },
+  { media: '(min-width: 768px)', file: 'hero-square.avif', type: 'image/avif', w: 1024, h: 1024, label: 'Cuadrada 1024×1024', color: '#39d2c0' },
+  { media: '(min-width: 320px)', file: 'hero-mobile.avif', type: 'image/avif', w: 750, h: 1334, label: 'Vertical 750×1334', color: '#bc8cff' },
+];
+const srcsetSizes = [
+  { w: 400, file: 'foto-400w.webp' },
+  { w: 800, file: 'foto-800w.webp' },
+  { w: 1200, file: 'foto-1200w.webp' },
+  { w: 1600, file: 'foto-1600w.webp' },
+];
+
+function updatePicture() {
+  const vp = +$('#pic-viewport').value;
+  const mode = $('#pic-mode').value;
+  $('#pic-vp-label').textContent = vp + 'px';
+
+  if (mode === 'artdir') {
+    let matched = null;
+    for (const s of artDirSources) {
+      if (vp >= parseInt(s.media.match(/\d+/))) { matched = s; break; }
+    }
+    // Actually need to check in reverse order (largest first)
+    matched = null;
+    for (let i = 0; i < artDirSources.length; i++) {
+      if (vp >= parseInt(artDirSources[i].media.match(/\d+/))) { matched = artDirSources[i]; break; }
+    }
+    // Check all, take the smallest that matches
+    matched = null;
+    for (let i = artDirSources.length - 1; i >= 0; i--) {
+      if (vp >= parseInt(artDirSources[i].media.match(/\d+/))) { matched = artDirSources[i]; break; }
+    }
+    if (!matched) matched = { file: 'hero-default.jpg', w: 800, h: 600, label: 'Default 800×600', color: 'var(--muted)' };
+
+    const frame = $('#pic-frame');
+    frame.classList.add('active');
+    frame.style.borderColor = matched.color;
+    $('#pic-label').textContent = matched.label;
+    $('#pic-size').textContent = `${matched.file} — ${matched.w}×${matched.h}`;
+
+    // Match indicators
+    $('#pic-match').innerHTML = artDirSources.map(s => {
+      const matches = vp >= parseInt(s.media.match(/\d+/));
+      const isThis = matched === s;
+      return `<div class="pm-item ${isThis ? 'hit' : 'miss'}">
+        <div class="pm-query">${s.media}</div>
+        <div class="pm-file">${s.file} ${isThis ? '← seleccionada' : ''}</div>
+      </div>`;
+    }).join('');
+
+    let html = `<span class="tag">&lt;picture&gt;</span>\n`;
+    artDirSources.forEach(s => {
+      html += `  <span class="tag">&lt;source</span> <span class="attr">media</span>=<span class="val">"${s.media}"</span>\n          <span class="attr">srcset</span>=<span class="val">"${s.file}"</span> <span class="attr">type</span>=<span class="val">"${s.type}"</span><span class="tag">&gt;</span>\n`;
+    });
+    html += `  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"hero-default.jpg"</span>\n       <span class="attr">alt</span>=<span class="val">"Hero image"</span><span class="tag">&gt;</span>\n`;
+    html += `<span class="tag">&lt;/picture&gt;</span>`;
+    html += `\n\n<span class="cmt">// Viewport ${vp}px → ${matched.file}</span>`;
+    $('#picture-code').innerHTML = html;
+
+  } else {
+    // srcset + sizes
+    const vw = vp;
+    let selectedW = 400;
+    for (const s of srcsetSizes) { if (vw * window.devicePixelRatio > s.w * 0.5) selectedW = s.w; }
+    // Simpler: pick the smallest that is >= displayed size
+    let displayW;
+    if (vw <= 767) displayW = vw;
+    else if (vw <= 1024) displayW = vw * 0.5;
+    else displayW = vw * 0.33;
+    selectedW = 400;
+    for (const s of srcsetSizes) {
+      if (s.w >= displayW) { selectedW = s.w; break; }
+      selectedW = s.w;
+    }
+
+    const frame = $('#pic-frame');
+    frame.classList.add('active');
+    frame.style.borderColor = 'var(--accent)';
+    $('#pic-label').textContent = `Display: ${Math.round(displayW)}px → Descarga: ${selectedW}px`;
+    $('#pic-size').textContent = `${selectedW}w (${Math.round((selectedW/1600)*100)}% del original)`;
+
+    $('#pic-match').innerHTML = srcsetSizes.map(s =>
+      `<div class="pm-item ${s.w === selectedW ? 'hit' : 'miss'}">
+        <div class="pm-query">${s.w}w</div>
+        <div class="pm-file">${s.file} ${s.w === selectedW ? '← seleccionada' : ''}</div>
+      </div>`
+    ).join('');
+
+    let html = `<span class="tag">&lt;img</span>\n`;
+    html += `     <span class="attr">src</span>=<span class="val">"foto-400w.webp"</span>\n`;
+    html += `     <span class="attr">srcset</span>=<span class="val">"${srcsetSizes.map(s => `${s.file} ${s.w}w`).join(',\n             ')}"</span>\n`;
+    html += `     <span class="attr">sizes</span>=<span class="val">"(max-width: 767px) 100vw,\n            (max-width: 1024px) 50vw,\n            33vw"</span>\n`;
+    html += `     <span class="attr">alt</span>=<span class="val">"Foto descriptiva"</span><span class="tag">&gt;</span>`;
+    html += `\n\n<span class="cmt">// Viewport ${vp}px, display ~${Math.round(displayW)}px → navegador elige ${selectedW}w</span>`;
+    $('#picture-code').innerHTML = html;
+  }
+  autoResize();
+}
+
+$('#pic-viewport').addEventListener('input', updatePicture);
+$('#pic-mode').addEventListener('change', updatePicture);
+updatePicture();
+
+// =============================================
+// CANVAS TAB
+// =============================================
+const canvas = $('#demo-canvas');
+const ctx = canvas.getContext('2d');
+let canvasTool = 'rect', canvasColor = '#58a6ff';
+const canvasColors = ['#58a6ff','#39d2c0','#3fb950','#f85149','#d29922','#bc8cff','#f778ba','#e6edf3'];
+let canvasHistory = [];
+let canvasDragging = false, canvasStart = null;
+
+// Init color row
+$('#color-row').innerHTML = canvasColors.map(c =>
+  `<div class="color-swatch ${c === canvasColor ? 'active' : ''}" data-color="${c}" style="background:${c}"></div>`
+).join('');
+
+$$('#color-row .color-swatch').forEach(s => {
+  s.addEventListener('click', () => {
+    $$('.color-swatch').forEach(x => x.classList.remove('active'));
+    s.classList.add('active');
+    canvasColor = s.dataset.color;
+  });
+});
+
+function drawCanvasBg() {
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Grid
+  ctx.strokeStyle = '#21262d';
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= canvas.width; x += 20) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+  }
+  for (let y = 0; y <= canvas.height; y += 20) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+  }
+}
+
+function redrawCanvas() {
+  drawCanvasBg();
+  canvasHistory.forEach(item => {
+    ctx.save();
+    ctx.fillStyle = item.color;
+    ctx.strokeStyle = item.color;
+    ctx.lineWidth = 3;
+    if (item.type === 'rect') {
+      ctx.fillRect(item.x, item.y, item.w, item.h);
+    } else if (item.type === 'circle') {
+      const r = Math.max(1, Math.sqrt(item.w*item.w + item.h*item.h) / 2);
+      ctx.beginPath();
+      ctx.arc(item.x + item.w/2, item.y + item.h/2, r, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (item.type === 'line') {
+      ctx.beginPath();
+      ctx.moveTo(item.x, item.y);
+      ctx.lineTo(item.x + item.w, item.y + item.h);
+      ctx.stroke();
+    } else if (item.type === 'text') {
+      ctx.font = '18px Inter, sans-serif';
+      ctx.fillText('WebForge', item.x, item.y + item.h/2 + 6);
+    }
+    ctx.restore();
+  });
+  updateCanvasCode();
+}
+
+function updateCanvasCode() {
+  if (canvasHistory.length === 0) {
+    $('#canvas-code').innerHTML = `<span class="cmt">// Hacé clic y arrastrá en el canvas para dibujar</span>`;
+    return;
+  }
+  const last = canvasHistory[canvasHistory.length - 1];
+  let code = '';
+  code += `<span class="kw">const</span> canvas = document.<span class="fn">getElementById</span>(<span class="str">'mi-canvas'</span>);\n`;
+  code += `<span class="kw">const</span> ctx = canvas.<span class="fn">getContext</span>(<span class="str">'2d'</span>);\n`;
+  code += `ctx.fillStyle = <span class="str">'${last.color}'</span>;\n`;
+  if (last.type === 'rect') {
+    code += `ctx.<span class="fn">fillRect</span>(<span class="num">${last.x}</span>, <span class="num">${last.y}</span>, <span class="num">${last.w}</span>, <span class="num">${last.h}</span>);`;
+  } else if (last.type === 'circle') {
+    const r = Math.max(1, Math.round(Math.sqrt(last.w*last.w + last.h*last.h) / 2));
+    code += `ctx.<span class="fn">beginPath</span>();\n`;
+    code += `ctx.<span class="fn">arc</span>(<span class="num">${last.x + last.w/2}</span>, <span class="num">${last.y + last.h/2}</span>, <span class="num">${r}</span>, <span class="num">0</span>, Math.PI * <span class="num">2</span>);\n`;
+    code += `ctx.<span class="fn">fill</span>();`;
+  } else if (last.type === 'line') {
+    code += `ctx.strokeStyle = <span class="str">'${last.color}'</span>;\n`;
+    code += `ctx.lineWidth = <span class="num">3</span>;\n`;
+    code += `ctx.<span class="fn">beginPath</span>();\n`;
+    code += `ctx.<span class="fn">moveTo</span>(<span class="num">${last.x}</span>, <span class="num">${last.y}</span>);\n`;
+    code += `ctx.<span class="fn">lineTo</span>(<span class="num">${last.x + last.w}</span>, <span class="num">${last.y + last.h}</span>);\n`;
+    code += `ctx.<span class="fn">stroke</span>();`;
+  } else if (last.type === 'text') {
+    code += `ctx.font = <span class="str">'18px Inter'</span>;\n`;
+    code += `ctx.<span class="fn">fillText</span>(<span class="str">'WebForge'</span>, <span class="num">${last.x}</span>, <span class="num">${last.y + last.h/2 + 6}</span>);`;
+  }
+  if (canvasHistory.length > 1) code += `\n\n<span class="cmt">// ${canvasHistory.length} formas en total</span>`;
+  $('#canvas-code').innerHTML = code;
+  autoResize();
+}
+
+$$('#canvas-tools .canvas-tool').forEach(tool => {
+  tool.addEventListener('click', () => {
+    $$('#canvas-tools .canvas-tool').forEach(t => t.classList.remove('active'));
+    tool.classList.add('active');
+    canvasTool = tool.dataset.tool;
+    if (canvasTool === 'clear') {
+      canvasHistory = [];
+      redrawCanvas();
+    }
+  });
+});
+
+function getCanvasPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY
+  };
+}
+
+canvas.addEventListener('mousedown', e => {
+  if (canvasTool === 'clear') return;
+  canvasDragging = true;
+  canvasStart = getCanvasPos(e);
+});
+
+canvas.addEventListener('mousemove', e => {
+  if (!canvasDragging) return;
+  const pos = getCanvasPos(e);
+  redrawCanvas();
+  // Preview
+  ctx.save();
+  ctx.fillStyle = canvasColor;
+  ctx.strokeStyle = canvasColor;
+  ctx.lineWidth = 3;
+  ctx.globalAlpha = 0.5;
+  const w = pos.x - canvasStart.x, h = pos.y - canvasStart.y;
+  if (canvasTool === 'rect') ctx.fillRect(canvasStart.x, canvasStart.y, w, h);
+  else if (canvasTool === 'circle') { const r = Math.max(1, Math.sqrt(w*w+h*h)/2); ctx.beginPath(); ctx.arc(canvasStart.x+w/2, canvasStart.y+h/2, r, 0, Math.PI*2); ctx.fill(); }
+  else if (canvasTool === 'line') { ctx.beginPath(); ctx.moveTo(canvasStart.x, canvasStart.y); ctx.lineTo(pos.x, pos.y); ctx.stroke(); }
+  else if (canvasTool === 'text') { ctx.font = '18px Inter, sans-serif'; ctx.fillText('WebForge', canvasStart.x, canvasStart.y + h/2 + 6); }
+  ctx.restore();
+});
+
+canvas.addEventListener('mouseup', e => {
+  if (!canvasDragging) return;
+  canvasDragging = false;
+  const pos = getCanvasPos(e);
+  const w = pos.x - canvasStart.x, h = pos.y - canvasStart.y;
+  if (Math.abs(w) > 2 || Math.abs(h) > 2) {
+    canvasHistory.push({ type: canvasTool, x: canvasStart.x, y: canvasStart.y, w, h, color: canvasColor });
+  }
+  redrawCanvas();
+  autoResize();
+});
+
+canvas.addEventListener('mouseleave', () => {
+  if (canvasDragging) {
+    canvasDragging = false;
+    redrawCanvas();
+  }
+});
+
+drawCanvasBg();
+updateCanvasCode();
+
+// =============================================
+// SVG TAB
+// =============================================
+const svgShapes = {
+  rect:    { props: [['x','30'],['y','20'],['width','200'],['height','120'],['rx','8'],['fill','#58a6ff']] },
+  circle:  { props: [['cx','130'],['cy','80'],['r','60'],['fill','#39d2c0']] },
+  ellipse: { props: [['cx','130'],['cy','80'],['rx','100'],['ry','50'],['fill','#bc8cff']] },
+  line:    { props: [['x1','20'],['y1','140'],['x2','240'],['y2','20'],['stroke','#f85149'],['stroke-width','3']] },
+  polygon: { props: [['points','130,10 250,150 10,150'],['fill','#d29922']] },
+  path:    { props: [['d','M20 80 C20 20, 100 20, 130 80 S240 140, 240 80'],['stroke','#f778ba'],['stroke-width','3'],['fill','none']] },
+};
+
+function buildSVG() {
+  const shape = $('#svg-shape').value;
+  const data = svgShapes[shape];
+  const svgCanvas = $('#svg-canvas');
+  const vb = $('#svg-vb').value.trim() || '0 0 260 160';
+  svgCanvas.setAttribute('viewBox', vb);
+
+  // Read prop values
+  const propValues = {};
+  data.props.forEach(([name, def]) => {
+    const input = $(`#svg-prop-${name}`);
+    propValues[name] = input ? input.value : def;
+  });
+
+  // Build SVG element
+  let attrs = '';
+  data.props.forEach(([name]) => {
+    const val = propValues[name];
+    if (name === 'fill' || name === 'stroke') {
+      attrs += ` ${name}="${val}"`;
+    } else {
+      attrs += ` ${name}="${val}"`;
+    }
+  });
+
+  svgCanvas.innerHTML = `<${shape}${attrs}/>`;
+  updateSVGCode(shape, propValues);
+  autoResize();
+}
+
+function buildSVGProps() {
+  const shape = $('#svg-shape').value;
+  const data = svgShapes[shape];
+  const container = $('#svg-props');
+  container.innerHTML = '';
+  data.props.forEach(([name, def]) => {
+    const isColor = name === 'fill' || name === 'stroke';
+    const div = document.createElement('div');
+    div.className = 'svg-prop';
+    if (isColor) {
+      div.innerHTML = `<label>${name}</label><input type="color" id="svg-prop-${name}" value="${def === 'none' ? '#ffffff' : def}">`;
+    } else {
+      div.innerHTML = `<label>${name}</label><input type="text" id="svg-prop-${name}" value="${def}">`;
+    }
+    container.appendChild(div);
+    const input = div.querySelector('input');
+    input.addEventListener('input', buildSVG);
+  });
+  buildSVG();
+}
+
+function updateSVGCode(shape, props) {
+  let code = `<span class="tag">&lt;svg</span> <span class="attr">width</span>=<span class="val">"200"</span> <span class="attr">height</span>=<span class="val">"200"</span> <span class="attr">viewBox</span>=<span class="val">"${$('#svg-vb').value}"</span><span class="tag">&gt;</span>\n`;
+  code += `  <span class="tag">&lt;${shape}</span>`;
+  svgShapes[shape].props.forEach(([name]) => {
+    const val = props[name];
+    code += `\n    <span class="attr">${name}</span>=<span class="val">"${val}"</span>`;
+  });
+  code += `<span class="tag">/&gt;</span>\n`;
+  code += `<span class="tag">&lt;/svg&gt;</span>`;
+  $('#svg-code').innerHTML = code;
+}
+
+$('#svg-shape').addEventListener('change', buildSVGProps);
+$('#svg-vb').addEventListener('input', buildSVG);
+$('#svg-reset').addEventListener('click', () => {
+  $('#svg-vb').value = '0 0 260 160';
+  buildSVGProps();
+});
+buildSVGProps();
+</script>
+</body>
+</html>

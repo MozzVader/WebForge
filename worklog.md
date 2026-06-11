@@ -152,3 +152,68 @@ Stage Summary:
 - Archivo creado: demos/dom-playground.html (~400 líneas)
 - Archivo modificado: sections/js-dom.html (embed en línea 176-186)
 - Combina selección + manipulación en un solo playground
+
+---
+Task ID: 7
+Agent: main
+Task: Agregar Events Playground a js-eventos.html
+
+Work Log:
+- Leído js-eventos.html completo (8 sub-secciones: addEventListener, tipos de eventos, event object, bubbling/capturing, delegation, custom events, keyboard, throttle/debounce)
+- Creado demos/events-playground.html con 5 tabs interactivos:
+  1. **Bubbling & Capturing**: 3 cajas anidadas (Abuelo/Padre/Hijo), selector de modo (bubble/capture/ambas), toggle stopPropagation en Padre, log cronológico con fases coloreadas, flash animations al recibir evento
+  2. **Event Delegation**: Lista clickeable con toggle de modo (delegation vs individual), agregar/eliminar items dinámicos, toolbar con seleccionar todos/eliminar seleccionados, muestra cómo delegation funciona con elementos nuevos
+  3. **Custom Events**: 3 canales (cart:item-added, user:login, notify:toast) con dots de listeners, agregar/remover listeners, emit con y sin datos, log de dispatches, JS output en vivo
+  4. **Keyboard**: Área focusable con visualización grande de la tecla, e.key vs e.code, modifiers (Ctrl/Shift/Alt/Meta), historial de teclas, atajos de ejemplo
+  5. **Throttle & Debounce**: Área de mousemove con barras de frecuencia (raw/throttled/debounced), contadores en vivo, visualización de la diferencia temporal
+- Insertado demo-embed en js-eventos.html después del header de sección
+- Ícono de rayo (lightning) en la barra del embed
+- Commit 4fcd576 push exitoso
+
+Stage Summary:
+- Archivo creado: demos/events-playground.html (~550 líneas)
+- Archivo modificado: sections/js-eventos.html (embed en línea 71-78)
+- 5 tabs cubriendo todos los temas clave de la sección
+
+---
+Task ID: 8
+Agent: main
+Task: Agregar JS Básico Playground a js-basico.html
+
+Work Log:
+- Leído js-basico.html completo (6 sub-secciones: variables, tipos de datos, operadores, condicionales, loops, funciones)
+- Creado demos/jsbasico-playground.html con 5 tabs interactivos:
+  1. **Variables & Scope**: 3 ejemplos seleccionables: Block Scope (let vs var con cajas de scope visual), const: no reasignar sí mutar (objeto/array), Hoisting (var undefined vs let ReferenceError lado a lado)
+  2. **Tipos & Truthy**: Grid de 12 tipos clickeables con detalle (valor, typeof, categoría, truthy/falsy), botón para mostrar tabla interactiva truthy/falsy con 18 valores
+  3. **Operadores**: 3 sub-secciones: === vs == (tabla comparativa con 12 casos, marcados con ⚠️ los que tienen coercion), Ternario (input de edad en vivo con branches visuales que se iluminan), Short-circuit (6 tarjetas clickeables mostrando ||, && y ??)
+  4. **Loops**: Selector de tipo (for/forof/forin/while), 4 colecciones, opciones de continue/break, botones ejecutar/paso a paso/reset, items aparecen con animación
+  5. **Funciones**: Selector de tipo (declaración/expresión/arrow), inputs para nombre/parámetros/default/body, preview de firma en vivo, botones de llamada con resultado, 4 bodies (template literal, suma, comparación, objeto)
+- Insertado demo-embed en js-basico.html después del header de sección
+- Commit 59d51db push exitoso
+
+Stage Summary:
+- Archivo creado: demos/jsbasico-playground.html (~620 líneas)
+- Archivo modificado: sections/js-basico.html (embed en línea 71-78)
+- 5 tabs cubriendo todas las sub-secciones de JS Básico
+
+---
+Task ID: 9
+Agent: main
+Task: Agregar Async Playground a js-asincronia.html
+
+Work Log:
+- Leído js-asincronia.html (7 sub-secciones: callbacks, promises, async/await, fetch, headers, errores, patrones UI)
+- Creado demos/async-playground.html con 5 tabs interactivos:
+  1. **Event Loop**: 3 columnas animadas (Call Stack, Macrotask Queue, Microtask Queue), 3 ejemplos seleccionables (orden básico 1→2→3→4, micro vs macro, caso práctico con fetch), animación paso a paso con delays que muestra cómo se llena/vacía el stack, se encolan micro/macrotasks, y se ejecutan en el orden correcto
+  2. **Promises**: Máquina de estados visual (pending → fulfilled/rejected con flechas que se iluminan), crear promises con resolve/reject y delay configurable, cadena .then()/.catch()/.finally() que se ilumina según el resultado, 4 métodos estáticos (Promise.all, allSettled, race, any) con logs en tiempo real
+  3. **Async/Await**: 3 ejemplos (secuencial 1000ms, paralelo 500ms con Promise.all, comparación .then vs await), timeline visual con barras de progreso, log con tiempos totales mostrando la diferencia secuencial vs paralelo
+  4. **Fetch API**: Selector de método (GET/POST/PUT/DELETE), input de URL, opciones para simular error 404 y latencia alta, timeline visual de los pasos del fetch (enviar → response → parsear → datos), código generado según la configuración
+  5. **Error Patterns**: 4 tarjetas clickeables (try/catch/finally, .then()/.catch(), guard clause, wrapper utilitario [err, data] estilo Go), cada una muestra el patrón completo y el código equivalente
+- Insertado demo-embed en js-asincronia.html después del header de sección
+- Ícono de sol/rayos (loading) en la barra del embed
+- Commit d14d52e push exitoso
+
+Stage Summary:
+- Archivo creado: demos/async-playground.html (~480 líneas)
+- Archivo modificado: sections/js-asincronia.html (embed en línea 71-78)
+- 5 tabs cubriendo callbacks, promises, async/await, fetch y manejo de errores
