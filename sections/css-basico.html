@@ -135,6 +135,31 @@ a[href^="https"]::after {
 }</code></pre>
                 </div>
 
+                <div class="mini-demo mini-demo--selector">
+                    <span class="mini-demo__label">Demo interactivo</span>
+                    <div class="selector-demo__playground">
+                        <div class="item special">div.item.special</div>
+                        <p class="item">p.item</p>
+                        <span class="item special">span.item.special</span>
+                        <div class="item">div.item</div>
+                        <div class="item active">div.item.active</div>
+                    </div>
+                    <div class="selector-demo__chips">
+                        <button class="sd-chip" data-selector=".item">.item</button>
+                        <button class="sd-chip" data-selector=".special">.special</button>
+                        <button class="sd-chip" data-selector=".active">.active</button>
+                        <button class="sd-chip" data-selector="div.item">div.item</button>
+                        <button class="sd-chip" data-selector=".item.special">.item.special</button>
+                        <button class="sd-chip" data-selector=":first-child">:first-child</button>
+                        <button class="sd-chip" data-selector=":last-child">:last-child</button>
+                        <button class="sd-chip" data-selector=":nth-child(odd)">:nth-child(odd)</button>
+                        <button class="sd-chip" data-selector=":nth-child(3n)">:nth-child(3n)</button>
+                        <button class="sd-chip" data-selector=":nth-child(-n+3)">:nth-child(-n+3)</button>
+                        <button class="sd-chip" data-selector=".item:not(.special)">.item:not(.special)</button>
+                    </div>
+                    <div class="selector-demo__info">Hac&eacute; click en un selector para ver qu&eacute; elementos selecciona.</div>
+                </div>
+
                 <h3>Selectores compuestos y combinadores</h3>
 
                 <p>
@@ -318,6 +343,34 @@ input:not([disabled]) {
                     </tbody>
                 </table>
 
+                <div class="mini-demo mini-demo--nth">
+                    <span class="mini-demo__label">Demo interactivo</span>
+                    <div class="nth-demo__grid">
+                        <div class="nth-demo__item">1</div>
+                        <div class="nth-demo__item">2</div>
+                        <div class="nth-demo__item">3</div>
+                        <div class="nth-demo__item">4</div>
+                        <div class="nth-demo__item">5</div>
+                        <div class="nth-demo__item">6</div>
+                        <div class="nth-demo__item">7</div>
+                        <div class="nth-demo__item">8</div>
+                        <div class="nth-demo__item">9</div>
+                        <div class="nth-demo__item">10</div>
+                        <div class="nth-demo__item">11</div>
+                        <div class="nth-demo__item">12</div>
+                    </div>
+                    <div class="selector-demo__chips">
+                        <button class="sd-chip" data-nth=":nth-child(odd)">:nth-child(odd)</button>
+                        <button class="sd-chip" data-nth=":nth-child(even)">:nth-child(even)</button>
+                        <button class="sd-chip" data-nth=":nth-child(3n)">:nth-child(3n)</button>
+                        <button class="sd-chip" data-nth=":nth-child(3n+1)">:nth-child(3n+1)</button>
+                        <button class="sd-chip" data-nth=":nth-child(-n+3)">:nth-child(-n+3)</button>
+                        <button class="sd-chip" data-nth=":nth-child(n+6)">:nth-child(n+6)</button>
+                        <button class="sd-chip" data-nth=":last-child">:last-child</button>
+                        <button class="sd-chip" data-nth=":nth-last-child(2)">:nth-last-child(2)</button>
+                    </div>
+                </div>
+
                 <div class="code-block">
                     <div class="code-block-header">
                         <span class="code-block-lang">
@@ -423,6 +476,27 @@ input::placeholder {
                 <p>
                     El detalle cr&iacute;tico es la diferencia entre <code>content-box</code> (el modelo cl&aacute;sico de CSS2) y <code>border-box</code> (el modelo moderno). Con <code>content-box</code>, el ancho que defin&iacute;s es solo el del contenido&mdash;el padding y el border se suman por fuera, haciendo el elemento m&aacute;s grande de lo que esper&aacute;s. Con <code>border-box</code>, el ancho incluye padding y border, lo que es mucho m&aacute;s intuitivo. La pr&aacute;ctica est&aacute;ndar es aplicar <code>box-sizing: border-box</code> a todos los elementos con el selector universal.
                 </p>
+
+                <div class="mini-demo">
+                    <span class="mini-demo__label">Visual</span>
+                    <div class="box-model-visual">
+                        <div class="bmv-margin">
+                            <div class="bmv-border">
+                                <div class="bmv-padding">
+                                    <div class="bmv-content">
+                                        300 &times; 150
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bmv-size-row">
+                        <div class="bmv-size-item"><span class="bmv-c-orange"></span> margin</div>
+                        <div class="bmv-size-item"><span class="bmv-c-purple"></span> border</div>
+                        <div class="bmv-size-item"><span class="bmv-c-cyan"></span> padding</div>
+                        <div class="bmv-size-item"><span class="bmv-c-blue"></span> content</div>
+                    </div>
+                </div>
 
                 <div class="code-block">
                     <div class="code-block-header">

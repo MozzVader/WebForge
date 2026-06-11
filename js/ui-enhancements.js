@@ -287,6 +287,106 @@ const initTocFab = () => {
     headings.forEach(h => observer.observe(h.el));
 };
 
+// === Mini Demos (interactive selector & nth-child demos) ===
+const initMiniDemos = () => {
+    // --- Selector Demo ---
+    document.querySelectorAll('.mini-demo--selector').forEach(demo => {
+        const playground = demo.querySelector('.selector-demo__playground');
+        const info = demo.querySelector('.selector-demo__info');
+        const chips = demo.querySelectorAll('.sd-chip');
+        const items = playground ? playground.children : [];
+        let activeChip = null;
+
+        // Descriptions for each selector
+        const descriptions = {
+            '.item': 'Selecciona todos los elementos con class="item"',
+            '.special': 'Selecciona todos los elementos con class="special"',
+            '.active': 'Selecciona el elemento con class="active"',
+            'div.item': 'Solo los <div> que tambi&eacute;n tengan class="item" — <span> no aplica',
+            '.item.special': 'Elementos que tienen AMBAS clases: item Y special',
+            ':first-child': 'Solo el primer hijo directo del contenedor',
+            ':last-child': 'Solo el &uacute;ltimo hijo directo del contenedor',
+            ':nth-child(odd)': 'Elementos en posiciones impares (1&deg;, 3&deg;, 5&deg;...)',
+            ':nth-child(3n)': 'Cada 3er elemento (3&deg;, 6&deg;, 9&deg;...)',
+            ':nth-child(-n+3)': 'Los primeros 3 elementos',
+            '.item:not(.special)': 'Elementos .item que NO tengan .special'
+        };
+
+        const highlight = (selector) => {
+            // Clear all highlights
+            Array.from(items).forEach(el => el.classList.remove('sd-highlight'));
+
+            if (!selector) return;
+
+            try {
+                const matched = playground.querySelectorAll(selector);
+                matched.forEach(el => el.classList.add('sd-highlight'));
+            } catch (e) {
+                // Invalid selector — ignore
+            }
+        };
+
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const selector = chip.dataset.selector;
+
+                if (activeChip === chip) {
+                    // Deselect
+                    chip.classList.remove('is-active');
+                    activeChip = null;
+                    highlight(null);
+                    if (info) info.textContent = 'Hac&eacute; click en un selector para ver cu&aacute;ntos elementos selecciona.';
+                } else {
+                    // Select new
+                    if (activeChip) activeChip.classList.remove('is-active');
+                    chip.classList.add('is-active');
+                    activeChip = chip;
+                    highlight(selector);
+                    if (info) info.textContent = descriptions[selector] || '';
+                }
+            });
+        });
+    });
+
+    // --- Nth-child Demo ---
+    document.querySelectorAll('.mini-demo--nth').forEach(demo => {
+        const grid = demo.querySelector('.nth-demo__grid');
+        const chips = demo.querySelectorAll('.sd-chip');
+        const items = grid ? grid.querySelectorAll('.nth-demo__item') : [];
+        let activeChip = null;
+
+        const highlight = (pattern) => {
+            items.forEach(el => el.classList.remove('nth-highlight'));
+            if (!pattern) return;
+
+            // Use the CSS selector directly on the grid children
+            try {
+                const matched = grid.querySelectorAll(':scope > .nth-demo__item' + pattern);
+                matched.forEach(el => el.classList.add('nth-highlight'));
+            } catch (e) {
+                // Invalid selector
+            }
+        };
+
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const pattern = chip.dataset.nth;
+
+                if (activeChip === chip) {
+                    chip.classList.remove('is-active');
+                    activeChip = null;
+                    highlight(null);
+                } else {
+                    if (activeChip) activeChip.classList.remove('is-active');
+                    chip.classList.add('is-active');
+                    activeChip = chip;
+                    highlight(pattern);
+                }
+            });
+        });
+    });
+};
+
 // === Page Transitions ===
 const initPageTransitions = () => {
     const DURATION = 150; // ms — keep it snappy
@@ -327,5 +427,6 @@ document.addEventListener('components:loaded', () => {
     initSearchShortcut();
     initHeadingCopy();
     initTocFab();
+    initMiniDemos();
     initPageTransitions();
 });
