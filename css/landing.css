@@ -183,6 +183,13 @@
     color: var(--text-inverse);
 }
 
+.creator-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .creator-name {
     font-family: var(--font-heading);
     font-size: var(--font-size-lg);
