@@ -149,6 +149,12 @@ const initTocFab = () => {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
 
+    const escapeHtml = (str) => str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
     const getHeadingText = (el) => {
         const clone = el.cloneNode(true);
         const anchor = clone.querySelector('.heading-anchor');
@@ -200,7 +206,7 @@ const initTocFab = () => {
     let listHTML = '';
     headings.forEach(h => {
         const h3Class = h.level === 3 ? ' toc-link--h3' : '';
-        listHTML += '<a href="#' + h.id + '" class="toc-link' + h3Class + '" data-toc-id="' + h.id + '">' + h.text + '</a>';
+        listHTML += '<a href="#' + h.id + '" class="toc-link' + h3Class + '" data-toc-id="' + h.id + '">' + escapeHtml(h.text) + '</a>';
     });
 
     drawer.innerHTML =
