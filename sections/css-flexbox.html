@@ -880,6 +880,188 @@
                         <p>Flexbox es unidimensional (una direcci&oacute;n a la vez): ideal para barras de navegaci&oacute;n, herramientas, filas de botones, distribuci&oacute;n de elementos en un eje, y layouts simples con sidebar. Grid es bidimensional (filas y columnas): ideal para grids complejos de cards, layouts de p&aacute;ginas completas con &aacute;reas definidas, y cualquier cosa que necesite control sobre dos ejes. En la pr&aacute;ctica, se usan juntos: Flexbox para componentes internos (navbar, card header, listas) y Grid para el layout principal de la p&aacute;gina.</p>
                     </div>
                 </div>
+
+                <h3>Scroll dentro de un card con altura m&aacute;xima</h3>
+
+                <p>
+                    Uno de los problemas m&aacute;s frustrantes con Flexbox: ten&eacute;s un card con un header fijo y un body con contenido variable (una tabla, una lista), le das <code>max-height</code> al card y <code>overflow-y: auto</code> al body&hellip; y <strong>no aparece el scroll</strong>. El contenido se escapa o se recorta, pero el scrollbar nunca llega. Este patr&oacute;n te muestra exactamente por qu&eacute; falla y c&oacute;mo solucionarlo.
+                </p>
+
+                <p>
+                    La estructura t&iacute;pica es un contenedor padre con <code>display: flex; flex-direction: column</code>, un header que no debe encogerse, y un body que deber&iacute;a scrollear cuando el contenido supera el espacio disponible.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            HTML
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;div class="card"&gt;          &lt;!-- contenedor padre --&gt;
+  &lt;div class="card-header"&gt;T&iacute;tulo&lt;/div&gt;
+  &lt;div class="card-body"&gt;   &lt;!-- ac&aacute; va el contenido que debe scrollear --&gt;
+    &lt;table&gt;...&lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <h4>Lo que NO funciona (y por qu&eacute;)</h4>
+
+                <p>
+                    El primer intento natural es poner <code>flex: 1</code> y <code>overflow-y: auto</code> en el body. El problema es que los flex items tienen <code>min-height: auto</code> por defecto, lo que significa que el body <strong>nunca se achica m&aacute;s que su contenido</strong> &mdash; as&iacute; que nunca hay overflow y nunca aparece el scroll.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Intento 1: NO funciona */
+.card {
+    display: flex;
+    flex-direction: column;
+    max-height: 950px;
+    overflow: hidden;
+}
+.card-body {
+    flex: 1;
+    /* min-height: auto por defecto → nunca se achica */
+    overflow-y: auto;
+}
+
+/* Intento 2: agregar min-height: 0 → la MITAD del problema */
+.card-body {
+    flex: 1;
+    min-height: 0;  /* permite achicarse */
+    overflow-y: auto;
+}
+/* Falla porque max-height en el padre NO es una altura definida,
+   es solo un l&iacute;mite. El flex item no recibe una restricci&oacute;n
+   de altura concreta. overflow: hidden del padre simplemente
+   recorta visualmente sin activar el scroll del hijo. */</code></pre>
+                </div>
+
+                <h4>La soluci&oacute;n: <code>max-height</code> expl&iacute;cito con <code>calc()</code> en el body</h4>
+
+                <p>
+                    La clave es darle al body una <strong>restricci&oacute;n de altura expl&iacute;cita</strong> directamente en ese elemento, no depender de que el padre flex se la propague. Al poner un <code>max-height</code> con <code>calc()</code>, el navegador sabe exactamente cu&aacute;nto espacio tiene el body y puede calcular si hay overflow.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* La soluci&oacute;n: max-height expl&iacute;cito en el body */
+.card {
+    display: flex;
+    flex-direction: column;
+    max-height: 950px;
+    overflow: hidden;
+}
+
+.card-header {
+    flex-shrink: 0;  /* el header nunca se achica */
+}
+
+.card-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    max-height: calc(950px - 55px);  /* &larr; la clave */
+    /* altura m&aacute;xima del card menos la altura del header */
+}</code></pre>
+                </div>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Regla general</p>
+                        <p>Si un elemento flex necesita scrollear, dale una restricci&oacute;n de altura expl&iacute;cita (<code>height</code> o <code>max-height</code>) directamente en ese elemento. No conf&iacute;es en que el padre flex se la propague.</p>
+                    </div>
+                </div>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Paso</th>
+                            <th>Qu&eacute; aplicar</th>
+                            <th>Por qu&eacute;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Padre (card)</td>
+                            <td><code>display: flex; flex-direction: column;</code> + <code>max-height</code> + <code>overflow: hidden</code></td>
+                            <td>Define el contexto flex y limita la altura total</td>
+                        </tr>
+                        <tr>
+                            <td>2. Header</td>
+                            <td><code>flex-shrink: 0</code></td>
+                            <td>El header nunca se achica para darle espacio al body</td>
+                        </tr>
+                        <tr>
+                            <td>3. Body</td>
+                            <td><code>flex: 1</code> + <code>min-height: 0</code> + <code>overflow-y: auto</code> + <code>max-height: calc(padre - header)</code></td>
+                            <td>El <code>max-height</code> expl&iacute;cito es la clave para activar el scroll</td>
+                        </tr>
+                        <tr>
+                            <td>4. Grid de cards</td>
+                            <td><code>align-items: start</code> en el contenedor grid</td>
+                            <td>Cada card tiene su propia altura (no se estiran a la m&aacute;s alta)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            CSS
+                        </span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            Copiar
+                        </button>
+                    </div>
+                    <pre><code class="language-css">/* Alternativa: position absolute (sin calc) */
+.card {
+    position: relative;
+    max-height: 950px;
+    overflow: hidden;
+}
+
+.card-header {
+    /* height normal */
+}
+
+.card-body {
+    position: absolute;
+    top: 55px;      /* altura del header */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+}
+/* Funciona igual, pero ten&eacute;s que hardcodear el top al tama&ntilde;o del header */</code></pre>
+                </div>
             </section>
 
 
