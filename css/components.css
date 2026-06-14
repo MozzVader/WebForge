@@ -1100,11 +1100,11 @@
 .bmv-size-item span.bmv-c-blue { border-color: var(--accent-blue); background: rgba(88, 166, 255, 0.2); }
 
 /* --- Scroll Card Visual --- */
-.scroll-card-visual {
+.mini-demo .scroll-card-visual {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-4) 0;
+    padding: var(--space-5) 0 var(--space-3);
 }
 
 .scv-card {
@@ -1119,7 +1119,7 @@
 }
 
 .scv-card::before {
-    content: '.card — max-height: 950px; overflow: hidden';
+    content: '.card \2014 max-height: 950px; overflow: hidden';
     position: absolute;
     top: 4px;
     left: 10px;
@@ -1130,6 +1130,7 @@
     text-transform: uppercase;
     letter-spacing: 0.03em;
     z-index: 2;
+    line-height: 1.4;
 }
 
 .scv-header {
