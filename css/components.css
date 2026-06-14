@@ -1099,6 +1099,155 @@
 .bmv-size-item span.bmv-c-cyan { border-color: var(--accent-cyan); background: rgba(57, 210, 192, 0.2); border-style: dashed; }
 .bmv-size-item span.bmv-c-blue { border-color: var(--accent-blue); background: rgba(88, 166, 255, 0.2); }
 
+/* --- Scroll Card Visual --- */
+.scroll-card-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4) 0;
+}
+
+.scv-card {
+    background: rgba(248, 81, 73, 0.08);
+    border: 2px dashed var(--accent-red);
+    border-radius: var(--radius-md);
+    padding: 0;
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    overflow: hidden;
+}
+
+.scv-card::before {
+    content: '.card — max-height: 950px; overflow: hidden';
+    position: absolute;
+    top: 4px;
+    left: 10px;
+    font-size: 0.6rem;
+    font-family: var(--font-code);
+    color: var(--accent-red);
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    z-index: 2;
+}
+
+.scv-header {
+    background: rgba(210, 153, 34, 0.15);
+    border-bottom: 2px solid var(--accent-orange);
+    padding: 10px 14px;
+    position: relative;
+}
+
+.scv-header::after {
+    content: 'flex-shrink: 0';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6rem;
+    font-family: var(--font-code);
+    color: var(--accent-orange);
+    opacity: 0.8;
+}
+
+.scv-header-text {
+    font-size: 0.7rem;
+    font-family: var(--font-code);
+    color: var(--accent-orange);
+    font-weight: 600;
+}
+
+.scv-body {
+    background: rgba(88, 166, 255, 0.06);
+    border: 1px solid rgba(88, 166, 255, 0.25);
+    border-top: none;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    margin: 0 8px 8px;
+    position: relative;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scv-body::before {
+    content: 'max-height: calc(950px - 55px); overflow-y: auto';
+    position: absolute;
+    bottom: 4px;
+    left: 8px;
+    font-size: 0.55rem;
+    font-family: var(--font-code);
+    color: var(--accent-blue);
+    opacity: 0.7;
+    z-index: 2;
+}
+
+.scv-body::after {
+    content: 'scrollbar';
+    position: absolute;
+    right: 2px;
+    top: 6px;
+    bottom: 18px;
+    width: 5px;
+    background: rgba(88, 166, 255, 0.2);
+    border-radius: 3px;
+}
+
+.scv-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.scv-row {
+    height: 18px;
+    background: rgba(88, 166, 255, 0.12);
+    border-radius: 3px;
+    border: 1px solid rgba(88, 166, 255, 0.15);
+}
+
+.scv-row-ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 2px 0;
+    color: var(--accent-blue);
+    font-family: var(--font-code);
+    font-size: 0.6rem;
+    opacity: 0.5;
+}
+
+.scv-size-row {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+}
+
+.scv-size-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.scv-size-item span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    border: 1px dashed;
+}
+
+.scv-size-item span.scv-c-red { border-color: var(--accent-red); background: rgba(248, 81, 73, 0.15); }
+.scv-size-item span.scv-c-orange { border-color: var(--accent-orange); background: rgba(210, 153, 34, 0.2); }
+.scv-size-item span.scv-c-blue { border-color: var(--accent-blue); background: rgba(88, 166, 255, 0.2); }
+
 /* --- Nth-child Demo --- */
 .nth-demo__grid {
     display: grid;
