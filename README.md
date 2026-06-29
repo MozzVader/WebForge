@@ -25,7 +25,7 @@ Incluye **10 playgrounds interactivos** que permiten experimentar con cada conce
 
 - **Git & GitHub** — Control de versiones y colaboración
 - **HTML** — Estructura, semántica, formularios, multimedia, accesibilidad
-- **CSS** — Básico, Flexbox, Grid, responsive, animaciones, frameworks
+- **CSS** — Básico, Variables, BEM, Flexbox, Grid, responsive, animaciones, frameworks
 - **JavaScript** — Básico, ES6+, DOM, eventos, asincronía, almacenamiento
 - **Playgrounds** — 10 demos interactivos para experimentar con cada tema
 - **SEO** — Meta tags, Open Graph, Core Web Vitals, sitemap, structured data
@@ -43,7 +43,7 @@ Incluye **10 playgrounds interactivos** que permiten experimentar con cada conce
 
 ```
 ├── index.html              # Landing page
-├── sections/               # 24 páginas de contenido por tema
+├── sections/               # 25 páginas de contenido por tema
 ├── cheatsheets/            # 5 cheatsheets de referencia rápida
 ├── demos/                  # 10 playgrounds interactivos
 ├── components/             # Componentes HTML compartidos (header, sidebar, footer)
