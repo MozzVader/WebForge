@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEM: OrganizaciÃ³n de CSS — WebForge</title>
+    <meta name="description" content="Aprende la metodologÃ­a BEM (Block, Element, Modifier) para organizar tus clases CSS. Nombres predecibles, especificidad plana, componentes reutilizables y la diferencia entre class e id. de CSS: sintaxis, var(), fallbacks, temas din&aacute;micos dark/light, @property y manipulaci&oacute;n con JavaScript. La base de todo sistema de dise&ntilde;o mantenible.">
+    <meta property="og:title" content="BEM: OrganizaciÃ³n de CSS — WebForge">
+    <meta property="og:description" content="Aprende la metodologÃ­a BEM (Block, Element, Modifier) para organizar tus clases CSS. Nombres predecibles, especificidad plana, componentes reutilizables y la diferencia entre class e id. de CSS: sintaxis, var(), fallbacks, temas din&aacute;micos dark/light, @property y manipulaci&oacute;n con JavaScript. La base de todo sistema de dise&ntilde;o mantenible.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://mozzvader.github.io/WebForge/sections/css-bem.html">
+    <meta property="og:image" content="https://mozzvader.github.io/WebForge/assets/images/og-image.png">
+    <meta property="og:site_name" content="WebForge">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BEM: OrganizaciÃ³n de CSS — WebForge">
+    <meta name="twitter:description" content="Aprende la metodologÃ­a BEM (Block, Element, Modifier) para organizar tus clases CSS. Nombres predecibles, especificidad plana, componentes reutilizables y la diferencia entre class e id. de CSS: sintaxis, var(), fallbacks, temas din&aacute;micos dark/light, @property y manipulaci&oacute;n con JavaScript. La base de todo sistema de dise&ntilde;o mantenible.">
+    <meta name="twitter:image" content="https://mozzvader.github.io/WebForge/assets/images/og-image.png">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header" id="site-header"></header>
+
+        <!-- Sidebar -->
+        <aside class="site-sidebar" id="site-sidebar"></aside>
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+
+            <!-- Breadcrumb -->
+            <div class="section-breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>CSS</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span>BEM</span>
+            </div>
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1>BEM: Organizaci&oacute;n de CSS</h1>
+                <p>Sab&eacute;s escribir CSS, pero &iquest;sab&eacute;s <strong>organizarlo</strong>? A medida que un proyecto crece, los estilos se vuelven un caos si no hay una convenci&oacute;n de nomenclatura clara. BEM (Block, Element, Modifier) es la metodolog&iacute;a m&aacute;s usada para mantener tus clases CSS predecibles, planas y reutilizables. En esta secci&oacute;n vamos a ver por qu&eacute; usar <code>class</code> en vez de <code>id</code> para estilos, c&oacute;mo funciona BEM pieza por pieza, y qu&eacute; errores comunes evitar. Es la diferencia entre un CSS que se mantiene solo y uno que te da pesadillas cada vez que toc&aacute;s algo.</p>
+            </div>
+
+            <!-- CLASS VS ID -->
+            <section class="sub-section animate-on-scroll" id="class-vs-id">
+                <h2>
+                    Class vs ID: la regla de oro
+                    <a href="#class-vs-id" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>Antes de entrar a BEM, necesitamos dejar claro un punto fundamental que muchos pasan por alto: <strong>us&aacute; <code>class</code> para estilos y <code>id</code> para funcionalidad (JavaScript)</strong>. Esta no es solo una preferencia est&eacute;tica, es una regla pr&aacute;ctica con consecuencias reales en la mantenibilidad de tu proyecto.</p>
+
+                <h3>&iquest;Por qu&eacute; class para estilos?</h3>
+                <p>Un <code>id</code> tiene que ser &uacute;nico en todo el documento HTML. Si pon&eacute;s <code>id="card"</code> en un componente, no pod&eacute;s tener otro <code>card</code> en la misma p&aacute;gina. Esto est&aacute; bien para un header &uacute;nico, pero &iquest;qu&eacute; pasa cuando ten&eacute;s 10 tarjetas, 3 modales y 5 botones? Los <code>id</code> te obligan a inventar nombres &uacute;nicos como <code>card-1</code>, <code>card-main</code>, <code>card-sidebar</code>, y el CSS se convierte en un mapa desordenado de excepciones. Las <code>class</code>, en cambio, son reutilizables por definici&oacute;n: pod&eacute;s aplicar la misma clase a cuantos elementos necesites.</p>
+
+                <p>Adem&aacute;s, los selectores por <code>id</code> tienen m&aacute;s especificidad (0,1,0,0) que los de clase (0,0,1,0). Esto significa que si m&aacute;s adelante quer&eacute;s sobreescribir un estilo definido con <code>#mi-componente</code>, vas a necesitar otro <code>id</code> o, peor a&uacute;n, <code>!important</code>. Con clases, la especificidad se mantiene plana y cualquier override es simple y predecible.</p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">HTML</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- MAL: id para estilos --&gt;
+&lt;div id="card" class="container"&gt;
+  &lt;h3 id="card-title"&gt;T&iacute;tulo&lt;/h3&gt;
+  &lt;p id="card-text"&gt;Contenido...&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- BIEN: class para estilos, id solo si JS lo necesita --&gt;
+&lt;div class="card" id="js-user-card"&gt;
+  &lt;h3 class="card__title"&gt;T&iacute;tulo&lt;/h3&gt;
+  &lt;p class="card__text"&gt;Contenido...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <h3>&iquest;Cu&aacute;ndo usar id entonces?</h3>
+                <p>Los <code>id</code> son perfectos para cuando JavaScript necesita un &uacute;nico punto de referencia: un modal que se abre con un bot&oacute;n, un formulario que se valida, o un elemento que recibe scroll program&aacute;tico. La clave es que el <code>id</code> existe para la <strong>l&oacute;gica</strong>, no para el <strong>estilo</strong>. Si un elemento necesita un <code>id</code> para JS, perfecto &mdash; pero el CSS deber&iacute;a seguir apuntando a clases. Un patr&oacute;n com&uacute;n es usar <code>id</code> con prefijo <code>js-</code> para que sea expl&iacute;cito que ese id es para JavaScript y no para CSS.</p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">HTML</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- El id es para JS, las class son para CSS --&gt;
+&lt;button class="btn btn--primary" id="js-open-modal"&gt;
+  Abrir modal
+&lt;/button&gt;
+
+&lt;div class="modal" id="js-modal"&gt;
+  &lt;div class="modal__overlay"&gt;&lt;/div&gt;
+  &lt;div class="modal__content"&gt;
+    &lt;h2 class="modal__title"&gt;Confirmar acci&oacute;n&lt;/h2&gt;
+    &lt;button class="btn btn--danger" id="js-confirm-delete"&gt;Eliminar&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Regla pr&aacute;ctica</p>
+                        <p><strong>CSS</strong> &rarr; siempre <code>class</code>. <strong>JS</strong> &rarr; <code>id</code> o <code>data-*</code> attributes. <strong>Nunca</strong> uses un selector de <code>id</code> (#algo) en tu CSS. Si te encontr&aacute;s escribiendo <code>#header { ... }</code>, par&aacute; y cambi&aacute;lo a <code>.header { ... }</code>. Tu yo del futuro te lo va a agradecer.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- QUE ES BEM -->
+            <section class="sub-section animate-on-scroll" id="que-es-bem">
+                <h2>
+                    &iquest;Qu&eacute; es BEM?
+                    <a href="#que-es-bem" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p><strong>BEM</strong> es una convenci&oacute;n de nomenclatura para clases CSS creada por el equipo de <strong>Yandex</strong> (el "Google ruso"). El nombre viene de tres conceptos: <strong>Block</strong> (bloque), <strong>Element</strong> (elemento) y <strong>Modifier</strong> (modificador). La idea es simple: cada clase te dice exactamente <em>qu&eacute; es</em>, <em>d&oacute;nde vive</em> y <em>qu&eacute; variante tiene</em>, solo con leerla. No hay que adivinar, no hay que buscar en el HTML, no hay que cruzar los dedos.</p>
+
+                <p>BEM resuelve un problema muy concreto: en un proyecto grande, sin convenci&oacute;n alguna, termin&aacute;s con clases como <code>.title</code>, <code>.text</code>, <code>.container</code>, <code>.wrapper</code> que se usan en 15 lugares distintos con estilos completamente diferentes. Cuando quer&eacute;s cambiar el t&iacute;tulo del card, toc&aacute;s <code>.title</code> y se rompe el t&iacute;tulo del modal, el del sidebar y el del footer. BEM elimina esa ambig&uuml;edad: <code>.card__title</code> solo afecta al t&iacute;tulo del card, y punto.</p>
+
+                <p>La convenci&oacute;n usa dos separadores:</p>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Separador</th>
+                            <th>Significado</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>__</code> (doble guion bajo)</td>
+                            <td>Conecta un <strong>Block</strong> con su <strong>Element</strong></td>
+                            <td><code>card__title</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--</code> (doble guion medio)</td>
+                            <td>Agrega un <strong>Modifier</strong> a un Block o Element</td>
+                            <td><code>card--dark</code>, <code>card__title--large</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">BEM no es una librer&iacute;a</p>
+                        <p>BEM no es algo que instales con <code>npm install</code>. Es una <strong>convenci&oacute;n</strong>, un acuerdo de equipo sobre c&oacute;mo nombrar las cosas. No hay c&oacute;digo m&aacute;gico detr&aacute;s. El valor est&aacute; en la consistencia: si todo el equipo usa las mismas reglas, cualquier persona puede leer una clase y saber inmediatamente qu&eacute; componente toca y qu&eacute; variante es.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- BLOCK -->
+            <section class="sub-section animate-on-scroll" id="block">
+                <h2>
+                    Block (Bloque)
+                    <a href="#block" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>Un <strong>Block</strong> es un componente funcional independiente. Piensalo como un "ladrillo" de tu interfaz: un bot&oacute;n, una tarjeta, un men&uacute;, un header, un formulario de b&uacute;squeda. La caracter&iacute;stica clave es que un bloque <strong>no depende de su contexto</strong>: deber&iacute;as poder mover el bloque a cualquier parte de la p&aacute;gina y seguir&iacute;a funcionando y vi&eacute;ndose igual.</p>
+
+                <p>El nombre del bloque es siempre una <strong>palabra o frase corta</strong>, sin abreviaciones oscuras. Algunos ejemplos: <code>.card</code>, <code>.menu</code>, <code>.button</code>, <code>.search-form</code>, <code>.user-profile</code>, <code>.price-tag</code>. Se escribe en min&uacute;sculas y las palabras se separan con un gui&oacute;n simple (<code>-</code>).</p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">CSS</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-css">.card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">HTML</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Cada uno es un Block independiente --&gt;
+&lt;div class="card"&gt;...&lt;/div&gt;
+&lt;button class="button"&gt;Enviar&lt;/button&gt;
+&lt;form class="search-form"&gt;...&lt;/form&gt;
+&lt;nav class="menu"&gt;...&lt;/nav&gt;</code></pre>
+                </div>
+
+                <p>Nota algo importante: en el HTML, el bloque es el <strong>elemento m&aacute;s externo</strong> del componente. No hay un wrapper gen&eacute;rico alrededor. El bloque ES el contenedor. Esto es intencional: evita crear divs innecesarios (el famoso "divitis") y mantiene el DOM limpio.</p>
+            </section>
+
+            <!-- ELEMENT -->
+            <section class="sub-section animate-on-scroll" id="element">
+                <h2>
+                    Element (Elemento)
+                    <a href="#element" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>Un <strong>Element</strong> es una parte interna del bloque. No tiene sentido fuera de &eacute;l: un <code>.card__title</code> no existe sin un <code>.card</code>, un <code>.menu__item</code> no existe sin un <code>.menu</code>. La relaci&oacute;n es de pertenencia: el elemento <em>vive dentro</em> del bloque y solo dentro del bloque. El nombre se escribe despu&eacute;s del bloque, separado por <strong>doble guion bajo</strong> (<code>__</code>).</p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">CSS</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-css">.card__title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+.card__text { color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
+.card__footer { display: flex; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border-color); }
+
+.menu__item { display: block; padding: 0.75rem 1rem; color: var(--text-secondary); text-decoration: none; border-radius: 4px; transition: background 0.2s; }
+.menu__item:hover { background: var(--surface-hover); color: var(--text-primary); }</code></pre>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Nunca anides elementos en BEM</p>
+                        <p>BEM es <strong>plano por dise&ntilde;o</strong>. Aunque en HTML el elemento est&eacute; anidado dentro del bloque, en CSS el selector <strong>siempre es una &uacute;nica clase</strong>. Nunca escribas <code>.card .card__title</code> ni <code>.card__footer .card__button</code>. El nombre completo ya incluye la relaci&oacute;n con el bloque.</p>
+                    </div>
+                </div>
+
+                <div class="bem-demo">
+                    <div class="bem-demo__label">Estructura visual: Block + Element</div>
+                    <div class="bem-demo__tree">
+                        <div class="bem-demo__node bem-demo__node--block">
+                            <span class="bem-demo__tag">.card</span>
+                            <div class="bem-demo__children">
+                                <div class="bem-demo__node bem-demo__node--element">
+                                    <span class="bem-demo__tag">.card__title</span>
+                                </div>
+                                <div class="bem-demo__node bem-demo__node--element">
+                                    <span class="bem-demo__tag">.card__text</span>
+                                </div>
+                                <div class="bem-demo__node bem-demo__node--element">
+                                    <span class="bem-demo__tag">.card__footer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- MODIFIER -->
+            <section class="sub-section animate-on-scroll" id="modifier">
+                <h2>
+                    Modifier (Modificador)
+                    <a href="#modifier" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>Un <strong>Modifier</strong> es una variante o estado de un bloque o elemento. No es un componente nuevo, es el mismo componente con un cambio visual o de comportamiento: un bot&oacute;n que es primario en vez de secundario, un card que es oscuro en vez de claro. El modificador se agrega como una clase adicional, <strong>nunca reemplaza</strong> la clase base. El separador es el <strong>doble guion medio</strong> (<code>--</code>).</p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">CSS</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-css">.button--primary { background: var(--color-primary); color: white; }
+.button--secondary { background: transparent; color: var(--color-primary); border: 1px solid var(--color-primary); }
+.button--danger { background: var(--color-danger); color: white; }
+.card__title--large { font-size: 1.75rem; }
+.menu__item--active { background: var(--color-primary); color: white; }</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">HTML</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- El bloque base SIEMPRE se mantiene junto al modificador --&gt;
+&lt;button class="button button--primary"&gt;Guardar&lt;/button&gt;
+&lt;button class="button button--secondary"&gt;Cancelar&lt;/button&gt;
+&lt;button class="button button--danger"&gt;Eliminar&lt;/button&gt;
+
+&lt;!-- Modificador en elemento --&gt;
+&lt;div class="card"&gt;
+  &lt;h3 class="card__title card__title--large"&gt;T&iacute;tulo grande&lt;/h3&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="callout callout-danger">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">Nunca uses el modificador solo</p>
+                        <p>Si escrib&iacute;s <code>&lt;button class="button--primary"&gt;</code> <strong>sin</strong> <code>button</code>, el bot&oacute;n no tiene padding, ni border-radius, ni font-weight. El modificador solo cambia propiedades, no reemplaza al bloque. Siempre: <code>class="bloque bloque--modificador"</code>.</p>
+                    </div>
+                </div>
+
+                <div class="bem-demo">
+                    <div class="bem-demo__label">Estructura visual: Block + Element + Modifier</div>
+                    <div class="bem-demo__tree">
+                        <div class="bem-demo__node bem-demo__node--block">
+                            <span class="bem-demo__tag">.button</span>
+                            <span class="bem-demo__mod">.button--primary</span>
+                            <span class="bem-demo__mod">.button--danger</span>
+                        </div>
+                        <div class="bem-demo__node bem-demo__node--block" style="margin-top: 0.5rem;">
+                            <span class="bem-demo__tag">.card</span>
+                            <span class="bem-demo__mod">.card--dark</span>
+                            <div class="bem-demo__children">
+                                <div class="bem-demo__node bem-demo__node--element">
+                                    <span class="bem-demo__tag">.card__title</span>
+                                    <span class="bem-demo__mod">.card__title--large</span>
+                                </div>
+                                <div class="bem-demo__node bem-demo__node--element">
+                                    <span class="bem-demo__tag">.card__text</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- EJEMPLO COMPLETO -->
+            <section class="sub-section animate-on-scroll" id="ejemplo-completo">
+                <h2>
+                    Ejemplo completo: un componente Card
+                    <a href="#ejemplo-completo" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>Para que se vea c&oacute;mo funciona todo junto, ac&aacute; va un componente <code>.user-card</code> con sus elementos y modificadores. Cada clase es autodocumentada: no necesit&aacute;s leer el HTML para saber qu&eacute; hace cada una, el nombre lo dice todo.</p>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">HTML</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Card b&aacute;sico --&gt;
+&lt;div class="user-card"&gt;
+    &lt;img class="user-card__avatar" src="foto.jpg" alt="Avatar"&gt;
+    &lt;div class="user-card__info"&gt;
+        &lt;h3 class="user-card__name"&gt;Mar&iacute;a L&oacute;pez&lt;/h3&gt;
+        &lt;p class="user-card__role"&gt;Frontend Developer&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="user-card__actions"&gt;
+        &lt;button class="user-card__btn user-card__btn--follow"&gt;Seguir&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Card con modificadores --&gt;
+&lt;div class="user-card user-card--compact"&gt;
+    &lt;img class="user-card__avatar user-card__avatar--small" src="foto.jpg" alt="Avatar"&gt;
+    &lt;div class="user-card__info"&gt;
+        &lt;h3 class="user-card__name user-card__name--link"&gt;Mar&iacute;a L&oacute;pez&lt;/h3&gt;
+        &lt;p class="user-card__role"&gt;Frontend Developer&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="user-card__actions"&gt;
+        &lt;button class="user-card__btn user-card__btn--following"&gt;Siguiendo&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">CSS</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-css">/* === Block === */
+.user-card { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; }
+
+/* === Elements === */
+.user-card__avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.user-card__info { flex: 1; min-width: 0; }
+.user-card__name { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
+.user-card__role { font-size: 0.875rem; color: var(--text-secondary); margin: 0; }
+.user-card__actions { flex-shrink: 0; }
+.user-card__btn { padding: 0.5rem 1.25rem; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+
+/* === Modifiers === */
+.user-card--compact { padding: 0.75rem; gap: 0.75rem; }
+.user-card__avatar--small { width: 36px; height: 36px; }
+.user-card__name--link { color: var(--color-primary); cursor: pointer; }
+.user-card__btn--follow { background: var(--color-primary); color: white; }
+.user-card__btn--following { background: transparent; color: var(--color-primary); border: 1px solid var(--color-primary); }</code></pre>
+                </div>
+
+                <div class="bem-demo">
+                    <div class="bem-demo__label">Resultado visual del componente</div>
+                    <div class="bem-demo__cards">
+                        <div class="bem-card-preview">
+                            <div class="bem-card-preview__header">.user-card</div>
+                            <div class="bem-card-preview__body">
+                                <div class="bem-card-preview__avatar"></div>
+                                <div class="bem-card-preview__info">
+                                    <div class="bem-card-preview__name">Mar&iacute;a L&oacute;pez</div>
+                                    <div class="bem-card-preview__role">Frontend Developer</div>
+                                </div>
+                                <div class="bem-card-preview__btn bem-card-preview__btn--follow">Seguir</div>
+                            </div>
+                        </div>
+                        <div class="bem-card-preview bem-card-preview--compact">
+                            <div class="bem-card-preview__header">.user-card.user-card--compact</div>
+                            <div class="bem-card-preview__body">
+                                <div class="bem-card-preview__avatar bem-card-preview__avatar--small"></div>
+                                <div class="bem-card-preview__info">
+                                    <div class="bem-card-preview__name">Mar&iacute;a L&oacute;pez</div>
+                                    <div class="bem-card-preview__role">Frontend Developer</div>
+                                </div>
+                                <div class="bem-card-preview__btn bem-card-preview__btn--following">Siguiendo</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ANTES VS DESPUES -->
+            <section class="sub-section animate-on-scroll" id="antes-vs-despues">
+                <h2>
+                    Antes vs Despu&eacute;s: el problema real
+                    <a href="#antes-vs-despues" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>Para entender por qu&eacute; BEM vale la pena, comparemos el mismo componente escrito de las dos formas. Este es el tipo de CSS que todos hemos escrito alguna vez sin una convenci&oacute;n, y que al cabo de un par de meses se vuelve inmanejable.</p>
+
+                <h3>El &ldquo;antes&rdquo;: selectores anidados ca&oacute;ticos</h3>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">CSS</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-css">/* Qui&eacute;n sabe qu&eacute; '.title' est&aacute; tocando? */
+.card .title { font-size: 1.2rem; }
+.sidebar .title { font-size: 0.9rem; }
+.modal .title { font-size: 1.5rem; }
+
+/* Especificidad escalando sin control */
+.card .container .info p { color: #666; }
+.card .container .info p span { font-weight: bold; }
+.card.dark .container .info p span { color: white; }
+.sidebar .title { color: blue !important; }</code></pre>
+                </div>
+
+                <h3>El &ldquo;despu&eacute;s&rdquo;: BEM plano y predecible</h3>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-block-lang">CSS</span>
+                        <button class="code-block-copy" aria-label="Copiar codigo">Copiar</button>
+                    </div>
+                    <pre><code class="language-css">.card__title { font-size: 1.2rem; }
+.sidebar__title { font-size: 0.9rem; }
+.modal__title { font-size: 1.5rem; }
+
+/* Especificidad siempre (0,0,1,0) */
+.card__text { color: var(--text-secondary); }
+.card__text-highlight { font-weight: bold; }
+.card--dark .card__text { color: white; }
+.card--dark .card__text-highlight { color: rgba(255,255,255,0.9); }</code></pre>
+                </div>
+
+                <div class="bem-demo">
+                    <div class="bem-demo__label">Comparaci&oacute;n de especificidad</div>
+                    <div class="bem-demo__compare">
+                        <div class="bem-demo__compare-col bem-demo__compare-col--bad">
+                            <div class="bem-demo__compare-title">Sin BEM</div>
+                            <div class="bem-demo__spec"><code>.card .title</code><span class="bem-demo__spec-val">0,0,1,1</span></div>
+                            <div class="bem-demo__spec"><code>.card .container .info p</code><span class="bem-demo__spec-val">0,0,2,2</span></div>
+                            <div class="bem-demo__spec"><code>.card.dark .container .info p span</code><span class="bem-demo__spec-val">0,0,3,3</span></div>
+                        </div>
+                        <div class="bem-demo__compare-col bem-demo__compare-col--good">
+                            <div class="bem-demo__compare-title">Con BEM</div>
+                            <div class="bem-demo__spec"><code>.card__title</code><span class="bem-demo__spec-val">0,0,1,0</span></div>
+                            <div class="bem-demo__spec"><code>.card__text</code><span class="bem-demo__spec-val">0,0,1,0</span></div>
+                            <div class="bem-demo__spec"><code>.card--dark .card__text</code><span class="bem-demo__spec-val">0,0,2,0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>Con BEM, <strong>todos los selectores base tienen la misma especificidad</strong>: <code>(0,0,1,0)</code>. El orden en que escrib&iacute;s las clases importa de forma predecible. No hay sorpresas. Si necesit&aacute;s un override, el modificador con dos clases siempre gana contra uno solo. Simple, consistente, sin <code>!important</code>.</p>
+            </section>
+            <!-- REGLAS -->
+            <section class="sub-section animate-on-scroll" id="reglas">
+                <h2>
+                    Reglas y errores comunes
+                    <a href="#reglas" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>Estas son las reglas fundamentales de BEM y los errores m&aacute;s frecuentes al empezar.</p>
+
+                <table class="styled-table">
+                    <thead><tr><th>Regla</th><th>&iquest;Bien?</th><th>&iquest;Mal?</th></tr></thead>
+                    <tbody>
+                        <tr><td>Selectores siempre planos</td><td><code>.card__title</code></td><td><code>.card .card__title</code></td></tr>
+                        <tr><td>El modificador acompa&ntilde;a al base</td><td><code>class="btn btn--primary"</code></td><td><code>class="btn--primary"</code></td></tr>
+                        <tr><td>Nombre del bloque: min&uacute;sculas + gui&oacute;n</td><td><code>.search-form</code></td><td><code>.searchForm</code></td></tr>
+                        <tr><td>Elemento siempre pertenece a un bloque</td><td><code>.card__footer</code></td><td><code>.__footer</code></td></tr>
+                        <tr><td>No elementos de elementos</td><td><code>.card__close-btn</code></td><td><code>.card__footer__btn</code></td></tr>
+                        <tr><td>Usar class, nunca id para estilos</td><td><code>.header</code></td><td><code>#header</code></td></tr>
+                        <tr><td>Separadores correctos</td><td><code>.menu__item--active</code></td><td><code>.menu__item-active</code></td></tr>
+                    </tbody>
+                </table>
+
+                <h3>El error m&aacute;s com&uacute;n: elementos anidados</h3>
+                <p>Cuando la gente empieza con BEM, el error n&uacute;mero uno es crear elementos de elementos. Si ten&eacute;s un <code>.card</code> con un <code>.card__footer</code> que a su vez tiene un bot&oacute;n, la tentaci&oacute;n es escribir <code>.card__footer__button</code>. <strong>No lo hagas.</strong> BEM solo permite un nivel de anidamiento (bloque &rarr; elemento). Si necesit&aacute;s un bot&oacute;n dentro del footer, us&aacute; un nuevo bloque: <code>.btn</code>. Los bloques se pueden anidar libremente dentro de otros bloques sin romper la convenci&oacute;n.</p>
+            </section>
+
+            <!-- CUANDO NO BEM -->
+            <section class="sub-section animate-on-scroll" id="cuando-no-bem">
+                <h2>
+                    &iquest;Cu&aacute;ndo BEM no es la respuesta?
+                    <a href="#cuando-no-bem" class="heading-anchor" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </h2>
+
+                <p>BEM brilla en CSS vanilla sin herramientas. Pero el ecosistema moderno ofrece alternativas que resuelven el mismo problema de otra forma:</p>
+
+                <p><strong>CSS Modules</strong> (React/Next.js): genera clases &uacute;nicas autom&aacute;ticamente (como <code>_card_2x3f1</code>), as&iacute; que no necesit&aacute;s una convenci&oacute;n de nombres. El scope es autom&aacute;tico por archivo. <strong>CSS-in-JS</strong> (styled-components, Emotion): los estilos viven en JavaScript como strings, se inyectan en runtime y tambi&eacute;n tienen scope autom&aacute;tico. <strong>Utility-first</strong> (Tailwind CSS): en vez de nombrar componentes, aplic&aacute;s clases at&oacute;micas directamente (<code>flex items-center gap-4 p-5 rounded-xl</code>). No hay que inventar nombres, pero el HTML se vuelve m&aacute;s verboso.</p>
+
+                <div class="callout callout-tip">
+                    <svg class="callout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <div class="callout-content">
+                        <p class="callout-title">BEM sigue siendo &uacute;til</p>
+                        <p>Incluso si us&aacute;s Tailwind, entender BEM te hace mejor desarrollador porque te ense&ntilde;a a pensar en componentes y especificidad plana. Los conceptos de BEM (bloques independientes, selectores planos, modificadores como variantes) se aplican en cualquier paradigma de CSS.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="section-nav mt-8" style="display: flex; justify-content: space-between; padding-top: var(--space-6); border-top: 1px solid var(--border-color);">
+                <a href="css-variables.html" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    Variables CSS
+                </a>
+                <a href="css-flexbox.html" class="btn btn-secondary">
+                    Flexbox
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+            </nav>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer" id="site-footer"></footer>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- App JS -->
+    <script type="module" src="../js/app.js"></script>
+</body>
+</html>
